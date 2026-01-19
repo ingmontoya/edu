@@ -1,0 +1,28 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(docker run:*)",
+      "Bash(ls:*)",
+      "Bash(grep:*)",
+      "Bash(git clone:*)",
+      "Bash(pnpm install:*)",
+      "Bash(./vendor/bin/sail composer require:*)",
+      "Bash(./vendor/bin/sail down:*)",
+      "Bash(./vendor/bin/sail:*)",
+      "Bash(curl:*)",
+      "Bash(find:*)",
+      "Bash(pnpm add:*)",
+      "Bash(docker compose ps:*)",
+      "Bash(lsof:*)",
+      "Bash(docker compose exec:*)",
+      "Bash(TOKEN=\"18|9B3TZC9guYVsR4EBOKzBEg7aTdxPrBKApomFIVQSf106e1e0\" curl -s \"http://localhost:9090/api/planes?per_page=2\" -H \"Accept: application/json\" -H \"Authorization: Bearer $TOKEN\")",
+      "Bash(tree:*)",
+      "Bash(composer require:*)",
+      "Bash(git submodule:*)",
+      "Bash(git check-ignore:*)",
+      "Bash(git ls-tree:*)",
+      "Bash(git rm:*)",
+      "Bash(git add:*)"
+    ]
+  }
+}
