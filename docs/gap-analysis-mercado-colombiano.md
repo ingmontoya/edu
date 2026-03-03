@@ -120,6 +120,64 @@ Estos items bloquean la adopción real o son obligatorios por ley:
 
 ---
 
+## 5. Inteligencia Artificial — Inspirado en Panorama Education
+
+### Referente: Panorama Education
+
+[Panorama Education](https://www.panoramaed.com) es la plataforma líder en analítica estudiantil en EE.UU., usada por más de 2,000 distritos escolares. Su propuesta central es convertir los datos académicos y socioemocionales en **señales de alerta temprana** que permiten a docentes y coordinadores actuar antes de que un estudiante repruebe o abandone.
+
+Lo que los hace únicos:
+- **Índice de riesgo predictivo** por estudiante (combina notas, asistencia, comportamiento y bienestar)
+- **Encuestas SEL** (Socioemotional Learning) integradas con los datos académicos
+- **Dashboards por rol** — el rector ve el colegio, el coordinador ve el grado, el docente ve su grupo
+- **Alertas automáticas** cuando un estudiante cruza umbrales de riesgo
+
+### Oportunidad para Aula360
+
+Aula360 ya captura todos los datos necesarios para construir esto: notas, asistencia, registros de convivencia, actividades de nivelación pendientes. La oportunidad es **conectar esos puntos con IA** para generar un perfil de riesgo accionable.
+
+### 2.5 Analítica e IA (Gap)
+
+| Funcionalidad | Estado | Prioridad | Inspiración |
+|--------------|--------|-----------|-------------|
+| Índice de riesgo por estudiante | ❌ Ausente | **P1** | Panorama Education |
+| Alertas automáticas al docente | ❌ Ausente | **P1** | Panorama Education |
+| Dashboard de bienestar por grupo | ❌ Ausente | **P1** | Panorama Education |
+| Tendencias de notas (últimos 3 períodos) | ❌ Ausente | **P1** | Análisis propio |
+| Predicción de reprobación de año | ❌ Ausente | P2 | Panorama Education |
+| Encuestas de clima escolar | ❌ Ausente | P2 | Panorama Education SEL |
+| Recomendaciones automáticas de nivelación | ❌ Ausente | P2 | IA generativa |
+| Comparativa entre grupos/grados | ❌ Ausente | P2 | Análisis propio |
+
+### Propuesta Técnica: Índice de Riesgo Estudiantil
+
+Con los datos que ya tiene Aula360, se puede calcular un **Risk Score (0–100)** por estudiante usando una fórmula ponderada:
+
+| Señal | Peso | Fuente |
+|-------|------|--------|
+| Asignaturas reprobadas en período actual | 35% | `grade_records` |
+| Porcentaje de asistencia < 80% | 25% | `attendances` |
+| Registros de convivencia tipo 2/3 (últimos 30 días) | 20% | `disciplinary_records` |
+| Actividades de nivelación pendientes | 15% | `student_remedials` |
+| Tendencia negativa vs período anterior | 5% | `grade_records` histórico |
+
+**Niveles de riesgo:**
+- 🟢 **0–30**: Sin riesgo — seguimiento normal
+- 🟡 **31–60**: Riesgo moderado — intervención preventiva
+- 🔴 **61–100**: Riesgo alto — intervención urgente, notificar acudiente
+
+Este score se puede calcular en el backend como un endpoint `/api/reports/risk-scores?group_id=X&period_id=Y` sin necesidad de ML externo — es una fórmula determinista sobre datos existentes.
+
+### Roadmap IA
+
+**Fase 1 — Sin ML (Q2 2026):** Risk Score determinista con los 5 factores anteriores. Vista en dashboard y en el perfil del estudiante. Alertas cuando el score sube de umbral.
+
+**Fase 2 — ML básico (Q3 2026):** Modelo de regresión logística entrenado con datos históricos del colegio para predecir probabilidad de reprobación de año. Input: scores de los 2 primeros períodos → Output: probabilidad de perder el año.
+
+**Fase 3 — IA generativa (Q4 2026):** Integración con Claude API para generar recomendaciones pedagógicas personalizadas por estudiante basadas en su perfil de riesgo, asignaturas débiles y estilo de aprendizaje reportado por el docente.
+
+---
+
 ## 5. Análisis de Diferenciación
 
 ### Aula360 vs Competencia
@@ -131,9 +189,11 @@ Estos items bloquean la adopción real o son obligatorios por ley:
 | Interfaz moderna | ✅ | ⚠️ | ❌ | ⚠️ |
 | SaaS (cloud) | ✅ | ⚠️ | ❌ | ✅ |
 | SIMAT nativo | ⚠️ P0 | ✅ | ✅ | ⚠️ |
-| Convivencia 1620 | ⚠️ P0 | ✅ | ✅ | ⚠️ |
+| Convivencia 1620 | ✅ | ✅ | ✅ | ⚠️ |
 | Soporte colombiano | ✅ | ✅ | ✅ | ⚠️ |
 | API abierta | ✅ | ❌ | ❌ | ❌ |
+| **Riesgo estudiantil IA** | **⚠️ P1** | ❌ | ❌ | ❌ |
+| **Alertas automáticas** | **⚠️ P1** | ❌ | ❌ | ❌ |
 
 ### Propuesta de Valor Única
 
@@ -143,6 +203,7 @@ Aula360 es el **único software académico colombiano** que combina:
 3. Precio SaaS accesible para colegios medianos
 4. Implementación en menos de una semana
 5. API REST abierta para integraciones
+6. **Analítica de riesgo estudiantil al estilo Panorama Education** — único en el mercado colombiano
 
 ---
 
@@ -160,12 +221,22 @@ Aula360 es el **único software académico colombiano** que combina:
 - [ ] Comunicados targetizados por grupo
 - [ ] Paz y salvo / Certificado de graduación
 - [ ] Inclusión educativa (Dec. 366)
+- [ ] **Risk Score determinista por estudiante** (notas + asistencia + convivencia + nivelaciones)
+- [ ] **Dashboard de riesgo por grupo/grado** para coordinadores
+- [ ] **Alertas automáticas** al docente cuando un estudiante sube de umbral
 
-### Q3 2026 (P2 — Escala)
+### Q3 2026 (P2 — Escala e IA)
 - [ ] Multi-sede
 - [ ] Portal móvil PWA
 - [ ] Integración WhatsApp/SMS
-- [ ] Dashboard analytics avanzado
+- [ ] **Modelo ML de predicción de reprobación de año** (regresión logística sobre histórico)
+- [ ] **Encuestas de clima escolar y SEL** integradas con el Risk Score
+- [ ] **Comparativa de desempeño entre grupos y grados**
+
+### Q4 2026 (P3 — IA Generativa)
+- [ ] **Recomendaciones pedagógicas automáticas** via Claude API basadas en perfil de riesgo
+- [ ] **Resumen ejecutivo semanal** generado por IA para rectores
+- [ ] **Sugerencias de actividades de nivelación** personalizadas por estudiante
 
 ---
 
