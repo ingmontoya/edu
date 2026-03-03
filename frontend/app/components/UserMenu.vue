@@ -11,22 +11,22 @@ const colorMode = useColorMode()
 
 const items = computed<DropdownMenuItem[][]>(() => ([[{
   type: 'label',
-  label: auth.user?.name || 'User',
+  label: auth.user?.name || 'Usuario',
   avatar: {
     icon: 'i-lucide-user'
   }
 }], [{
-  label: 'Profile',
+  label: 'Perfil',
   icon: 'i-lucide-user'
 }, {
-  label: 'Settings',
+  label: 'Configuración',
   icon: 'i-lucide-settings',
   to: '/settings'
 }], [{
-  label: 'Appearance',
+  label: 'Apariencia',
   icon: 'i-lucide-sun-moon',
   children: [{
-    label: 'Light',
+    label: 'Claro',
     icon: 'i-lucide-sun',
     type: 'checkbox',
     checked: colorMode.value === 'light',
@@ -35,7 +35,7 @@ const items = computed<DropdownMenuItem[][]>(() => ([[{
       colorMode.preference = 'light'
     }
   }, {
-    label: 'Dark',
+    label: 'Oscuro',
     icon: 'i-lucide-moon',
     type: 'checkbox',
     checked: colorMode.value === 'dark',
@@ -45,7 +45,7 @@ const items = computed<DropdownMenuItem[][]>(() => ([[{
     }
   }]
 }], [{
-  label: 'Log out',
+  label: 'Cerrar sesión',
   icon: 'i-lucide-log-out',
   onSelect: async () => {
     await auth.logout()
@@ -61,7 +61,7 @@ const items = computed<DropdownMenuItem[][]>(() => ([[{
     :ui="{ content: collapsed ? 'w-48' : 'w-(--reka-dropdown-menu-trigger-width)' }"
   >
     <UButton
-      :label="collapsed ? undefined : (auth.user?.name || 'User')"
+      :label="collapsed ? undefined : (auth.user?.name || 'Usuario')"
       :trailing-icon="collapsed ? undefined : 'i-lucide-chevrons-up-down'"
       color="neutral"
       variant="ghost"
