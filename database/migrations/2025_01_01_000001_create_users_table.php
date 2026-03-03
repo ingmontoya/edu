@@ -10,11 +10,17 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('institution_id')->nullable()->index();
             $table->string('name');
-            $table->string('email')->unique();
+            $table->string('email');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->string('role')->default('user'); // admin, user, or custom roles
+            $table->string('role')->default('guardian'); // admin, coordinator, teacher, guardian
+            $table->string('document_type')->nullable(); // CC, TI, CE, RC, etc
+            $table->string('document_number')->nullable();
+            $table->string('phone')->nullable();
+            $table->string('address')->nullable();
+            $table->string('photo')->nullable();
             $table->boolean('is_active')->default(true);
             $table->boolean('two_factor_enabled')->default(false);
             $table->string('two_factor_secret')->nullable();
@@ -24,6 +30,9 @@ return new class extends Migration
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();
+
+            // Email unique per institution (null institution_id means super admin)
+            $table->unique(['institution_id', 'email']);
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {

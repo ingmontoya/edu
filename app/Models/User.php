@@ -2,7 +2,11 @@
 
 namespace App\Models;
 
+use App\Enums\UserRole;
+use App\Notifications\ResetPasswordNotification;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -13,10 +17,16 @@ class User extends Authenticatable
     use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
 
     protected $fillable = [
+        'institution_id',
         'name',
         'email',
         'password',
         'role',
+        'document_type',
+        'document_number',
+        'phone',
+        'address',
+        'photo',
         'is_active',
         'two_factor_enabled',
         'two_factor_secret',
@@ -42,6 +52,28 @@ class User extends Authenticatable
         ];
     }
 
+    // ============ Relationships ============
+
+    public function institution(): BelongsTo
+    {
+        return $this->belongsTo(Institution::class);
+    }
+
+    public function teacher(): HasOne
+    {
+        return $this->hasOne(Teacher::class);
+    }
+
+    public function student(): HasOne
+    {
+        return $this->hasOne(Student::class);
+    }
+
+    public function guardian(): HasOne
+    {
+        return $this->hasOne(Guardian::class);
+    }
+
     // ============ Scopes ============
 
     public function scopeActive($query)
@@ -58,17 +90,32 @@ class User extends Authenticatable
 
     public function isAdmin(): bool
     {
-        return $this->role === 'admin';
+        return $this->role === UserRole::ADMIN->value;
     }
 
-    public function isUser(): bool
+    public function isCoordinator(): bool
     {
-        return $this->role === 'user';
+        return $this->role === UserRole::COORDINATOR->value;
+    }
+
+    public function isTeacher(): bool
+    {
+        return $this->role === UserRole::TEACHER->value;
+    }
+
+    public function isGuardian(): bool
+    {
+        return $this->role === UserRole::GUARDIAN->value;
     }
 
     public function hasRole(string $role): bool
     {
         return $this->role === $role;
+    }
+
+    public function isSuperAdmin(): bool
+    {
+        return $this->institution_id === null && $this->role === UserRole::ADMIN->value;
     }
 
     public function recordLogin(string $ip): void
@@ -77,5 +124,10 @@ class User extends Authenticatable
             'last_login_at' => now(),
             'last_login_ip' => $ip,
         ]);
+    }
+
+    public function sendPasswordResetNotification($token): void
+    {
+        $this->notify(new ResetPasswordNotification($token));
     }
 }
