@@ -30,10 +30,10 @@ export interface Institution {
 }
 
 export interface GradingScale {
-  superior: { min: number; max: number }
-  high: { min: number; max: number }
-  basic: { min: number; max: number }
-  low: { min: number; max: number }
+  superior: { min: number, max: number }
+  high: { min: number, max: number }
+  basic: { min: number, max: number }
+  low: { min: number, max: number }
 }
 
 // Academic Year
@@ -462,4 +462,51 @@ export const DisciplinaryStatusColors: Record<DisciplinaryRecordStatus, string> 
   in_process: 'warning',
   resolved: 'success',
   escalated: 'neutral'
+}
+
+// ============ AI Analysis History ============
+
+export interface AiAnalysisRecord {
+  id: number
+  period: { id: number; name: string }
+  risk_level: 'high' | 'medium' | 'low'
+  risk_score: number
+  narrative: string
+  recommendations: Array<{ subject: string; strategy: string; activity: string }>
+  created_at: string
+}
+
+export interface AiAnalysisEvolution {
+  score_delta: number
+  level_changed: boolean
+  previous_level: 'high' | 'medium' | 'low'
+  current_level: 'high' | 'medium' | 'low'
+}
+
+export interface AiAnalysisHistoryResponse {
+  analyses: AiAnalysisRecord[]
+  evolution: AiAnalysisEvolution | null
+}
+
+// ============ Risk Score ============
+
+export type RiskLevel = 'low' | 'medium' | 'high'
+
+export interface RiskScore {
+  student_id: number
+  student: {
+    id: number
+    name: string
+    group: string
+  }
+  score: number
+  level: RiskLevel
+  signals: {
+    failing_subjects: number
+    total_subjects: number
+    attendance_pct: number
+    disciplinary_incidents: number
+    pending_remedials: number
+    grade_trend: number | null
+  }
 }

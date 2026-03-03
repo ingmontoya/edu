@@ -142,6 +142,11 @@ const mainLinks = computed<NavigationMenuItem[]>(() => {
         icon: 'i-lucide-chevron-right',
         to: '/reports/failing',
         onSelect: () => { open.value = false }
+      }, {
+        label: 'Índice de Riesgo IA',
+        icon: 'i-lucide-chevron-right',
+        to: '/reports/risk',
+        onSelect: () => { open.value = false }
       }]
     })
 

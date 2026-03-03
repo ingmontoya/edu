@@ -124,6 +124,12 @@ Route::middleware(['auth:sanctum', 'tenant'])->group(function () {
     Route::get('reports/consolidation', [ReportController::class, 'consolidation']);
     Route::get('reports/failing-students', [ReportController::class, 'failingStudents']);
     Route::get('reports/attendance-summary', [ReportController::class, 'attendanceSummary']);
+    Route::get('reports/risk-scores', [ReportController::class, 'riskScores']);
+
+    // AI Insights (Claude / Ollama)
+    Route::post('reports/ai/student-analysis', [ReportController::class, 'aiStudentAnalysis']);
+    Route::post('reports/ai/weekly-summary', [ReportController::class, 'aiWeeklySummary']);
+    Route::get('students/{student}/ai-analyses', [ReportController::class, 'studentAiAnalyses']);
 
     // Announcements
     Route::apiResource('announcements', AnnouncementController::class);

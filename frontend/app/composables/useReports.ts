@@ -1,4 +1,15 @@
-import type { ConsolidationStudent, Subject } from '~/types/school'
+import type { ConsolidationStudent, Subject, RiskScore, AiAnalysisHistoryResponse } from '~/types/school'
+
+export interface AiRecommendation {
+  subject: string
+  strategy: string
+  activity: string
+}
+
+export interface AiAnalysis {
+  narrative: string
+  recommendations: AiRecommendation[]
+}
 
 interface ConsolidationResponse {
   group: unknown
@@ -48,6 +59,17 @@ interface AttendanceSummaryStudent {
   percentage: number
 }
 
+interface RiskScoresResponse {
+  students: RiskScore[]
+  summary: {
+    total: number
+    high_risk: number
+    medium_risk: number
+    low_risk: number
+    average_score: number
+  }
+}
+
 interface AttendanceSummaryResponse {
   students: AttendanceSummaryStudent[]
   summary: {
@@ -69,6 +91,12 @@ export const useReports = () => {
   const getFailingStudents = (periodId: number, groupId?: number) => {
     const params = groupId ? `&group_id=${groupId}` : ''
     return api.get<FailingStudentsResponse>(`/reports/failing-students?period_id=${periodId}${params}`)
+  }
+
+  // Get risk scores
+  const getRiskScores = (periodId: number, groupId?: number) => {
+    const params = groupId ? `&group_id=${groupId}` : ''
+    return api.get<RiskScoresResponse>(`/reports/risk-scores?period_id=${periodId}${params}`)
   }
 
   // Get attendance summary report
@@ -205,14 +233,33 @@ export const useReports = () => {
     window.URL.revokeObjectURL(url)
   }
 
+  // AI Insights
+  const getAiStudentAnalysis = (studentId: number, periodId: number) => {
+    return api.post<AiAnalysis>('/reports/ai/student-analysis', { student_id: studentId, period_id: periodId })
+  }
+
+  const getAiWeeklySummary = (periodId: number, groupId?: number) => {
+    const body: Record<string, number> = { period_id: periodId }
+    if (groupId) body.group_id = groupId
+    return api.post<{ summary: string }>('/reports/ai/weekly-summary', body)
+  }
+
+  const getStudentAiAnalyses = (studentId: number) => {
+    return api.get<AiAnalysisHistoryResponse>(`/students/${studentId}/ai-analyses`)
+  }
+
   return {
     getConsolidation,
     getFailingStudents,
+    getRiskScores,
     getAttendanceSummary,
     getReportCard,
     downloadReportCardPdf,
     downloadBulkReportCardsPdf,
     downloadEnrollmentCertificate,
-    downloadGradesCertificate
+    downloadGradesCertificate,
+    getAiStudentAnalysis,
+    getAiWeeklySummary,
+    getStudentAiAnalyses
   }
 }

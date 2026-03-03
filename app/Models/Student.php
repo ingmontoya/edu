@@ -76,6 +76,11 @@ class Student extends Model
         return $this->hasMany(PromotionRecord::class);
     }
 
+    public function aiAnalyses(): HasMany
+    {
+        return $this->hasMany(StudentAiAnalysis::class);
+    }
+
     public function scopeActive($query)
     {
         return $query->where('status', 'active');

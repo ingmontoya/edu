@@ -4,12 +4,66 @@ definePageMeta({
 })
 
 const academicStore = useAcademicStore()
+const authStore = useAuthStore()
+const { getAiWeeklySummary } = useReports()
+const toast = useToast()
+
 const loading = ref(true)
+const aiSummary = ref<string | null>(null)
+const aiSummaryLoading = ref(false)
+const aiSummaryGenerated = ref(false)
+
+const summaryLoaderMessages = [
+  'Recopilando datos del período activo...',
+  'Calculando índices de riesgo estudiantil...',
+  'Identificando grupos prioritarios...',
+  'Analizando asignaturas con más dificultades...',
+  'Procesando patrones de asistencia...',
+  'Consultando registros de convivencia...',
+  'Generando análisis con IA...',
+  'Redactando recomendaciones institucionales...',
+  'Finalizando el informe ejecutivo...'
+]
+const summaryLoaderIndex = ref(0)
+let summaryLoaderInterval: ReturnType<typeof setInterval> | null = null
+
+function startSummaryLoader() {
+  summaryLoaderIndex.value = 0
+  summaryLoaderInterval = setInterval(() => {
+    summaryLoaderIndex.value = (summaryLoaderIndex.value + 1) % summaryLoaderMessages.length
+  }, 2200)
+}
+
+function stopSummaryLoader() {
+  if (summaryLoaderInterval) {
+    clearInterval(summaryLoaderInterval)
+    summaryLoaderInterval = null
+  }
+}
 
 onMounted(async () => {
   await academicStore.fetchAll()
   loading.value = false
 })
+
+const generateAiSummary = async () => {
+  if (!academicStore.activePeriod) {
+    toast.add({ title: 'Sin período activo', description: 'Active un período para generar el resumen', color: 'warning' })
+    return
+  }
+  aiSummaryLoading.value = true
+  startSummaryLoader()
+  try {
+    const res = await getAiWeeklySummary(academicStore.activePeriod.id)
+    aiSummary.value = res.summary
+    aiSummaryGenerated.value = true
+  } catch {
+    toast.add({ title: 'Error IA', description: 'No se pudo generar el resumen semanal', color: 'error' })
+  } finally {
+    stopSummaryLoader()
+    aiSummaryLoading.value = false
+  }
+}
 
 const stats = computed(() => ({
   students: academicStore.groups.reduce((sum, g) => sum + (g.students?.length || 0), 0),
@@ -108,6 +162,81 @@ const formatDate = (date: string) => {
           </div>
         </UPageCard>
 
+        <!-- AI Weekly Summary (admin/coordinator only) -->
+        <UPageCard v-if="authStore.isAdmin || authStore.isCoordinator" variant="subtle">
+          <div class="flex items-center justify-between mb-3">
+            <div class="flex items-center gap-2">
+              <UIcon name="i-lucide-brain" class="w-5 h-5 text-primary" />
+              <h3 class="font-semibold">
+                Análisis Semanal IA
+              </h3>
+            </div>
+            <UButton
+              :icon="aiSummaryLoading ? 'i-lucide-loader-2' : 'i-lucide-sparkles'"
+              :label="aiSummaryGenerated ? 'Regenerar' : 'Generar'"
+              :loading="aiSummaryLoading"
+              color="primary"
+              variant="soft"
+              size="sm"
+              :disabled="aiSummaryLoading"
+              @click="generateAiSummary"
+            />
+          </div>
+          <div v-if="aiSummaryLoading" class="flex flex-col items-center gap-3 py-6">
+            <div class="relative w-10 h-10">
+              <svg
+                class="w-10 h-10 animate-spin text-primary/20"
+                viewBox="0 0 40 40"
+                fill="none"
+              >
+                <circle
+                  cx="20"
+                  cy="20"
+                  r="17"
+                  stroke="currentColor"
+                  stroke-width="3"
+                />
+              </svg>
+              <svg
+                class="absolute inset-0 w-10 h-10 animate-spin text-primary"
+                viewBox="0 0 40 40"
+                fill="none"
+                style="animation-duration: 1.2s"
+              >
+                <circle
+                  cx="20"
+                  cy="20"
+                  r="17"
+                  stroke="currentColor"
+                  stroke-width="3"
+                  stroke-dasharray="28 78"
+                  stroke-linecap="round"
+                />
+              </svg>
+              <UIcon name="i-lucide-brain" class="absolute inset-0 m-auto w-4 h-4 text-primary" />
+            </div>
+            <Transition name="fade-msg" mode="out-in">
+              <p :key="summaryLoaderIndex" class="text-sm text-muted text-center font-medium">
+                {{ summaryLoaderMessages[summaryLoaderIndex] }}
+              </p>
+            </Transition>
+            <div class="flex gap-1.5">
+              <span
+                v-for="(_, i) in summaryLoaderMessages"
+                :key="i"
+                class="w-1.5 h-1.5 rounded-full transition-all duration-300"
+                :class="i === summaryLoaderIndex ? 'bg-primary scale-125' : 'bg-muted/40'"
+              />
+            </div>
+          </div>
+          <div v-else-if="aiSummary" class="text-sm leading-relaxed text-default">
+            {{ aiSummary }}
+          </div>
+          <p v-else class="text-sm text-muted">
+            Genera un resumen ejecutivo de la situación académica actual del colegio basado en el período activo.
+          </p>
+        </UPageCard>
+
         <!-- Active Year Info -->
         <UPageCard v-if="academicStore.activeYear" title="Año Académico Activo" variant="subtle">
           <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -143,3 +272,18 @@ const formatDate = (date: string) => {
     </template>
   </UDashboardPanel>
 </template>
+
+<style scoped>
+.fade-msg-enter-active,
+.fade-msg-leave-active {
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+.fade-msg-enter-from {
+  opacity: 0;
+  transform: translateY(6px);
+}
+.fade-msg-leave-to {
+  opacity: 0;
+  transform: translateY(-6px);
+}
+</style>
