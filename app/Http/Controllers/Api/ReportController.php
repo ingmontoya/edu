@@ -17,6 +17,7 @@ use App\Models\Subject;
 use App\Services\ClaudeInsightService;
 use App\Services\GradeCalculatorService;
 use App\Services\RiskScoreService;
+use App\Services\TenantService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -174,6 +175,19 @@ class ReportController extends Controller
 
     public function aiStudentAnalysis(Request $request): JsonResponse
     {
+        if (! in_array(auth()->user()->role, ['admin', 'coordinator'])) {
+            return response()->json(['message' => 'No autorizado para generar análisis de IA.'], 403);
+        }
+
+        $institution = TenantService::getInstitution();
+
+        if (! $institution->hasAiQuota()) {
+            return response()->json([
+                'message' => 'Se ha agotado la cuota mensual de análisis de IA.',
+                'quota' => $institution->aiQuotaInfo(),
+            ], 429);
+        }
+
         $request->validate([
             'student_id' => 'required|exists:students,id',
             'period_id' => 'required|exists:periods,id',
@@ -181,6 +195,22 @@ class ReportController extends Controller
 
         $student = Student::with(['user', 'group.grade'])->findOrFail($request->student_id);
         $period = Period::findOrFail($request->period_id);
+
+        // --- Cache: return existing analysis if generated within the last 7 days ---
+        $cached = StudentAiAnalysis::where('student_id', $student->id)
+            ->where('period_id', $period->id)
+            ->where('created_at', '>=', now()->subDays(7))
+            ->latest()
+            ->first();
+
+        if ($cached) {
+            return response()->json([
+                'narrative' => $cached->narrative,
+                'recommendations' => $cached->recommendations,
+                'cached' => true,
+                'generated_at' => $cached->created_at->toIso8601String(),
+            ]);
+        }
 
         // --- Risk score signals ---
         $scores = $this->riskScorer->calculate($period);
@@ -294,7 +324,9 @@ class ReportController extends Controller
                 'generated_by' => auth()->id(),
             ]);
 
-            return response()->json($result);
+            $institution->incrementAiUsage();
+
+            return response()->json(array_merge($result, ['cached' => false]));
         } catch (\Throwable $e) {
             return response()->json(['message' => 'Error al contactar el servicio de IA: '.$e->getMessage()], 502);
         }
@@ -336,6 +368,19 @@ class ReportController extends Controller
 
     public function aiWeeklySummary(Request $request): JsonResponse
     {
+        if (! in_array(auth()->user()->role, ['admin', 'coordinator'])) {
+            return response()->json(['message' => 'No autorizado para generar resúmenes de IA.'], 403);
+        }
+
+        $institution = TenantService::getInstitution();
+
+        if (! $institution->hasAiQuota()) {
+            return response()->json([
+                'message' => 'Se ha agotado la cuota mensual de análisis de IA.',
+                'quota' => $institution->aiQuotaInfo(),
+            ], 429);
+        }
+
         $request->validate([
             'period_id' => 'required|exists:periods,id',
             'group_id' => 'nullable|exists:groups,id',
@@ -384,6 +429,8 @@ class ReportController extends Controller
         try {
             $service = new ClaudeInsightService;
             $summary = $service->weeklyExecutiveSummary($schoolData);
+
+            $institution->incrementAiUsage();
 
             return response()->json(['summary' => $summary]);
         } catch (\Throwable $e) {

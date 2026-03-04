@@ -1,10 +1,33 @@
 <script setup lang="ts">
+import type { AiQuota } from '~/types/school'
+
 definePageMeta({
   middleware: 'auth'
 })
 
 const institutionStore = useInstitutionStore()
+const authStore = useAuthStore()
 const toast = useToast()
+
+const aiQuota = computed<AiQuota | null>(() => institutionStore.institution?.ai_quota ?? null)
+
+const aiUsedPercent = computed(() => {
+  if (!aiQuota.value || aiQuota.value.limit === 0) return 0
+  return Math.min(100, Math.round((aiQuota.value.used / aiQuota.value.limit) * 100))
+})
+
+const aiBarColor = computed(() => {
+  if (aiUsedPercent.value >= 90) return 'bg-red-500'
+  if (aiUsedPercent.value >= 70) return 'bg-yellow-500'
+  return 'bg-primary'
+})
+
+const aiResetsAt = computed(() => {
+  if (!aiQuota.value?.resets_at) return null
+  return new Date(aiQuota.value.resets_at).toLocaleDateString('es-CO', {
+    day: 'numeric', month: 'long', year: 'numeric'
+  })
+})
 
 const loading = ref(true)
 const saving = ref(false)
@@ -30,7 +53,7 @@ const handleSave = async () => {
     } else {
       toast.add({ title: 'Error', description: result.message || 'Error desconocido', color: 'error' })
     }
-  } catch (error) {
+  } catch {
     toast.add({ title: 'Error', description: 'No se pudieron guardar los datos', color: 'error' })
   } finally {
     saving.value = false
@@ -137,6 +160,61 @@ onMounted(async () => {
               <UFormField label="Correo Electronico">
                 <UInput v-model="formData.email" type="email" placeholder="contacto@colegio.edu.co" />
               </UFormField>
+            </div>
+          </UPageCard>
+
+          <!-- AI Quota (admin only) -->
+          <UPageCard
+            v-if="authStore.isAdmin && aiQuota"
+            title="Cuota de Análisis IA"
+            description="Análisis de riesgo estudiantil generados con inteligencia artificial este mes."
+            variant="subtle"
+          >
+            <div class="flex flex-col gap-4">
+              <!-- Numbers row -->
+              <div class="flex items-end justify-between">
+                <div>
+                  <span class="text-3xl font-bold">{{ aiQuota.used }}</span>
+                  <span class="text-muted text-lg"> / {{ aiQuota.limit }}</span>
+                  <p class="text-sm text-muted mt-0.5">
+                    análisis utilizados este mes
+                  </p>
+                </div>
+                <div class="text-right">
+                  <p class="text-2xl font-semibold" :class="aiQuota.remaining === 0 ? 'text-error' : 'text-success'">
+                    {{ aiQuota.remaining }}
+                  </p>
+                  <p class="text-sm text-muted">
+                    restantes
+                  </p>
+                </div>
+              </div>
+
+              <!-- Progress bar -->
+              <div class="h-2.5 rounded-full bg-muted/30 overflow-hidden">
+                <div
+                  class="h-full rounded-full transition-all duration-500"
+                  :class="aiBarColor"
+                  :style="{ width: `${aiUsedPercent}%` }"
+                />
+              </div>
+
+              <!-- Footer -->
+              <div class="flex items-center justify-between text-xs text-muted">
+                <span>{{ aiUsedPercent }}% utilizado</span>
+                <span v-if="aiResetsAt">Reinicia el {{ aiResetsAt }}</span>
+              </div>
+
+              <!-- Warning when near limit -->
+              <UAlert
+                v-if="aiUsedPercent >= 80"
+                :color="aiUsedPercent >= 100 ? 'error' : 'warning'"
+                :icon="aiUsedPercent >= 100 ? 'i-lucide-ban' : 'i-lucide-triangle-alert'"
+                :title="aiUsedPercent >= 100 ? 'Cuota agotada' : 'Cuota casi agotada'"
+                :description="aiUsedPercent >= 100
+                  ? 'No se pueden generar nuevos análisis hasta que se reinicie la cuota el próximo mes.'
+                  : `Solo quedan ${aiQuota.remaining} análisis disponibles. El límite se reinicia automáticamente el próximo mes.`"
+              />
             </div>
           </UPageCard>
 

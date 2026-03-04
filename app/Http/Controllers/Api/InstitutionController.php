@@ -18,7 +18,10 @@ class InstitutionController extends Controller
             return response()->json(['message' => 'Institución no configurada'], 404);
         }
 
-        return response()->json($institution);
+        return response()->json(array_merge(
+            $institution->toArray(),
+            ['ai_quota' => $institution->aiQuotaInfo()]
+        ));
     }
 
     public function update(Request $request): JsonResponse

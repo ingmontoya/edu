@@ -137,9 +137,11 @@ Route::middleware(['auth:sanctum', 'tenant'])->group(function () {
     Route::get('reports/attendance-summary', [ReportController::class, 'attendanceSummary']);
     Route::get('reports/risk-scores', [ReportController::class, 'riskScores']);
 
-    // AI Insights (Claude / Ollama)
-    Route::post('reports/ai/student-analysis', [ReportController::class, 'aiStudentAnalysis']);
-    Route::post('reports/ai/weekly-summary', [ReportController::class, 'aiWeeklySummary']);
+    // AI Insights (Claude / Ollama) — rate limited: 30/min per institution
+    Route::middleware('throttle:ai-analysis')->group(function () {
+        Route::post('reports/ai/student-analysis', [ReportController::class, 'aiStudentAnalysis']);
+        Route::post('reports/ai/weekly-summary', [ReportController::class, 'aiWeeklySummary']);
+    });
     Route::get('students/{student}/ai-analyses', [ReportController::class, 'studentAiAnalyses']);
 
     // Announcements

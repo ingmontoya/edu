@@ -107,7 +107,8 @@ export default defineNuxtConfig({
         'lucide:upload',
         'lucide:file-spreadsheet',
         'lucide:paperclip',
-        'lucide:file-up'
+        'lucide:file-up',
+        'lucide:message-circle'
       ],
       scan: true
     }

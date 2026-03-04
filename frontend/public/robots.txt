@@ -1,0 +1,15 @@
+User-agent: *
+Allow: /
+Disallow: /dashboard/
+Disallow: /academic/
+Disallow: /students/
+Disallow: /teachers/
+Disallow: /grades/
+Disallow: /attendance/
+Disallow: /reports/
+Disallow: /siee/
+Disallow: /guardian/
+Disallow: /institution/
+Disallow: /login
+
+Sitemap: https://aula360.com/sitemap.xml

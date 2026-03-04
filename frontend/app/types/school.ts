@@ -14,6 +14,13 @@ export interface User {
 }
 
 // Institution
+export interface AiQuota {
+  used: number
+  limit: number
+  remaining: number
+  resets_at: string | null
+}
+
 export interface Institution {
   id: number
   name: string
@@ -27,6 +34,7 @@ export interface Institution {
   department?: string
   rector_name?: string
   grading_scale?: GradingScale
+  ai_quota?: AiQuota
 }
 
 export interface GradingScale {

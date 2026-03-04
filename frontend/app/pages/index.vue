@@ -6,25 +6,39 @@ definePageMeta({
 useSeoMeta({
   title: 'Aula360 — Gestión Académica con IA para Colegios Colombianos',
   description: 'Aula360 transforma la gestión académica con Inteligencia Artificial. Índice de riesgo estudiantil, análisis pedagógico con IA, boletines PDF, SIEE y portal de padres. Diseñado para instituciones educativas colombianas.',
-  keywords: 'gestión académica colombia, software educativo colombia, SIEE, boletines PDF, inteligencia artificial educación, riesgo estudiantil, calificaciones colegio, plataforma educativa, Aula360',
+  keywords: 'software gestión académica colombia, plataforma educativa colombia, SIEE colombia, boletines PDF colegio, riesgo estudiantil IA, software colegio colombia, calificaciones colegio, inteligencia artificial educación, Aula360',
   author: 'Aula360',
   robots: 'index, follow',
   ogTitle: 'Aula360 — Gestión Académica con IA para Colegios Colombianos',
   ogDescription: 'Detecta el riesgo estudiantil antes de que sea tarde. Análisis pedagógico con IA, boletines PDF, SIEE y portal de padres para colegios colombianos.',
   ogType: 'website',
-  ogImage: '/og-image.png',
+  ogImage: 'https://aula360.com/og-image.png',
+  ogImageWidth: '1200',
+  ogImageHeight: '630',
+  ogImageAlt: 'Aula360 — Plataforma de gestión académica con IA para colegios colombianos',
   ogUrl: 'https://aula360.com',
   ogLocale: 'es_CO',
+  ogLocaleAlternate: ['es_ES', 'es_419'],
   ogSiteName: 'Aula360',
   twitterCard: 'summary_large_image',
-  twitterTitle: 'Aula360 — Gestión Académica con IA',
+  twitterSite: '@aula360co',
+  twitterCreator: '@aula360co',
+  twitterTitle: 'Aula360 — Gestión Académica con IA para Colegios Colombianos',
   twitterDescription: 'Detecta el riesgo estudiantil antes de que sea tarde. IA aplicada a la educación colombiana.',
-  twitterImage: '/og-image.png'
+  twitterImage: 'https://aula360.com/og-image.png'
 })
 
 useHead({
   htmlAttrs: { lang: 'es-CO' },
-  link: [{ rel: 'canonical', href: 'https://aula360.com' }],
+  meta: [
+    { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+    { name: 'theme-color', content: '#0f172a' },
+    { name: 'color-scheme', content: 'dark' }
+  ],
+  link: [
+    { rel: 'canonical', href: 'https://aula360.com' },
+    { rel: 'sitemap', type: 'application/xml', href: 'https://aula360.com/sitemap.xml' }
+  ],
   script: [
     {
       type: 'application/ld+json',
@@ -32,18 +46,87 @@ useHead({
         '@context': 'https://schema.org',
         '@type': 'SoftwareApplication',
         'name': 'Aula360',
+        'url': 'https://aula360.com',
         'applicationCategory': 'EducationalApplication',
         'operatingSystem': 'Web',
-        'description': 'Sistema de gestión académica con IA para instituciones educativas colombianas.',
-        'offers': { '@type': 'Offer', 'price': '0', 'priceCurrency': 'COP' },
+        'description': 'Sistema de gestión académica con IA para instituciones educativas colombianas. Incluye índice de riesgo estudiantil, análisis pedagógico con Claude AI, SIEE, boletines PDF y portal de padres.',
+        'priceRange': '$490.000 - $2.900.000+ COP/mes',
+        'offers': {
+          '@type': 'Offer',
+          'price': '490000',
+          'priceCurrency': 'COP',
+          'eligibleRegion': { '@type': 'Country', 'name': 'Colombia' },
+          'priceSpecification': {
+            '@type': 'UnitPriceSpecification',
+            'price': '490000',
+            'priceCurrency': 'COP',
+            'billingIncrement': 1,
+            'unitCode': 'MON'
+          }
+        },
+        'provider': {
+          '@type': 'Organization',
+          'name': 'Aula360',
+          'url': 'https://aula360.com'
+        },
+        'screenshot': 'https://aula360.com/og-image.png',
+        'inLanguage': 'es-CO',
         'featureList': [
           'Índice de Riesgo Estudiantil con IA',
           'Análisis pedagógico por estudiante con Claude AI',
           'Cumplimiento SIEE colombiano',
           'Boletines PDF individuales y masivos',
-          'Portal de padres',
-          'Exportación SIMAT',
-          'Convivencia Escolar Ley 1620/2013'
+          'Portal de padres 24/7',
+          'Exportación SIMAT (MEN)',
+          'Convivencia Escolar Ley 1620/2013',
+          'Constancias y certificados PDF',
+          'Resumen ejecutivo semanal con IA'
+        ]
+      })
+    },
+    {
+      type: 'application/ld+json',
+      innerHTML: JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'Organization',
+        'name': 'Aula360',
+        'url': 'https://aula360.com',
+        'logo': 'https://aula360.com/logo.svg',
+        'description': 'Plataforma SaaS de gestión académica con Inteligencia Artificial para instituciones educativas colombianas.',
+        'areaServed': { '@type': 'Country', 'name': 'Colombia' },
+        'knowsAbout': [
+          'Gestión académica escolar',
+          'Inteligencia Artificial en educación',
+          'SIEE Colombia',
+          'Sistema Integrado de Matrícula SIMAT',
+          'Evaluación por logros',
+          'Convivencia escolar Ley 1620'
+        ],
+        'contactPoint': {
+          '@type': 'ContactPoint',
+          'contactType': 'sales',
+          'availableLanguage': { '@type': 'Language', 'name': 'Spanish' }
+        }
+      })
+    },
+    {
+      type: 'application/ld+json',
+      innerHTML: JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'WebSite',
+        'name': 'Aula360',
+        'url': 'https://aula360.com',
+        'description': 'Gestión académica con IA para instituciones educativas colombianas.',
+        'inLanguage': 'es-CO'
+      })
+    },
+    {
+      type: 'application/ld+json',
+      innerHTML: JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        'itemListElement': [
+          { '@type': 'ListItem', 'position': 1, 'name': 'Inicio', 'item': 'https://aula360.com' }
         ]
       })
     }
@@ -55,6 +138,7 @@ const navLinks = [
   { label: 'Módulos', href: '#modulos' },
   { label: 'Beneficios', href: '#beneficios' },
   { label: 'Comparativo', href: '#comparativo' },
+  { label: 'Precios', href: '/pricing' },
   { label: 'Contacto', href: '#contacto' }
 ]
 
@@ -99,13 +183,6 @@ const aiFeatures = [
     glowBlur: 'bg-emerald-500',
     iconColor: 'text-emerald-400'
   }
-]
-
-const metrics = [
-  { value: '0–100', label: 'Escala de Índice de Riesgo por estudiante', color: 'text-orange-400' },
-  { value: '5 señales', label: 'Variables analizadas por IA para calcular riesgo', color: 'text-violet-400' },
-  { value: '100%', label: 'Cumplimiento SIEE y normativa colombiana', color: 'text-indigo-400' },
-  { value: '70%', label: 'Reducción proyectada en carga administrativa', color: 'text-green-400' }
 ]
 
 const moduleCategories = [
@@ -168,33 +245,14 @@ const benefitsParents = [
   'Información siempre actualizada y segura, sin instalar aplicaciones'
 ]
 
-const aiEvolutionBullets = [
-  { icon: 'i-lucide-git-compare', title: 'Comparativo período a período', text: 'Delta de puntaje de riesgo entre el análisis actual y el anterior, con indicador de mejora o deterioro.' },
-  { icon: 'i-lucide-arrow-up-down', title: 'Cambio de nivel documentado', text: 'Registra cada transición: de Riesgo Alto a Moderado, de Moderado a Sin Riesgo. Evidencia tangible del progreso.' },
-  { icon: 'i-lucide-history', title: 'Historial narrativo completo', text: 'Cada análisis de IA queda guardado con narrativa y recomendaciones. El docente puede leer el historial pedagógico completo.' }
+const includedItems = [
+  { icon: 'i-lucide-zap', label: 'Onboarding guiado', desc: 'Lo dejamos listo en 48h' },
+  { icon: 'i-lucide-users', label: 'Docentes ilimitados', desc: 'Sin costo por usuario' },
+  { icon: 'i-lucide-refresh-cw', label: 'Actualizaciones gratis', desc: 'Siempre la última versión' },
+  { icon: 'i-lucide-database', label: 'Sus datos son suyos', desc: 'Exportación en cualquier momento' }
 ]
 
-const comparison = [
-  { feature: 'Índice de Riesgo Estudiantil con IA', aula360: true, others: false },
-  { feature: 'Análisis pedagógico personalizado por IA por estudiante', aula360: true, others: false },
-  { feature: 'Resumen ejecutivo institucional semanal con IA', aula360: true, others: false },
-  { feature: 'Historial de evolución de riesgo por período', aula360: true, others: false },
-  { feature: 'Escala colombiana (Superior/Alto/Básico/Bajo)', aula360: true, others: 'Parcial' },
-  { feature: 'SIEE integrado — logros cognitivos, procedimentales y actitudinales', aula360: true, others: false },
-  { feature: 'Exportación SIMAT oficial MEN', aula360: true, others: 'Adicional' },
-  { feature: 'Convivencia Escolar — Ley 1620/2013', aula360: true, others: false },
-  { feature: 'Boletines PDF individuales y masivos', aula360: true, others: 'Manual' },
-  { feature: 'Portal de padres incluido', aula360: true, others: 'Adicional' },
-  { feature: 'Multi-institución con datos completamente aislados', aula360: true, others: false },
-  { feature: 'Soporte en español colombiano', aula360: true, others: 'Variable' }
-]
-
-const gradeScale = [
-  { level: 'Superior', range: '4.6 – 5.0', color: 'text-green-400', bg: 'bg-green-500/10 border-green-500/20' },
-  { level: 'Alto', range: '4.0 – 4.5', color: 'text-blue-400', bg: 'bg-blue-500/10 border-blue-500/20' },
-  { level: 'Básico', range: '3.0 – 3.9', color: 'text-yellow-400', bg: 'bg-yellow-500/10 border-yellow-500/20' },
-  { level: 'Bajo', range: '1.0 – 2.9', color: 'text-red-400', bg: 'bg-red-500/10 border-red-500/20' }
-]
+const showDemo = ref(false)
 </script>
 
 <template>
@@ -228,12 +286,13 @@ const gradeScale = [
             >
               Iniciar Sesión
             </a>
-            <a
-              href="/login"
+            <button
+              type="button"
               class="inline-flex items-center px-4 py-2 text-sm font-semibold text-white bg-indigo-600 hover:bg-indigo-500 rounded-lg shadow-lg shadow-indigo-600/30 transition-colors duration-200"
+              @click="showDemo = true"
             >
               Solicitar Demo
-            </a>
+            </button>
           </div>
         </div>
       </nav>
@@ -390,24 +449,6 @@ const gradeScale = [
         </div>
       </section>
 
-      <!-- ============ METRICS BAR ============ -->
-      <div class="bg-slate-950 border-y border-white/[0.06] py-12 px-4 sm:px-6 lg:px-8">
-        <div class="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 divide-y md:divide-y-0 md:divide-x divide-white/[0.06]">
-          <div
-            v-for="metric in metrics"
-            :key="metric.label"
-            class="flex flex-col items-center justify-center py-8 md:py-0 px-8 text-center"
-          >
-            <p class="text-4xl sm:text-5xl font-extrabold tracking-tight" :class="metric.color">
-              {{ metric.value }}
-            </p>
-            <p class="mt-2 text-sm text-slate-500 font-medium uppercase tracking-wide">
-              {{ metric.label }}
-            </p>
-          </div>
-        </div>
-      </div>
-
       <!-- ============ AI FEATURES ============ -->
       <section id="ia" class="relative bg-slate-900 py-24 px-4 sm:px-6 lg:px-8 border-b border-white/[0.06]" aria-labelledby="ia-title">
         <div class="max-w-7xl mx-auto">
@@ -447,127 +488,6 @@ const gradeScale = [
                 {{ feature.description }}
               </p>
             </article>
-          </div>
-        </div>
-      </section>
-
-      <!-- ============ AI EVOLUTION SPLIT ============ -->
-      <section class="relative bg-slate-950 py-24 px-4 sm:px-6 lg:px-8 overflow-hidden border-b border-white/[0.06]" aria-labelledby="evolucion-title">
-        <!-- Background grid -->
-        <div aria-hidden="true" class="absolute inset-0 pointer-events-none" style="background-image: linear-gradient(rgba(99,102,241,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(99,102,241,0.03) 1px, transparent 1px); background-size: 40px 40px;" />
-        <div aria-hidden="true" class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[500px] rounded-full bg-indigo-600/8 blur-[150px] pointer-events-none" />
-
-        <div class="relative z-10 max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-          <!-- Left: text -->
-          <div>
-            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-300 text-xs font-semibold uppercase tracking-widest mb-6">
-              <UIcon name="i-lucide-history" class="w-3.5 h-3.5" />
-              Seguimiento con IA a lo largo del tiempo
-            </div>
-            <h2 id="evolucion-title" class="text-3xl sm:text-4xl font-bold text-white mb-6 leading-tight">
-              No solo detecta riesgo.<br>
-              <span class="text-indigo-400">Mide si tus acciones funcionan.</span>
-            </h2>
-            <p class="text-slate-400 text-lg leading-relaxed mb-10">
-              Aula360 persiste cada análisis de IA y construye una línea de tiempo del progreso estudiantil. Los docentes y coordinadores pueden ver, período a período, si las intervenciones pedagógicas están moviendo la aguja — con números, no con intuición.
-            </p>
-            <div class="space-y-5 mb-10">
-              <div v-for="bullet in aiEvolutionBullets" :key="bullet.title" class="flex items-start gap-3">
-                <div class="p-2 bg-indigo-500/10 rounded-lg shrink-0 mt-0.5">
-                  <UIcon :name="bullet.icon" class="w-4 h-4 text-indigo-400" />
-                </div>
-                <div>
-                  <p class="text-sm text-white font-semibold mb-0.5">
-                    {{ bullet.title }}
-                  </p>
-                  <p class="text-sm text-slate-400 leading-relaxed">
-                    {{ bullet.text }}
-                  </p>
-                </div>
-              </div>
-            </div>
-            <a
-              href="/login"
-              class="inline-flex items-center gap-1.5 text-sm font-medium text-indigo-400 hover:text-indigo-300 transition-colors duration-200"
-            >
-              Ver historial de análisis IA
-              <UIcon name="i-lucide-arrow-right" class="w-4 h-4" />
-            </a>
-          </div>
-
-          <!-- Right: evolution mockup -->
-          <div class="relative">
-            <div aria-hidden="true" class="absolute -inset-4 rounded-3xl bg-gradient-to-br from-indigo-600/20 via-violet-600/15 to-purple-600/20 blur-2xl pointer-events-none" />
-            <div class="relative rounded-2xl bg-slate-900 border border-white/10 shadow-2xl shadow-black/60 overflow-hidden">
-              <!-- Chrome bar -->
-              <div class="flex items-center gap-2 px-4 py-3 bg-slate-800/80 border-b border-white/[0.06]">
-                <div class="flex gap-1.5">
-                  <div class="w-3 h-3 rounded-full bg-red-500/60" />
-                  <div class="w-3 h-3 rounded-full bg-yellow-500/60" />
-                  <div class="w-3 h-3 rounded-full bg-green-500/60" />
-                </div>
-                <div class="flex-1 h-4 rounded bg-slate-700/60 max-w-[180px] mx-auto" />
-              </div>
-
-              <div class="p-5">
-                <!-- Student header -->
-                <div class="flex items-center gap-3 mb-5 pb-4 border-b border-white/[0.06]">
-                  <div class="w-9 h-9 rounded-full bg-indigo-500/20 border border-indigo-500/30 flex items-center justify-center shrink-0">
-                    <span class="text-sm font-bold text-indigo-300">V</span>
-                  </div>
-                  <div>
-                    <p class="text-sm font-semibold text-white">
-                      Valentina García
-                    </p>
-                    <p class="text-xs text-slate-500">
-                      Grupo 9-A · Historial IA
-                    </p>
-                  </div>
-                </div>
-
-                <!-- Evolution banner -->
-                <div class="flex items-center gap-3 p-3 rounded-xl bg-green-500/10 border border-green-500/20 mb-4">
-                  <UIcon name="i-lucide-trending-down" class="w-5 h-5 text-green-400 shrink-0" />
-                  <div>
-                    <p class="text-xs font-semibold text-white">
-                      Alto → Moderado
-                    </p>
-                    <p class="text-xs text-green-400 font-medium">
-                      −12.5 puntos de riesgo — mejora detectada
-                    </p>
-                  </div>
-                </div>
-
-                <!-- Analysis entries -->
-                <div class="space-y-2">
-                  <div
-                    v-for="(entry, i) in [
-                      { date: '03/03/2026', period: 'Período 2', level: 'Moderado', score: '45.0', levelColor: 'text-yellow-400', levelBg: 'bg-yellow-500/10 border-yellow-500/20' },
-                      { date: '15/02/2026', period: 'Período 2', level: 'Alto', score: '57.5', levelColor: 'text-red-400', levelBg: 'bg-red-500/10 border-red-500/20' }
-                    ]"
-                    :key="i"
-                    class="flex items-center gap-3 p-2.5 rounded-xl bg-white/[0.03] border border-white/[0.05]"
-                  >
-                    <div class="min-w-0 flex-1">
-                      <div class="flex items-center gap-2 flex-wrap">
-                        <span class="text-xs font-medium text-slate-300">{{ entry.date }}</span>
-                        <span class="text-xs text-slate-600">{{ entry.period }}</span>
-                      </div>
-                    </div>
-                    <span class="text-xs px-2 py-0.5 rounded-full border" :class="entry.levelBg">
-                      <span :class="entry.levelColor" class="font-medium">{{ entry.level }}</span>
-                    </span>
-                    <span class="text-xs font-mono font-bold text-slate-400 shrink-0">{{ entry.score }}/100</span>
-                  </div>
-                </div>
-
-                <!-- AI status -->
-                <div class="mt-4 flex items-center gap-2 px-3 py-2 rounded-lg bg-indigo-500/8 border border-indigo-500/15">
-                  <UIcon name="i-lucide-brain" class="w-3.5 h-3.5 text-indigo-400 animate-pulse shrink-0" />
-                  <span class="text-xs text-indigo-300/70">Narrativa pedagógica generada con Claude AI</span>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </section>
@@ -717,114 +637,35 @@ const gradeScale = [
         </div>
       </section>
 
-      <!-- ============ SIEE / GRADING SCALE ============ -->
-      <section class="py-24 px-4 sm:px-6 lg:px-8 bg-slate-900 border-b border-white/[0.06]" aria-labelledby="siee-title">
-        <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-          <div>
-            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-300 text-xs font-semibold uppercase tracking-widest mb-6">
-              <UIcon name="i-lucide-award" class="w-3.5 h-3.5" />
-              Normativa Colombiana
-            </div>
-            <h2 id="siee-title" class="text-3xl sm:text-4xl font-bold text-white mb-6">
-              SIEE — Sistema Institucional de Evaluación
-            </h2>
-            <p class="text-lg text-slate-400 mb-8 leading-relaxed">
-              Cumplimos con los estándares del Sistema Institucional de Evaluación de Estudiantes, permitiendo evaluar por logros cognitivos, procedimentales y actitudinales. La IA de Aula360 integra estos datos para construir un perfil pedagógico completo de cada estudiante.
-            </p>
-            <div class="space-y-4">
-              <div
-                v-for="item in [
-                  { icon: 'i-lucide-brain', label: 'Cognitivos', sub: 'Conocimiento y comprensión' },
-                  { icon: 'i-lucide-wrench', label: 'Procedimentales', sub: 'Habilidades y aplicación' },
-                  { icon: 'i-lucide-heart-handshake', label: 'Actitudinales', sub: 'Comportamiento y valores' }
-                ]"
-                :key="item.label"
-                class="flex items-center gap-3"
-              >
-                <div class="p-2.5 bg-indigo-500/10 rounded-lg border border-indigo-500/20 shrink-0">
-                  <UIcon :name="item.icon" class="size-5 text-indigo-400" />
-                </div>
-                <div>
-                  <span class="font-semibold text-white text-sm">{{ item.label }}</span>
-                  <span class="text-slate-500 text-sm"> — {{ item.sub }}</span>
-                </div>
+      <!-- ============ INCLUDED BAND ============ -->
+      <section class="px-4 sm:px-6 lg:px-8 py-16 border-t border-white/[0.06] bg-slate-950" aria-labelledby="incluido-title">
+        <div class="max-w-7xl mx-auto">
+          <h2 id="incluido-title" class="text-center text-slate-400 text-sm font-medium mb-2 uppercase tracking-wider">
+            Incluido en todos los planes
+          </h2>
+          <p class="text-center mb-10">
+            <a href="/pricing" class="text-indigo-400 hover:text-indigo-300 text-sm font-semibold transition-colors">
+              Desde $490.000/mes · Ver precios →
+            </a>
+          </p>
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+            <div
+              v-for="item in includedItems"
+              :key="item.label"
+              class="flex flex-col items-center text-center gap-3"
+            >
+              <div class="w-12 h-12 rounded-xl bg-slate-800 border border-white/10 flex items-center justify-center">
+                <UIcon :name="item.icon" class="w-5 h-5 text-indigo-400" />
+              </div>
+              <div>
+                <p class="text-white text-sm font-medium">
+                  {{ item.label }}
+                </p>
+                <p class="text-slate-500 text-xs mt-0.5">
+                  {{ item.desc }}
+                </p>
               </div>
             </div>
-          </div>
-
-          <!-- Grading scale card -->
-          <div class="rounded-2xl bg-slate-800/60 border border-white/[0.08] p-8">
-            <h3 class="text-lg font-bold text-white mb-6">
-              Escala de Valoración Colombiana
-            </h3>
-            <div class="space-y-3">
-              <div
-                v-for="grade in gradeScale"
-                :key="grade.level"
-                class="flex items-center gap-4 p-4 rounded-xl border"
-                :class="grade.bg"
-              >
-                <span class="w-20 font-bold text-sm" :class="grade.color">{{ grade.level }}</span>
-                <span class="w-24 font-mono text-sm text-slate-300">{{ grade.range }}</span>
-              </div>
-            </div>
-            <p class="mt-4 text-xs text-slate-500">
-              Umbral de aprobación: <span class="text-white font-semibold">3.0</span> — nivel Básico
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <!-- ============ COMPARISON ============ -->
-      <section id="comparativo" class="py-24 px-4 sm:px-6 lg:px-8 bg-slate-950 border-b border-white/[0.06]" aria-labelledby="comparativo-title">
-        <div class="max-w-4xl mx-auto">
-          <div class="text-center mb-16">
-            <h2 id="comparativo-title" class="text-3xl sm:text-4xl font-bold text-white mb-4">
-              Por qué Aula360 es diferente
-            </h2>
-            <p class="text-lg text-slate-400">
-              Compara lo que obtienes frente a las soluciones tradicionales del mercado colombiano.
-            </p>
-          </div>
-
-          <div class="bg-slate-900 rounded-2xl shadow-xl shadow-black/30 overflow-hidden border border-white/[0.06]">
-            <table class="w-full" aria-label="Comparativa Aula360 vs otros sistemas">
-              <thead>
-                <tr class="bg-slate-800/50">
-                  <th scope="col" class="px-6 py-4 text-left text-sm font-semibold text-slate-400 uppercase tracking-wide">
-                    Característica
-                  </th>
-                  <th scope="col" class="px-6 py-4 text-center">
-                    <div class="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-indigo-600 text-white text-sm font-bold shadow-lg shadow-indigo-600/40">
-                      <UIcon name="i-lucide-sparkles" class="w-3.5 h-3.5" />
-                      Aula360
-                    </div>
-                  </th>
-                  <th scope="col" class="px-6 py-4 text-center text-sm font-semibold text-slate-500">
-                    Otros sistemas
-                  </th>
-                </tr>
-              </thead>
-              <tbody class="divide-y divide-white/[0.04]">
-                <tr v-for="item in comparison" :key="item.feature" class="hover:bg-white/[0.02] transition-colors">
-                  <th scope="row" class="px-6 py-4 text-sm text-slate-300 font-medium text-left">
-                    {{ item.feature }}
-                  </th>
-                  <td class="px-6 py-4 text-center bg-indigo-500/[0.04]">
-                    <UIcon name="i-lucide-check-circle" class="size-5 text-indigo-400 mx-auto" aria-label="Disponible" />
-                  </td>
-                  <td class="px-6 py-4 text-center">
-                    <UIcon
-                      v-if="item.others === false"
-                      name="i-lucide-x-circle"
-                      class="size-5 text-slate-600 mx-auto"
-                      aria-label="No disponible"
-                    />
-                    <span v-else class="text-sm text-slate-500 italic">{{ item.others }}</span>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
           </div>
         </div>
       </section>
@@ -843,18 +684,19 @@ const gradeScale = [
             Aula360 está lista para tu institución. Sé parte de las primeras instituciones colombianas en usar IA para detectar riesgo estudiantil, reducir carga administrativa y mantener a los padres informados.
           </p>
           <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <button
+              type="button"
+              class="inline-flex items-center px-8 py-3.5 text-base font-bold text-indigo-700 bg-white hover:bg-indigo-50 rounded-xl shadow-xl shadow-black/20 hover:-translate-y-0.5 transition-all duration-200"
+              @click="showDemo = true"
+            >
+              <UIcon name="i-lucide-calendar" class="size-5 mr-2" />
+              Solicitar Demo Gratuita
+            </button>
             <a
               href="/login"
-              class="inline-flex items-center px-8 py-3.5 text-base font-bold text-indigo-700 bg-white hover:bg-indigo-50 rounded-xl shadow-xl shadow-black/20 hover:-translate-y-0.5 transition-all duration-200"
-            >
-              <UIcon name="i-lucide-log-in" class="size-5 mr-2" />
-              Ingresar al Sistema
-            </a>
-            <a
-              href="#ia"
               class="inline-flex items-center px-8 py-3.5 text-base font-medium text-white border border-white/30 hover:bg-white/10 hover:border-white/50 backdrop-blur-sm rounded-xl transition-all duration-200"
             >
-              Ver funcionalidades IA
+              Ingresar al Sistema
             </a>
           </div>
         </div>
@@ -878,11 +720,24 @@ const gradeScale = [
         <p class="text-slate-500 text-center italic text-sm">
           Gestión Académica con IA para instituciones educativas colombianas.
         </p>
-        <p class="text-slate-600 text-sm">
-          © {{ new Date().getFullYear() }} Aula360. Todos los derechos reservados.
-        </p>
+        <div class="flex flex-col items-center md:items-end gap-1">
+          <p class="text-slate-600 text-sm">
+            © {{ new Date().getFullYear() }} Aula360. Todos los derechos reservados.
+          </p>
+          <p class="text-slate-700 text-xs">
+            Desarrollado por
+            <a
+              href="https://mauriciomontoya.co"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-slate-500 hover:text-slate-300 transition-colors"
+            >Mauricio Montoya</a>
+          </p>
+        </div>
       </div>
     </footer>
+
+    <DemoFormModal v-model="showDemo" />
   </div>
 </template>
 
