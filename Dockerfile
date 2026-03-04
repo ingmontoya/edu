@@ -22,7 +22,7 @@ COPY frontend/ .
 ARG NUXT_PUBLIC_API_URL=https://app.aula360.co/api
 ENV NUXT_PUBLIC_API_URL=${NUXT_PUBLIC_API_URL}
 
-RUN pnpm run generate
+RUN pnpm exec nuxt generate
 
 # =============================================================================
 # Stage 2: Application
