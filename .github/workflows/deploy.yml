@@ -103,30 +103,21 @@ jobs:
       # ── 12. Post-deploy artisan commands ─────────────────────────────────
       - name: Run post-deploy commands
         run: |
-          POD=$(kubectl get pod \
-            -n ${{ env.K8S_NAMESPACE }} \
-            -l app=${{ env.DEPLOYMENT_NAME }} \
-            -o jsonpath="{.items[0].metadata.name}")
+          # Execute directly on the deployment — k8s routes to the running pod
+          kubectl exec deployment/${{ env.DEPLOYMENT_NAME }} \
+            -n ${{ env.K8S_NAMESPACE }} -- php artisan config:cache
 
-          echo "Running post-deploy commands on pod: ${POD}"
+          kubectl exec deployment/${{ env.DEPLOYMENT_NAME }} \
+            -n ${{ env.K8S_NAMESPACE }} -- php artisan route:cache
 
-          # Cache configuration for production performance
-          kubectl exec -n ${{ env.K8S_NAMESPACE }} ${POD} -- \
-            php artisan config:cache
+          kubectl exec deployment/${{ env.DEPLOYMENT_NAME }} \
+            -n ${{ env.K8S_NAMESPACE }} -- php artisan view:cache
 
-          kubectl exec -n ${{ env.K8S_NAMESPACE }} ${POD} -- \
-            php artisan route:cache
+          kubectl exec deployment/${{ env.DEPLOYMENT_NAME }} \
+            -n ${{ env.K8S_NAMESPACE }} -- php artisan migrate --force
 
-          kubectl exec -n ${{ env.K8S_NAMESPACE }} ${POD} -- \
-            php artisan view:cache
-
-          # Run database migrations (safe with --force in production)
-          kubectl exec -n ${{ env.K8S_NAMESPACE }} ${POD} -- \
-            php artisan migrate --force
-
-          # Restart queue worker to pick up new code
-          kubectl exec -n ${{ env.K8S_NAMESPACE }} ${POD} -- \
-            php artisan queue:restart
+          kubectl exec deployment/${{ env.DEPLOYMENT_NAME }} \
+            -n ${{ env.K8S_NAMESPACE }} -- php artisan queue:restart
 
           echo "Post-deploy commands completed successfully"
 
