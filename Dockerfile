@@ -7,22 +7,22 @@ FROM node:20-alpine AS frontend-builder
 # Enable pnpm via corepack (matches packageManager: pnpm@10.26.1)
 RUN corepack enable && corepack prepare pnpm@10.26.1 --activate
 
-WORKDIR /app
+WORKDIR /app/frontend
 
-# Copy frontend source (frontend/ subdirectory contents)
-COPY frontend/package.json frontend/pnpm-lock.yaml ./
+# Copy manifest files (pnpm-workspace.yaml required for dep resolution)
+COPY frontend/package.json frontend/pnpm-lock.yaml frontend/pnpm-workspace.yaml ./
 
-# Install dependencies with frozen lockfile for reproducible builds
-RUN pnpm install --no-frozen-lockfile
+# enable-pre-post-scripts runs postinstall (nuxt prepare)
+RUN pnpm config set enable-pre-post-scripts true && \
+    pnpm install --frozen-lockfile
 
-# Copy remaining frontend source files
-COPY frontend/ .
+COPY frontend/ ./
 
-# Build static output — generates .output/public/
+# Build static site
 ARG NUXT_PUBLIC_API_URL=https://app.aula360.co/api
 ENV NUXT_PUBLIC_API_URL=${NUXT_PUBLIC_API_URL}
 
-RUN pnpm exec nuxt generate
+RUN pnpm run generate
 
 # =============================================================================
 # Stage 2: Application
@@ -87,7 +87,7 @@ COPY . .
 # Copy Nuxt static build from Stage 1 into Laravel's public directory.
 # This makes the Nuxt SPA the root of the web server — /api/** is handled
 # by nginx routing to PHP-FPM, everything else serves the static SPA.
-COPY --from=frontend-builder /app/.output/public/ /var/www/html/public/
+COPY --from=frontend-builder /app/frontend/.output/public/ /var/www/html/public/
 
 # Regenerate autoload after full app copy (runs post-autoload scripts)
 RUN composer dump-autoload --optimize --no-scripts
