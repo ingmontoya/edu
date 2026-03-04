@@ -1,5 +1,6 @@
 *.log
 .DS_Store
+/k8s/secrets.yaml
 .env
 .env.backup
 .env.production
@@ -22,3 +23,8 @@
 Homestead.json
 Homestead.yaml
 Thumbs.db
+
+# Kubernetes secrets — never commit with real values
+# The placeholder version (with CHANGE_ME) can be committed as a template,
+# but if you fill in real values, add to a separate file not tracked by git.
+# k8s/secrets.yaml

@@ -55,6 +55,7 @@ Aula360 apunta al segmento **colegios medianos privados y concesionados** (200-1
 | Certificado de graduación | ❌ Ausente | P1 | |
 | Planilla de calificaciones imprimible | ✅ Implementado | — | |
 | Horarios de clase | ❌ Ausente | P1 | |
+| Tareas y evidencias de entrega | ❌ Ausente | **P1** | Ver §P1-E más abajo |
 | Seguimiento de proyectos transversales | ❌ Ausente | P2 | |
 
 ### 2.3 Comunicación y Portal
@@ -112,11 +113,60 @@ Estos items bloquean la adopción real o son obligatorios por ley:
 | Item | Descripción | Impacto |
 |------|-----------|---------|
 | Horarios de clase | Gestión de horarios por grupo/docente | Alto |
+| **Tareas con evidencias** | Asignación de tareas a grupos, entrega de archivos por estudiante, vista acudiente | **Alto** |
 | Portal móvil PWA | App móvil para acudientes | Alto |
 | Multi-sede | Gestión de colegios con varias sedes | Medio |
 | Comunicados targetizados | Mensajes a grado/grupo específico | Medio |
 | Paz y salvo | Documento oficial fin de año | Medio |
 | Inclusión (Dec. 366) | Adaptaciones curriculares por discapacidad | Legal |
+
+### P1-E: Módulo de Tareas con Evidencias de Entrega
+
+**Problema que resuelve:** Los docentes no tienen forma de asignar trabajos al grupo, compartir instrucciones escritas o un PDF de enunciado, ni verificar quién entregó evidencia de cumplimiento. Los acudientes tampoco pueden consultar si su hijo tiene tareas pendientes.
+
+**Actores y alcance:**
+
+| Actor | Funcionalidad |
+|-------|--------------|
+| **Docente** | Crear tarea (título, instrucciones, fecha límite, PDF opcional, grupo + asignatura opcional) · Ver listado de entregas por estudiante · Marcar entrega como revisada |
+| **Acudiente** | Vista de solo lectura de las tareas de su hijo y el estado de entrega (pendiente / entregado / revisado) |
+| **Estudiante** | Backend completamente implementado; UI diferida hasta que exista el rol de login de estudiante |
+
+**Regla de asignación:** Al crear una tarea, se auto-asigna a todos los estudiantes activos del grupo seleccionado.
+
+**Modelo de datos propuesto:**
+
+```
+tasks
+  id, group_id, subject_id (nullable), teacher_id, institution_id
+  title, instructions (text), file_path (nullable, PDF)
+  due_date, is_active
+  timestamps
+
+student_tasks
+  id, task_id, student_id
+  status: pending | submitted | reviewed
+  submission_file_path (nullable)
+  submission_notes (text, nullable)
+  reviewed_at (nullable), reviewed_by (nullable)
+  submitted_at (nullable)
+  timestamps
+```
+
+**Endpoints backend:**
+- `POST /api/tasks` — docente crea tarea, auto-asigna al grupo
+- `GET /api/tasks?group_id=X` — lista de tareas del docente
+- `GET /api/tasks/{task}/submissions` — docente ve entregas por estudiante
+- `PATCH /api/tasks/{task}/submissions/{studentTask}` — docente marca como revisado
+- `POST /api/tasks/{task}/submit` — estudiante sube evidencia (backend listo, UI diferida)
+- `GET /api/guardian/children/{student}/tasks` — acudiente ve tareas de su hijo
+
+**Frontend implementado (alcance actual):**
+- `/dashboard/tasks` — docente: crear y gestionar tareas
+- Portal acudiente: sección tareas en `/guardian/child/{id}`
+
+**Frontend diferido:**
+- UI de entrega para el estudiante — hasta que exista rol de login de estudiante
 
 ---
 
@@ -194,6 +244,7 @@ Este score se puede calcular en el backend como un endpoint `/api/reports/risk-s
 | API abierta | ✅ | ❌ | ❌ | ❌ |
 | **Riesgo estudiantil IA** | **⚠️ P1** | ❌ | ❌ | ❌ |
 | **Alertas automáticas** | **⚠️ P1** | ❌ | ❌ | ❌ |
+| **Tareas con evidencias + vista acudiente** | **⚠️ P1** | ⚠️ | ✅ | ⚠️ |
 
 ### Propuesta de Valor Única
 
@@ -218,6 +269,7 @@ Aula360 es el **único software académico colombiano** que combina:
 
 ### Q2 2026 (P1 — Diferenciación)
 - [ ] Horarios de clase
+- [ ] **Módulo de Tareas con Evidencias** (P1-E) — docente + acudiente; entrega estudiante diferida
 - [ ] Comunicados targetizados por grupo
 - [ ] Paz y salvo / Certificado de graduación
 - [ ] Inclusión educativa (Dec. 366)

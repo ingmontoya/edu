@@ -8,7 +8,7 @@
 
       <div class="space-y-6">
         <h1 class="text-4xl font-bold text-white leading-tight">
-          Gestión Escolar<br />Simplificada
+          Gestión Escolar<br>Simplificada
         </h1>
         <p class="text-lg text-primary-100 max-w-md">
           Plataforma integral para la gestión académica de instituciones educativas. Notas, asistencia, reportes y más.
@@ -29,11 +29,15 @@
         </div>
 
         <div class="mb-8">
-          <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Bienvenido</h2>
-          <p class="text-gray-500 dark:text-gray-400 mt-1">Ingrese sus credenciales para continuar</p>
+          <h2 class="text-2xl font-bold text-gray-900 dark:text-white">
+            Bienvenido
+          </h2>
+          <p class="text-gray-500 dark:text-gray-400 mt-1">
+            Ingrese sus credenciales para continuar
+          </p>
         </div>
 
-        <form @submit.prevent="handleLogin" class="space-y-5">
+        <form class="space-y-5" @submit.prevent="handleLogin">
           <div>
             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
               Correo electrónico
@@ -92,7 +96,9 @@
             variant="subtle"
             icon="i-lucide-alert-circle"
           >
-            <template #title>{{ errorMessage }}</template>
+            <template #title>
+              {{ errorMessage }}
+            </template>
           </UAlert>
 
           <UButton

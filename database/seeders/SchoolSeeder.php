@@ -201,9 +201,46 @@ class SchoolSeeder extends Seeder
         }
 
         // 11. Create Teacher Assignments
+        // María García López (teachers[0], Matemáticas) gets fixed assignments in 6° and 7°
+        $mariaTeacher = $teachers[0];
+        $mathSubjectNames = ['Matemáticas', 'Geometría', 'Estadística'];
+        $mariaGrades = array_slice($grades, 6, 2); // Sexto (index 6) and Séptimo (index 7)
+        $mariaGroupIds = [];
+
+        foreach ($mariaGrades as $grade) {
+            foreach ($groups as $group) {
+                if ($group->grade_id === $grade->id) {
+                    $mariaGroupIds[] = $group->id;
+                }
+            }
+        }
+
+        $assignedKeys = []; // track subject_id+group_id pairs already assigned
+
+        foreach ($mariaGroupIds as $groupId) {
+            $group = collect($groups)->firstWhere('id', $groupId);
+            $mathSubjects = Subject::where('grade_id', $group->grade_id)
+                ->whereIn('name', $mathSubjectNames)
+                ->get();
+
+            foreach ($mathSubjects as $subject) {
+                TeacherAssignment::create([
+                    'teacher_id' => $mariaTeacher->id,
+                    'subject_id' => $subject->id,
+                    'group_id' => $groupId,
+                    'academic_year_id' => $year->id,
+                ]);
+                $assignedKeys["{$subject->id}-{$groupId}"] = true;
+            }
+        }
+
+        // All remaining subjects assigned randomly across all teachers
         foreach ($groups as $group) {
             $gradeSubjects = Subject::where('grade_id', $group->grade_id)->get();
             foreach ($gradeSubjects as $subject) {
+                if (isset($assignedKeys["{$subject->id}-{$group->id}"])) {
+                    continue;
+                }
                 TeacherAssignment::create([
                     'teacher_id' => $teachers[array_rand($teachers)]->id,
                     'subject_id' => $subject->id,

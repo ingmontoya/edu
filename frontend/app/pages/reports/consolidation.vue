@@ -71,8 +71,12 @@ onMounted(async () => {
         <UPageCard v-if="!loading" variant="subtle">
           <div class="text-center py-12">
             <UIcon name="i-lucide-file-spreadsheet" class="w-12 h-12 text-primary mx-auto mb-4" />
-            <h3 class="text-lg font-semibold mb-2">Consolidado de Notas</h3>
-            <p class="text-muted">Seleccione un grupo y periodo para ver el consolidado de notas por estudiante</p>
+            <h3 class="text-lg font-semibold mb-2">
+              Consolidado de Notas
+            </h3>
+            <p class="text-muted">
+              Seleccione un grupo y periodo para ver el consolidado de notas por estudiante
+            </p>
           </div>
         </UPageCard>
       </div>

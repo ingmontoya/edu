@@ -39,7 +39,7 @@ export const useAttendance = () => {
 
   // Bulk save attendance
   const saveAttendance = (groupId: number, periodId: number, date: string, records: AttendanceInput[]) => {
-    return api.post<{ message: string; count: number }>('/attendance/bulk', {
+    return api.post<{ message: string, count: number }>('/attendance/bulk', {
       group_id: groupId,
       period_id: periodId,
       date,
@@ -48,7 +48,7 @@ export const useAttendance = () => {
   }
 
   // Update single attendance record
-  const updateAttendance = (id: number, data: { status: string; observation?: string }) => {
+  const updateAttendance = (id: number, data: { status: string, observation?: string }) => {
     return api.put<Attendance>(`/attendance/${id}`, data)
   }
 

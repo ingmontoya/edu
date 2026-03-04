@@ -55,8 +55,8 @@ const filteredRemedials = computed(() => {
   if (search.value) {
     const searchLower = search.value.toLowerCase()
     result = result.filter(r =>
-      r.title.toLowerCase().includes(searchLower) ||
-      r.description.toLowerCase().includes(searchLower)
+      r.title.toLowerCase().includes(searchLower)
+      || r.description.toLowerCase().includes(searchLower)
     )
   }
 
@@ -209,7 +209,9 @@ onMounted(async () => {
                       {{ getRemedialTypeLabel(remedial.type) }}
                     </UBadge>
                   </div>
-                  <h4 class="font-semibold">{{ remedial.title }}</h4>
+                  <h4 class="font-semibold">
+                    {{ remedial.title }}
+                  </h4>
                 </div>
                 <UDropdownMenu
                   :items="[
@@ -226,7 +228,9 @@ onMounted(async () => {
                 </UDropdownMenu>
               </div>
 
-              <p class="text-sm text-muted line-clamp-2">{{ remedial.description }}</p>
+              <p class="text-sm text-muted line-clamp-2">
+                {{ remedial.description }}
+              </p>
 
               <div class="flex flex-wrap gap-2 text-xs text-muted">
                 <span class="flex items-center gap-1">
@@ -247,20 +251,36 @@ onMounted(async () => {
               <!-- Stats -->
               <div v-if="getStatusStats(remedial)" class="grid grid-cols-4 gap-2 pt-2 border-t">
                 <div class="text-center">
-                  <p class="text-sm font-bold">{{ getStatusStats(remedial)!.total }}</p>
-                  <p class="text-xs text-muted">Total</p>
+                  <p class="text-sm font-bold">
+                    {{ getStatusStats(remedial)!.total }}
+                  </p>
+                  <p class="text-xs text-muted">
+                    Total
+                  </p>
                 </div>
                 <div class="text-center">
-                  <p class="text-sm font-bold text-success-600">{{ getStatusStats(remedial)!.passed }}</p>
-                  <p class="text-xs text-muted">Aprobados</p>
+                  <p class="text-sm font-bold text-success-600">
+                    {{ getStatusStats(remedial)!.passed }}
+                  </p>
+                  <p class="text-xs text-muted">
+                    Aprobados
+                  </p>
                 </div>
                 <div class="text-center">
-                  <p class="text-sm font-bold text-error-600">{{ getStatusStats(remedial)!.failed }}</p>
-                  <p class="text-xs text-muted">Reprobados</p>
+                  <p class="text-sm font-bold text-error-600">
+                    {{ getStatusStats(remedial)!.failed }}
+                  </p>
+                  <p class="text-xs text-muted">
+                    Reprobados
+                  </p>
                 </div>
                 <div class="text-center">
-                  <p class="text-sm font-bold text-warning-600">{{ getStatusStats(remedial)!.pending }}</p>
-                  <p class="text-xs text-muted">Pendientes</p>
+                  <p class="text-sm font-bold text-warning-600">
+                    {{ getStatusStats(remedial)!.pending }}
+                  </p>
+                  <p class="text-xs text-muted">
+                    Pendientes
+                  </p>
                 </div>
               </div>
 
@@ -282,8 +302,12 @@ onMounted(async () => {
         <UPageCard v-else variant="subtle">
           <div class="flex flex-col items-center justify-center py-12 text-muted">
             <UIcon name="i-lucide-clipboard-list" class="w-12 h-12 mb-4" />
-            <p class="text-lg font-medium mb-2">No hay actividades de nivelacion</p>
-            <p class="text-sm mb-4">Cree una nueva actividad para comenzar</p>
+            <p class="text-lg font-medium mb-2">
+              No hay actividades de nivelacion
+            </p>
+            <p class="text-sm mb-4">
+              Cree una nueva actividad para comenzar
+            </p>
             <UButton
               to="/siee/remedials/new"
               icon="i-lucide-plus"
@@ -299,11 +323,15 @@ onMounted(async () => {
       <template #content>
         <UCard>
           <template #header>
-            <h3 class="font-semibold">Eliminar Actividad</h3>
+            <h3 class="font-semibold">
+              Eliminar Actividad
+            </h3>
           </template>
 
           <p>Esta seguro de eliminar la actividad "{{ selectedRemedial?.title }}"?</p>
-          <p class="text-sm text-muted mt-2">Esta accion no se puede deshacer.</p>
+          <p class="text-sm text-muted mt-2">
+            Esta accion no se puede deshacer.
+          </p>
 
           <template #footer>
             <div class="flex justify-end gap-2">

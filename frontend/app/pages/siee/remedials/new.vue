@@ -12,9 +12,10 @@ const loading = ref(false)
 const assigning = ref(false)
 const createdRemedialId = ref<number | null>(null)
 
+const activePeriodId = computed(() => academicStore.activePeriod?.id)
+
 const form = ref({
   subject_id: undefined as number | undefined,
-  period_id: undefined as number | undefined,
   group_id: undefined as number | undefined,
   title: '',
   description: '',
@@ -29,10 +30,6 @@ const subjectItems = computed(() =>
   academicStore.subjects.map(s => ({ value: s.id, label: s.name }))
 )
 
-const periodItems = computed(() =>
-  academicStore.periods.map(p => ({ value: p.id, label: p.name }))
-)
-
 const groupItems = computed(() =>
   academicStore.groups.map(g => ({ value: g.id, label: g.full_name || `${g.grade?.name} ${g.name}` }))
 )
@@ -44,11 +41,11 @@ const typeItems = [
 ]
 
 const isValid = computed(() =>
-  form.value.subject_id &&
-  form.value.period_id &&
-  form.value.title.trim() &&
-  form.value.description.trim() &&
-  form.value.due_date
+  form.value.subject_id
+  && activePeriodId.value
+  && form.value.title.trim()
+  && form.value.description.trim()
+  && form.value.due_date
 )
 
 // Methods
@@ -62,6 +59,7 @@ const handleSubmit = async () => {
   try {
     const remedial = await createRemedial({
       ...form.value,
+      period_id: activePeriodId.value,
       teacher_id: auth.user?.teacher?.id || auth.user?.id
     })
     createdRemedialId.value = remedial.id
@@ -107,8 +105,8 @@ const handleSkipAssign = () => {
 onMounted(async () => {
   await Promise.all([
     academicStore.fetchSubjects(),
-    academicStore.fetchPeriods(),
-    academicStore.fetchGroups()
+    academicStore.fetchGroups(),
+    academicStore.fetchPeriods()
   ])
 })
 </script>
@@ -135,7 +133,7 @@ onMounted(async () => {
       <div class="flex flex-col gap-6 p-6">
         <!-- Creation Form -->
         <UPageCard v-if="!createdRemedialId" title="Informacion de la Actividad" variant="subtle">
-          <form @submit.prevent="handleSubmit" class="flex flex-col gap-4">
+          <form class="flex flex-col gap-4" @submit.prevent="handleSubmit">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
               <UFormField label="Asignatura" required>
                 <USelectMenu
@@ -146,14 +144,6 @@ onMounted(async () => {
                 />
               </UFormField>
 
-              <UFormField label="Periodo" required>
-                <USelectMenu
-                  v-model="form.period_id"
-                  :items="periodItems"
-                  value-key="value"
-                  placeholder="Seleccionar periodo"
-                />
-              </UFormField>
             </div>
 
             <UFormField label="Titulo" required>
@@ -176,16 +166,20 @@ onMounted(async () => {
                 <div
                   v-for="type in typeItems"
                   :key="type.value"
-                  @click="form.type = type.value as 'recovery' | 'reinforcement' | 'leveling'"
                   :class="[
                     'p-3 rounded-lg border-2 cursor-pointer transition-colors',
                     form.type === type.value
                       ? 'border-primary bg-primary-50'
                       : 'border-neutral-200 hover:border-neutral-300'
                   ]"
+                  @click="form.type = type.value as 'recovery' | 'reinforcement' | 'leveling'"
                 >
-                  <p class="font-medium">{{ type.label }}</p>
-                  <p class="text-xs text-muted">{{ type.description }}</p>
+                  <p class="font-medium">
+                    {{ type.label }}
+                  </p>
+                  <p class="text-xs text-muted">
+                    {{ type.description }}
+                  </p>
                 </div>
               </div>
             </UFormField>

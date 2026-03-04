@@ -13,12 +13,12 @@ const loading = ref(true)
 const saving = ref(false)
 const achievements = ref<Achievement[]>([])
 const students = ref<Student[]>([])
-const records = ref<Record<number, Record<number, { status: string; observations: string }>>>({})
+const records = ref<Record<number, Record<number, { status: string, observations: string }>>>({})
 
 // Filters
 const selectedGrade = ref<number | undefined>()
 const selectedSubject = ref<number | undefined>()
-const selectedPeriod = ref<number | undefined>()
+const activePeriodId = computed(() => academicStore.activePeriod?.id)
 const selectedGroup = ref<number | undefined>()
 const selectedAchievement = ref<number | undefined>()
 
@@ -41,9 +41,6 @@ const groupItems = computed(() => {
     .map(g => ({ value: g.id, label: g.full_name || `${g.grade?.name} ${g.name}` }))
 })
 
-const periodItems = computed(() =>
-  academicStore.periods.map(p => ({ value: p.id, label: p.name }))
-)
 
 const achievementItems = computed(() =>
   achievements.value.map(a => ({ value: a.id, label: `${a.code || ''} - ${a.description.substring(0, 50)}...` }))
@@ -75,7 +72,7 @@ const stats = computed(() => {
 
 // Methods
 const fetchAchievements = async () => {
-  if (!selectedSubject.value || !selectedPeriod.value) {
+  if (!selectedSubject.value || !activePeriodId.value) {
     achievements.value = []
     loading.value = false
     return
@@ -85,7 +82,7 @@ const fetchAchievements = async () => {
   try {
     achievements.value = await getAchievements({
       subject_id: selectedSubject.value,
-      period_id: selectedPeriod.value
+      period_id: activePeriodId.value
     })
   } catch (error) {
     toast.add({ title: 'Error', description: 'No se pudieron cargar los logros', color: 'error' })
@@ -106,11 +103,11 @@ const fetchStudents = async () => {
     students.value = studentsResponse.data || studentsResponse
 
     // Initialize records for current achievements
-    achievements.value.forEach(a => {
+    achievements.value.forEach((a) => {
       if (!records.value[a.id]) {
         records.value[a.id] = {}
       }
-      students.value.forEach(s => {
+      students.value.forEach((s) => {
         if (!records.value[a.id][s.id]) {
           records.value[a.id][s.id] = { status: 'pending', observations: '' }
         }
@@ -125,7 +122,7 @@ const fetchStudents = async () => {
 
 const setAllStatus = (status: string) => {
   if (!selectedAchievement.value) return
-  students.value.forEach(s => {
+  students.value.forEach((s) => {
     records.value[selectedAchievement.value!][s.id].status = status
   })
 }
@@ -167,10 +164,10 @@ watch(selectedGrade, () => {
   students.value = []
 })
 
-watch([selectedSubject, selectedPeriod], () => {
+watch([selectedSubject], () => {
   selectedAchievement.value = undefined
   // Only fetch if both values are set
-  if (selectedSubject.value && selectedPeriod.value) {
+  if (selectedSubject.value && activePeriodId.value) {
     fetchAchievements()
   } else {
     achievements.value = []
@@ -240,15 +237,6 @@ onMounted(async () => {
               />
             </UFormField>
 
-            <UFormField label="Periodo">
-              <USelectMenu
-                v-model="selectedPeriod"
-                :items="periodItems"
-                value-key="value"
-                placeholder="Seleccionar periodo"
-              />
-            </UFormField>
-
             <UFormField label="Logro">
               <USelectMenu
                 v-model="selectedAchievement"
@@ -275,10 +263,16 @@ onMounted(async () => {
         <UPageCard v-if="currentAchievement" variant="subtle">
           <div class="flex items-start gap-4">
             <div class="flex-1">
-              <h4 class="font-semibold">{{ currentAchievement.code }}</h4>
-              <p class="text-muted mt-1">{{ currentAchievement.description }}</p>
+              <h4 class="font-semibold">
+                {{ currentAchievement.code }}
+              </h4>
+              <p class="text-muted mt-1">
+                {{ currentAchievement.description }}
+              </p>
               <div v-if="currentAchievement.indicators?.length" class="mt-3">
-                <p class="text-sm font-medium mb-2">Indicadores:</p>
+                <p class="text-sm font-medium mb-2">
+                  Indicadores:
+                </p>
                 <ul class="text-sm text-muted space-y-1">
                   <li v-for="ind in currentAchievement.indicators" :key="ind.id">
                     <span class="font-mono">{{ ind.code }}:</span> {{ ind.description }}
@@ -288,20 +282,36 @@ onMounted(async () => {
             </div>
             <div v-if="stats" class="grid grid-cols-2 gap-3 text-center">
               <div class="p-2 bg-success-50 rounded">
-                <p class="text-lg font-bold text-success-600">{{ stats.achieved }}</p>
-                <p class="text-xs text-success-600">Alcanzado</p>
+                <p class="text-lg font-bold text-success-600">
+                  {{ stats.achieved }}
+                </p>
+                <p class="text-xs text-success-600">
+                  Alcanzado
+                </p>
               </div>
               <div class="p-2 bg-error-50 rounded">
-                <p class="text-lg font-bold text-error-600">{{ stats.notAchieved }}</p>
-                <p class="text-xs text-error-600">No Alcanzado</p>
+                <p class="text-lg font-bold text-error-600">
+                  {{ stats.notAchieved }}
+                </p>
+                <p class="text-xs text-error-600">
+                  No Alcanzado
+                </p>
               </div>
               <div class="p-2 bg-warning-50 rounded">
-                <p class="text-lg font-bold text-warning-600">{{ stats.inProgress }}</p>
-                <p class="text-xs text-warning-600">En Progreso</p>
+                <p class="text-lg font-bold text-warning-600">
+                  {{ stats.inProgress }}
+                </p>
+                <p class="text-xs text-warning-600">
+                  En Progreso
+                </p>
               </div>
               <div class="p-2 bg-neutral-100 rounded">
-                <p class="text-lg font-bold text-neutral-600">{{ stats.pending }}</p>
-                <p class="text-xs text-neutral-600">Pendiente</p>
+                <p class="text-lg font-bold text-neutral-600">
+                  {{ stats.pending }}
+                </p>
+                <p class="text-xs text-neutral-600">
+                  Pendiente
+                </p>
               </div>
             </div>
           </div>
@@ -319,10 +329,20 @@ onMounted(async () => {
         <UPageCard v-if="selectedAchievement && selectedGroup" title="Registro por Estudiante" variant="subtle">
           <template #actions>
             <div class="flex gap-2">
-              <UButton size="xs" variant="soft" color="success" @click="setAllStatus('achieved')">
+              <UButton
+                size="xs"
+                variant="soft"
+                color="success"
+                @click="setAllStatus('achieved')"
+              >
                 Marcar todos Alcanzado
               </UButton>
-              <UButton size="xs" variant="soft" color="error" @click="setAllStatus('not_achieved')">
+              <UButton
+                size="xs"
+                variant="soft"
+                color="error"
+                @click="setAllStatus('not_achieved')"
+              >
                 Marcar todos No Alcanzado
               </UButton>
             </div>
@@ -332,9 +352,15 @@ onMounted(async () => {
             <table class="w-full">
               <thead>
                 <tr class="border-b">
-                  <th class="text-left py-3 px-4 font-medium">Estudiante</th>
-                  <th class="text-left py-3 px-4 font-medium w-48">Estado</th>
-                  <th class="text-left py-3 px-4 font-medium">Observaciones</th>
+                  <th class="text-left py-3 px-4 font-medium">
+                    Estudiante
+                  </th>
+                  <th class="text-left py-3 px-4 font-medium w-48">
+                    Estado
+                  </th>
+                  <th class="text-left py-3 px-4 font-medium">
+                    Observaciones
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -343,8 +369,12 @@ onMounted(async () => {
                     <div class="flex items-center gap-3">
                       <UAvatar :alt="student.user?.name" size="sm" />
                       <div>
-                        <p class="font-medium">{{ student.user?.name }}</p>
-                        <p class="text-xs text-muted">{{ student.enrollment_code }}</p>
+                        <p class="font-medium">
+                          {{ student.user?.name }}
+                        </p>
+                        <p class="text-xs text-muted">
+                          {{ student.enrollment_code }}
+                        </p>
                       </div>
                     </div>
                   </td>

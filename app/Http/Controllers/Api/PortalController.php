@@ -3,13 +3,14 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\Student;
-use App\Models\Period;
 use App\Models\AcademicYear;
 use App\Models\Announcement;
+use App\Models\Period;
+use App\Models\Student;
+use App\Models\StudentTask;
 use App\Services\ReportCardPdfService;
-use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class PortalController extends Controller
 {
@@ -21,7 +22,7 @@ class PortalController extends Controller
     {
         $guardian = auth()->user()->guardian;
 
-        if (!$guardian) {
+        if (! $guardian) {
             return response()->json(['message' => 'No es un acudiente registrado'], 403);
         }
 
@@ -39,7 +40,7 @@ class PortalController extends Controller
     {
         $guardian = auth()->user()->guardian;
 
-        if (!$guardian || !$guardian->students->contains($student)) {
+        if (! $guardian || ! $guardian->students->contains($student)) {
             return response()->json(['message' => 'No tiene acceso a este estudiante'], 403);
         }
 
@@ -54,7 +55,7 @@ class PortalController extends Controller
         return response()->json([
             'student' => $student,
             'periods' => $periods,
-            'active_period' => $activePeriod
+            'active_period' => $activePeriod,
         ]);
     }
 
@@ -65,7 +66,7 @@ class PortalController extends Controller
     {
         $guardian = auth()->user()->guardian;
 
-        if (!$guardian || !$guardian->students->contains($student)) {
+        if (! $guardian || ! $guardian->students->contains($student)) {
             return response()->json(['message' => 'No tiene acceso a este estudiante'], 403);
         }
 
@@ -87,7 +88,7 @@ class PortalController extends Controller
                 'subject_name' => $record->subject->name,
                 'area_name' => $record->subject->area?->name,
                 'grade' => $record->grade,
-                'observations' => $record->observations
+                'observations' => $record->observations,
             ];
         });
 
@@ -101,7 +102,7 @@ class PortalController extends Controller
     {
         $guardian = auth()->user()->guardian;
 
-        if (!$guardian || !$guardian->students->contains($student)) {
+        if (! $guardian || ! $guardian->students->contains($student)) {
             return response()->json(['message' => 'No tiene acceso a este estudiante'], 403);
         }
 
@@ -121,7 +122,7 @@ class PortalController extends Controller
             'absent' => $attendances->where('status', 'absent')->count(),
             'late' => $attendances->where('status', 'late')->count(),
             'excused' => $attendances->where('status', 'excused')->count(),
-            'total' => $attendances->count()
+            'total' => $attendances->count(),
         ];
 
         return response()->json($summary);
@@ -132,7 +133,7 @@ class PortalController extends Controller
         // Verify guardian has access to this student
         $guardian = auth()->user()->guardian;
 
-        if (!$guardian || !$guardian->students->contains($student)) {
+        if (! $guardian || ! $guardian->students->contains($student)) {
             return response()->json(['message' => 'No tiene acceso a este estudiante'], 403);
         }
 
@@ -146,6 +147,35 @@ class PortalController extends Controller
         );
 
         return $pdf->download($filename);
+    }
+
+    public function tasks(Request $request): JsonResponse
+    {
+        $guardian = auth()->user()->guardian;
+
+        if (! $guardian) {
+            return response()->json(['message' => 'No es un acudiente registrado'], 403);
+        }
+
+        $studentIds = $guardian->students()->pluck('students.id');
+
+        if ($request->student_id && $studentIds->contains($request->student_id)) {
+            $filterIds = collect([$request->student_id]);
+        } else {
+            $filterIds = $studentIds;
+        }
+
+        $studentTasks = StudentTask::with([
+            'task.teacher.user',
+            'task.subject',
+            'task.group.grade',
+            'student.user',
+        ])
+            ->whereIn('student_id', $filterIds)
+            ->orderByDesc('created_at')
+            ->get();
+
+        return response()->json($studentTasks);
     }
 
     public function announcements(): JsonResponse

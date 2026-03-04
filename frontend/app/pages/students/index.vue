@@ -230,8 +230,18 @@ const downloadTemplate = () => {
 
         <template #right>
           <div class="flex gap-2">
-            <UButton icon="i-lucide-upload" label="Importar CSV" variant="outline" @click="openImportModal" />
-            <UButton to="/students/new" icon="i-lucide-plus" label="Nuevo Estudiante" color="primary" />
+            <UButton
+              icon="i-lucide-upload"
+              label="Importar CSV"
+              variant="outline"
+              @click="openImportModal"
+            />
+            <UButton
+              to="/students/new"
+              icon="i-lucide-plus"
+              label="Nuevo Estudiante"
+              color="primary"
+            />
           </div>
         </template>
       </UDashboardNavbar>
@@ -383,8 +393,12 @@ const downloadTemplate = () => {
         <template #content>
           <UCard>
             <template #header>
-              <h3 class="text-lg font-semibold">Importar Estudiantes desde CSV</h3>
-              <p class="text-sm text-muted">Suba un archivo CSV con los datos de los estudiantes</p>
+              <h3 class="text-lg font-semibold">
+                Importar Estudiantes desde CSV
+              </h3>
+              <p class="text-sm text-muted">
+                Suba un archivo CSV con los datos de los estudiantes
+              </p>
             </template>
 
             <div class="space-y-4">
@@ -403,11 +417,13 @@ const downloadTemplate = () => {
                   accept=".csv,.txt"
                   class="w-full px-3 py-2 border rounded-md dark:bg-neutral-900 dark:border-neutral-700"
                   @change="handleFileSelect"
-                />
+                >
               </UFormField>
 
               <div class="text-sm text-muted">
-                <p class="font-medium mb-1">Formato esperado del CSV:</p>
+                <p class="font-medium mb-1">
+                  Formato esperado del CSV:
+                </p>
                 <p>nombre, documento_tipo, documento_numero, email, telefono, direccion, codigo_matricula</p>
                 <UButton
                   variant="link"
@@ -420,9 +436,13 @@ const downloadTemplate = () => {
               </div>
 
               <div v-if="importErrors.length > 0" class="p-3 bg-red-50 dark:bg-red-900/20 rounded-md">
-                <p class="text-sm font-medium text-red-600 dark:text-red-400 mb-2">Errores durante la importacion:</p>
+                <p class="text-sm font-medium text-red-600 dark:text-red-400 mb-2">
+                  Errores durante la importacion:
+                </p>
                 <ul class="text-xs text-red-600 dark:text-red-400 list-disc pl-4 max-h-32 overflow-y-auto">
-                  <li v-for="(error, i) in importErrors" :key="i">{{ error }}</li>
+                  <li v-for="(error, i) in importErrors" :key="i">
+                    {{ error }}
+                  </li>
                 </ul>
               </div>
             </div>

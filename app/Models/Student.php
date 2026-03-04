@@ -81,6 +81,11 @@ class Student extends Model
         return $this->hasMany(StudentAiAnalysis::class);
     }
 
+    public function studentTasks(): HasMany
+    {
+        return $this->hasMany(StudentTask::class);
+    }
+
     public function scopeActive($query)
     {
         return $query->where('status', 'active');

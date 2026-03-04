@@ -7,8 +7,49 @@ export default defineNuxtConfig({
     '@pinia/nuxt'
   ],
 
+  imports: {
+    dirs: ['stores']
+  },
+
   devtools: {
     enabled: true
+  },
+
+  app: {
+    head: {
+      title: 'Aula360',
+      meta: [
+        { name: 'description', content: 'Plataforma de gestión académica para instituciones educativas' }
+      ]
+    }
+  },
+
+  css: ['~/assets/css/main.css'],
+
+  runtimeConfig: {
+    public: {
+      // @ts-ignore - process.env is available at build time
+      siteUrl: process.env.NUXT_PUBLIC_SITE_URL || 'http://localhost:3002',
+      // @ts-ignore - process.env is available at build time
+      apiUrl: process.env.NUXT_PUBLIC_API_URL || 'http://localhost:9090/api'
+    }
+  },
+
+  routeRules: {
+    '/api/**': {
+      proxy: { to: 'http://localhost:9090/api/**' }
+    }
+  },
+
+  compatibilityDate: '2024-07-11',
+
+  eslint: {
+    config: {
+      stylistic: {
+        commaDangle: 'never',
+        braceStyle: '1tbs'
+      }
+    }
   },
 
   icon: {
@@ -64,50 +105,11 @@ export default defineNuxtConfig({
         'lucide:check-circle',
         'lucide:copy',
         'lucide:upload',
-        'lucide:file-spreadsheet'
+        'lucide:file-spreadsheet',
+        'lucide:paperclip',
+        'lucide:file-up'
       ],
       scan: true
-    }
-  },
-
-  css: ['~/assets/css/main.css'],
-
-  runtimeConfig: {
-    public: {
-      // @ts-ignore - process.env is available at build time
-      siteUrl: process.env.NUXT_PUBLIC_SITE_URL || 'http://localhost:3002',
-      // @ts-ignore - process.env is available at build time
-      apiUrl: process.env.NUXT_PUBLIC_API_URL || 'http://localhost:9090/api'
-    }
-  },
-
-  routeRules: {
-    '/api/**': {
-      proxy: { to: 'http://localhost:9090/api/**' }
-    }
-  },
-
-  compatibilityDate: '2024-07-11',
-
-  app: {
-    head: {
-      title: 'Aula360',
-      meta: [
-        { name: 'description', content: 'Plataforma de gestión académica para instituciones educativas' }
-      ]
-    }
-  },
-
-  imports: {
-    dirs: ['stores']
-  },
-
-  eslint: {
-    config: {
-      stylistic: {
-        commaDangle: 'never',
-        braceStyle: '1tbs'
-      }
     }
   }
 })

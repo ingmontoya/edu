@@ -1,0 +1,51 @@
+# Version control
+.git
+.gitignore
+
+# PHP vendor dependencies (installed in Docker)
+vendor/
+
+# Node modules (installed in Docker)
+node_modules/
+frontend/node_modules/
+
+# Nuxt build artifacts (built in Docker Stage 1)
+frontend/.nuxt/
+frontend/.output/
+
+# Laravel storage logs (keep other storage dirs for structure)
+storage/logs/
+
+# Environment files (secrets must never be baked into images)
+.env
+.env.*
+!.env.example
+
+# Log files
+*.log
+
+# PHPUnit cache and coverage
+.phpunit.result.cache
+.phpunit.cache/
+
+# Test suite (not needed in production image)
+tests/
+
+# Docker Compose files (only needed on the host)
+docker-compose.yml
+docker-compose.yaml
+docker-compose.*.yml
+compose.yaml
+compose.yml
+
+# IDE and editor files
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# macOS metadata
+.DS_Store
+
+# CI/CD (not needed in image)
+.github/

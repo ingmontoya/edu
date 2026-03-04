@@ -1,0 +1,146 @@
+name: Build and Deploy Aula360
+
+on:
+  push:
+    branches:
+      - master
+      - main
+  workflow_dispatch:
+
+env:
+  K8S_NAMESPACE: aula360
+  IMAGE_NAME: ingmontoyav/aula360
+  DEPLOYMENT_NAME: aula360-app
+
+jobs:
+  build-app:
+    name: Build, Push & Deploy
+    runs-on: ubuntu-latest
+
+    steps:
+      # ── 1. Checkout ─────────────────────────────────────────────────────
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # ── 2. Docker Buildx ─────────────────────────────────────────────────
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      # ── 3. Docker Hub login ───────────────────────────────────────────────
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      # ── 4. Compute image version ─────────────────────────────────────────
+      - name: Extract version tag
+        id: version
+        run: |
+          VERSION="v$(date +%Y%m%d)-$(echo $GITHUB_SHA | head -c 7)"
+          echo "VERSION=${VERSION}" >> $GITHUB_OUTPUT
+          echo "Building version: ${VERSION}"
+
+      # ── 5. Build and push image ───────────────────────────────────────────
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./Dockerfile
+          platforms: linux/amd64
+          push: true
+          tags: |
+            ${{ env.IMAGE_NAME }}:latest
+            ${{ env.IMAGE_NAME }}:${{ steps.version.outputs.VERSION }}
+          build-args: |
+            NUXT_PUBLIC_API_URL=https://app.aula360.co/api
+          cache-from: type=registry,ref=${{ env.IMAGE_NAME }}:cache
+          cache-to: type=registry,ref=${{ env.IMAGE_NAME }}:cache,mode=max
+
+      # ── 6. Setup kubectl ─────────────────────────────────────────────────
+      - name: Set up kubectl
+        uses: azure/setup-kubectl@v4
+        with:
+          version: latest
+
+      # ── 7. Configure kubeconfig ──────────────────────────────────────────
+      - name: Configure kubectl
+        run: |
+          mkdir -p ~/.kube
+          echo "${{ secrets.KUBE_CONFIG }}" | base64 -d > ~/.kube/config
+          chmod 600 ~/.kube/config
+
+      # ── 8. Verify cluster connection ─────────────────────────────────────
+      - name: Verify cluster connection
+        run: |
+          kubectl cluster-info
+          kubectl get nodes
+
+      # ── 9. Apply Kubernetes manifests ────────────────────────────────────
+      # NOTE: secrets.yaml is NOT applied here — it must be applied manually
+      # once with real values: kubectl apply -f k8s/secrets.yaml
+      - name: Apply Kubernetes manifests
+        run: |
+          kubectl apply -f k8s/namespace.yaml
+          kubectl apply -f k8s/deployment.yaml
+          kubectl apply -f k8s/service.yaml
+          kubectl apply -f k8s/ingress.yaml
+
+      # ── 10. Update deployment image ───────────────────────────────────────
+      - name: Set new image version
+        run: |
+          kubectl set image deployment/${{ env.DEPLOYMENT_NAME }} \
+            aula360=${{ env.IMAGE_NAME }}:${{ steps.version.outputs.VERSION }} \
+            -n ${{ env.K8S_NAMESPACE }}
+
+      # ── 11. Wait for rollout ─────────────────────────────────────────────
+      - name: Wait for rollout to complete
+        run: |
+          kubectl rollout status deployment/${{ env.DEPLOYMENT_NAME }} \
+            -n ${{ env.K8S_NAMESPACE }} \
+            --timeout=5m
+
+      # ── 12. Post-deploy artisan commands ─────────────────────────────────
+      - name: Run post-deploy commands
+        run: |
+          POD=$(kubectl get pod \
+            -n ${{ env.K8S_NAMESPACE }} \
+            -l app=${{ env.DEPLOYMENT_NAME }} \
+            -o jsonpath="{.items[0].metadata.name}")
+
+          echo "Running post-deploy commands on pod: ${POD}"
+
+          # Cache configuration for production performance
+          kubectl exec -n ${{ env.K8S_NAMESPACE }} ${POD} -- \
+            php artisan config:cache
+
+          kubectl exec -n ${{ env.K8S_NAMESPACE }} ${POD} -- \
+            php artisan route:cache
+
+          kubectl exec -n ${{ env.K8S_NAMESPACE }} ${POD} -- \
+            php artisan view:cache
+
+          # Run database migrations (safe with --force in production)
+          kubectl exec -n ${{ env.K8S_NAMESPACE }} ${POD} -- \
+            php artisan migrate --force
+
+          # Restart queue worker to pick up new code
+          kubectl exec -n ${{ env.K8S_NAMESPACE }} ${POD} -- \
+            php artisan queue:restart
+
+          echo "Post-deploy commands completed successfully"
+
+      # ── 13. Show final status ─────────────────────────────────────────────
+      - name: Show deployment status
+        run: |
+          echo "=== Pods ==="
+          kubectl get pods -n ${{ env.K8S_NAMESPACE }}
+          echo ""
+          echo "=== Services ==="
+          kubectl get svc -n ${{ env.K8S_NAMESPACE }}
+          echo ""
+          echo "=== Ingress ==="
+          kubectl get ingress -n ${{ env.K8S_NAMESPACE }}
+          echo ""
+          echo "Deployed version: ${{ steps.version.outputs.VERSION }}"
+          echo "Image: ${{ env.IMAGE_NAME }}:${{ steps.version.outputs.VERSION }}"

@@ -11,7 +11,7 @@ export const useApi = () => {
     const response = await $fetch<T>(`${apiUrl}${endpoint}`, {
       credentials: 'omit',
       headers: {
-        Accept: 'application/json',
+        'Accept': 'application/json',
         'Content-Type': 'application/json',
         ...(auth.token && { Authorization: `Bearer ${auth.token}` })
       },

@@ -15,6 +15,12 @@ const mainLinks = computed<NavigationMenuItem[]>(() => {
       to: '/guardian',
       onSelect: () => { open.value = false }
     })
+    links.push({
+      label: 'Tareas',
+      icon: 'i-lucide-clipboard-list',
+      to: '/guardian/tasks',
+      onSelect: () => { open.value = false }
+    })
     return links
   }
 
@@ -115,6 +121,13 @@ const mainLinks = computed<NavigationMenuItem[]>(() => {
       label: 'Asistencia',
       icon: 'i-lucide-calendar-check',
       to: '/attendance',
+      onSelect: () => { open.value = false }
+    })
+
+    links.push({
+      label: 'Tareas',
+      icon: 'i-lucide-clipboard-list',
+      to: '/tasks',
       onSelect: () => { open.value = false }
     })
 

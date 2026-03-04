@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\AttendanceController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CertificateController;
 use App\Http\Controllers\Api\DisciplinaryController;
+use App\Http\Controllers\Api\GradeActivityController;
 use App\Http\Controllers\Api\GradeController;
 use App\Http\Controllers\Api\GradeRecordController;
 use App\Http\Controllers\Api\GroupController;
@@ -19,7 +20,9 @@ use App\Http\Controllers\Api\RemedialController;
 use App\Http\Controllers\Api\ReportCardController;
 use App\Http\Controllers\Api\ReportController;
 use App\Http\Controllers\Api\StudentController;
+use App\Http\Controllers\Api\StudentTaskController;
 use App\Http\Controllers\Api\SubjectController;
+use App\Http\Controllers\Api\TaskController;
 use App\Http\Controllers\Api\TeacherController;
 use Illuminate\Support\Facades\Route;
 
@@ -101,6 +104,14 @@ Route::middleware(['auth:sanctum', 'tenant'])->group(function () {
     Route::apiResource('guardians', GuardianController::class);
     Route::get('guardians/{guardian}/students', [GuardianController::class, 'students']);
 
+    // Grade Activities (Actividades Evaluativas)
+    Route::get('grade-activities', [GradeActivityController::class, 'index']);
+    Route::post('grade-activities', [GradeActivityController::class, 'store']);
+    Route::put('grade-activities/{gradeActivity}', [GradeActivityController::class, 'update']);
+    Route::delete('grade-activities/{gradeActivity}', [GradeActivityController::class, 'destroy']);
+    Route::get('grade-activities/{gradeActivity}/scores', [GradeActivityController::class, 'scores']);
+    Route::post('grade-activities/{gradeActivity}/scores/bulk', [GradeActivityController::class, 'bulkScores']);
+
     // Grade Records (Notas)
     Route::get('grade-records', [GradeRecordController::class, 'index']);
     Route::post('grade-records/bulk', [GradeRecordController::class, 'bulkStore']);
@@ -170,6 +181,19 @@ Route::middleware(['auth:sanctum', 'tenant'])->group(function () {
     Route::apiResource('disciplinary', DisciplinaryController::class);
     Route::get('students/{student}/disciplinary', [DisciplinaryController::class, 'studentHistory']);
 
+    // Tasks (Tareas)
+    Route::get('tasks', [TaskController::class, 'index']);
+    Route::post('tasks', [TaskController::class, 'store']);
+    Route::get('tasks/{task}', [TaskController::class, 'show']);
+    Route::post('tasks/{task}', [TaskController::class, 'update']); // POST for multipart
+    Route::delete('tasks/{task}', [TaskController::class, 'destroy']);
+    Route::get('tasks/{task}/attachment', [TaskController::class, 'downloadAttachment']);
+
+    // Student task submissions
+    Route::post('student-tasks/{studentTask}/submit', [StudentTaskController::class, 'submit']);
+    Route::get('student-tasks/{studentTask}/download', [StudentTaskController::class, 'downloadSubmission']);
+    Route::put('student-tasks/{studentTask}/review', [StudentTaskController::class, 'review']);
+
     // Portal Acudiente (rutas específicas)
     Route::prefix('guardian')->group(function () {
         Route::get('students', [PortalController::class, 'students']);
@@ -180,5 +204,6 @@ Route::middleware(['auth:sanctum', 'tenant'])->group(function () {
         Route::get('students/{student}/certificates/enrollment', [CertificateController::class, 'enrollmentPdf']);
         Route::get('students/{student}/certificates/grades', [CertificateController::class, 'gradesPdf']);
         Route::get('announcements', [PortalController::class, 'announcements']);
+        Route::get('tasks', [PortalController::class, 'tasks']);
     });
 });

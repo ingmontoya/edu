@@ -100,9 +100,15 @@ watch(selectedPeriod, () => {
             <div class="flex items-center gap-4">
               <UAvatar :alt="student.user?.name" size="xl" />
               <div>
-                <h2 class="text-xl font-semibold">{{ student.user?.name }}</h2>
-                <p class="text-muted">{{ student.group?.full_name }}</p>
-                <p class="text-sm text-muted">Documento: {{ student.user?.document_type }} {{ student.user?.document_number }}</p>
+                <h2 class="text-xl font-semibold">
+                  {{ student.user?.name }}
+                </h2>
+                <p class="text-muted">
+                  {{ student.group?.full_name }}
+                </p>
+                <p class="text-sm text-muted">
+                  Documento: {{ student.user?.document_type }} {{ student.user?.document_number }}
+                </p>
               </div>
             </div>
           </UPageCard>
@@ -126,19 +132,33 @@ watch(selectedPeriod, () => {
               <p class="text-3xl font-bold" :class="average ? getPerformanceColor(parseFloat(average)) === 'success' ? 'text-green-500' : getPerformanceColor(parseFloat(average)) === 'error' ? 'text-red-500' : 'text-primary' : ''">
                 {{ average || '-' }}
               </p>
-              <p class="text-sm text-muted">Promedio</p>
+              <p class="text-sm text-muted">
+                Promedio
+              </p>
             </UPageCard>
             <UPageCard variant="subtle" class="text-center">
-              <p class="text-3xl font-bold">{{ grades.filter(g => g.grade !== null).length }}</p>
-              <p class="text-sm text-muted">Asignaturas</p>
+              <p class="text-3xl font-bold">
+                {{ grades.filter(g => g.grade !== null).length }}
+              </p>
+              <p class="text-sm text-muted">
+                Asignaturas
+              </p>
             </UPageCard>
             <UPageCard variant="subtle" class="text-center">
-              <p class="text-3xl font-bold text-green-500">{{ attendance?.present || 0 }}</p>
-              <p class="text-sm text-muted">Asistencias</p>
+              <p class="text-3xl font-bold text-green-500">
+                {{ attendance?.present || 0 }}
+              </p>
+              <p class="text-sm text-muted">
+                Asistencias
+              </p>
             </UPageCard>
             <UPageCard variant="subtle" class="text-center">
-              <p class="text-3xl font-bold text-red-500">{{ attendance?.absent || 0 }}</p>
-              <p class="text-sm text-muted">Faltas</p>
+              <p class="text-3xl font-bold text-red-500">
+                {{ attendance?.absent || 0 }}
+              </p>
+              <p class="text-sm text-muted">
+                Faltas
+              </p>
             </UPageCard>
           </div>
 
@@ -148,17 +168,31 @@ watch(selectedPeriod, () => {
               <table class="w-full text-sm">
                 <thead>
                   <tr class="border-b">
-                    <th class="text-left p-3 font-medium">Asignatura</th>
-                    <th class="text-left p-3 font-medium">Área</th>
-                    <th class="text-center p-3 font-medium">Nota</th>
-                    <th class="text-center p-3 font-medium">Desempeño</th>
-                    <th class="text-left p-3 font-medium">Observaciones</th>
+                    <th class="text-left p-3 font-medium">
+                      Asignatura
+                    </th>
+                    <th class="text-left p-3 font-medium">
+                      Área
+                    </th>
+                    <th class="text-center p-3 font-medium">
+                      Nota
+                    </th>
+                    <th class="text-center p-3 font-medium">
+                      Desempeño
+                    </th>
+                    <th class="text-left p-3 font-medium">
+                      Observaciones
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr v-for="grade in grades" :key="grade.subject_id" class="border-b">
-                    <td class="p-3 font-medium">{{ grade.subject_name }}</td>
-                    <td class="p-3 text-muted">{{ grade.area_name }}</td>
+                    <td class="p-3 font-medium">
+                      {{ grade.subject_name }}
+                    </td>
+                    <td class="p-3 text-muted">
+                      {{ grade.area_name }}
+                    </td>
                     <td class="p-3 text-center">
                       <span
                         v-if="grade.grade"
@@ -183,7 +217,9 @@ watch(selectedPeriod, () => {
                         {{ getPerformanceLabel(grade.grade) }}
                       </UBadge>
                     </td>
-                    <td class="p-3 text-muted text-sm">{{ grade.observations || '-' }}</td>
+                    <td class="p-3 text-muted text-sm">
+                      {{ grade.observations || '-' }}
+                    </td>
                   </tr>
                 </tbody>
               </table>
@@ -194,7 +230,9 @@ watch(selectedPeriod, () => {
           <UPageCard v-else-if="selectedPeriod" variant="subtle">
             <div class="text-center py-8">
               <UIcon name="i-lucide-file-text" class="w-10 h-10 text-muted mx-auto mb-2" />
-              <p class="text-muted">No hay calificaciones registradas para este periodo</p>
+              <p class="text-muted">
+                No hay calificaciones registradas para este periodo
+              </p>
             </div>
           </UPageCard>
         </template>

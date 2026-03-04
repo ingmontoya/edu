@@ -148,20 +148,36 @@ onMounted(async () => {
           >
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
               <div class="p-4 rounded-lg bg-green-50 dark:bg-green-900/20 text-center">
-                <p class="text-lg font-bold text-green-600">Superior</p>
-                <p class="text-sm text-green-600">4.6 - 5.0</p>
+                <p class="text-lg font-bold text-green-600">
+                  Superior
+                </p>
+                <p class="text-sm text-green-600">
+                  4.6 - 5.0
+                </p>
               </div>
               <div class="p-4 rounded-lg bg-blue-50 dark:bg-blue-900/20 text-center">
-                <p class="text-lg font-bold text-blue-600">Alto</p>
-                <p class="text-sm text-blue-600">4.0 - 4.5</p>
+                <p class="text-lg font-bold text-blue-600">
+                  Alto
+                </p>
+                <p class="text-sm text-blue-600">
+                  4.0 - 4.5
+                </p>
               </div>
               <div class="p-4 rounded-lg bg-yellow-50 dark:bg-yellow-900/20 text-center">
-                <p class="text-lg font-bold text-yellow-600">Basico</p>
-                <p class="text-sm text-yellow-600">3.0 - 3.9</p>
+                <p class="text-lg font-bold text-yellow-600">
+                  Basico
+                </p>
+                <p class="text-sm text-yellow-600">
+                  3.0 - 3.9
+                </p>
               </div>
               <div class="p-4 rounded-lg bg-red-50 dark:bg-red-900/20 text-center">
-                <p class="text-lg font-bold text-red-600">Bajo</p>
-                <p class="text-sm text-red-600">1.0 - 2.9</p>
+                <p class="text-lg font-bold text-red-600">
+                  Bajo
+                </p>
+                <p class="text-sm text-red-600">
+                  1.0 - 2.9
+                </p>
               </div>
             </div>
           </UPageCard>

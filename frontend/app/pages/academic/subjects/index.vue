@@ -191,7 +191,12 @@ watch(searchQuery, debouncedSearch)
               placeholder="Área"
               class="w-36"
             />
-            <UButton icon="i-lucide-plus" label="Nueva" color="primary" @click="openCreate" />
+            <UButton
+              icon="i-lucide-plus"
+              label="Nueva"
+              color="primary"
+              @click="openCreate"
+            />
           </div>
         </template>
       </UDashboardNavbar>
@@ -253,11 +258,39 @@ watch(searchQuery, debouncedSearch)
             />
           </div>
           <div class="flex items-center gap-1">
-            <UButton icon="i-lucide-chevrons-left" color="neutral" variant="ghost" size="sm" :disabled="currentPage === 1" @click="goToPage(1)" />
-            <UButton icon="i-lucide-chevron-left" color="neutral" variant="ghost" size="sm" :disabled="currentPage === 1" @click="goToPage(currentPage - 1)" />
+            <UButton
+              icon="i-lucide-chevrons-left"
+              color="neutral"
+              variant="ghost"
+              size="sm"
+              :disabled="currentPage === 1"
+              @click="goToPage(1)"
+            />
+            <UButton
+              icon="i-lucide-chevron-left"
+              color="neutral"
+              variant="ghost"
+              size="sm"
+              :disabled="currentPage === 1"
+              @click="goToPage(currentPage - 1)"
+            />
             <span class="text-sm px-3">{{ currentPage }} / {{ totalPages }}</span>
-            <UButton icon="i-lucide-chevron-right" color="neutral" variant="ghost" size="sm" :disabled="currentPage === totalPages" @click="goToPage(currentPage + 1)" />
-            <UButton icon="i-lucide-chevrons-right" color="neutral" variant="ghost" size="sm" :disabled="currentPage === totalPages" @click="goToPage(totalPages)" />
+            <UButton
+              icon="i-lucide-chevron-right"
+              color="neutral"
+              variant="ghost"
+              size="sm"
+              :disabled="currentPage === totalPages"
+              @click="goToPage(currentPage + 1)"
+            />
+            <UButton
+              icon="i-lucide-chevrons-right"
+              color="neutral"
+              variant="ghost"
+              size="sm"
+              :disabled="currentPage === totalPages"
+              @click="goToPage(totalPages)"
+            />
           </div>
         </div>
       </div>
@@ -269,7 +302,9 @@ watch(searchQuery, debouncedSearch)
     <template #content>
       <UCard>
         <template #header>
-          <h3 class="font-semibold">{{ editingSubject ? 'Editar Asignatura' : 'Nueva Asignatura' }}</h3>
+          <h3 class="font-semibold">
+            {{ editingSubject ? 'Editar Asignatura' : 'Nueva Asignatura' }}
+          </h3>
         </template>
 
         <div class="space-y-4">
@@ -296,13 +331,20 @@ watch(searchQuery, debouncedSearch)
           </UFormField>
 
           <UFormField label="Intensidad horaria (hrs/semana)">
-            <UInput v-model="formData.intensity_hours" type="number" min="1" max="20" />
+            <UInput
+              v-model="formData.intensity_hours"
+              type="number"
+              min="1"
+              max="20"
+            />
           </UFormField>
         </div>
 
         <template #footer>
           <div class="flex gap-2 justify-end">
-            <UButton color="neutral" variant="ghost" @click="showModal = false">Cancelar</UButton>
+            <UButton color="neutral" variant="ghost" @click="showModal = false">
+              Cancelar
+            </UButton>
             <UButton color="primary" @click="handleSave">
               {{ editingSubject ? 'Guardar' : 'Crear' }}
             </UButton>

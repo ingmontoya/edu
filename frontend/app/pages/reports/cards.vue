@@ -190,7 +190,9 @@ watch(selectedGroup, () => {
         <UPageCard v-if="students.length" title="Estudiantes" variant="subtle">
           <template #header>
             <div class="flex items-center justify-between">
-              <h3 class="font-semibold">Estudiantes ({{ students.length }})</h3>
+              <h3 class="font-semibold">
+                Estudiantes ({{ students.length }})
+              </h3>
             </div>
           </template>
 
@@ -207,8 +209,12 @@ watch(selectedGroup, () => {
                   {{ getInitials(student.user?.name) }}
                 </div>
                 <div>
-                  <p class="font-medium">{{ student.user?.name }}</p>
-                  <p class="text-sm text-muted">{{ student.user?.document_type }} {{ student.user?.document_number }}</p>
+                  <p class="font-medium">
+                    {{ student.user?.name }}
+                  </p>
+                  <p class="text-sm text-muted">
+                    {{ student.user?.document_type }} {{ student.user?.document_number }}
+                  </p>
                 </div>
               </div>
               <UButton
@@ -229,7 +235,9 @@ watch(selectedGroup, () => {
         <UPageCard v-else-if="!loading && selectedGroup" variant="subtle">
           <div class="text-center py-12">
             <UIcon name="i-lucide-users" class="w-12 h-12 text-muted mx-auto mb-4" />
-            <p class="text-muted">No hay estudiantes en este grupo</p>
+            <p class="text-muted">
+              No hay estudiantes en este grupo
+            </p>
           </div>
         </UPageCard>
 
@@ -237,8 +245,12 @@ watch(selectedGroup, () => {
         <UPageCard v-else-if="!loading" variant="subtle">
           <div class="text-center py-12">
             <UIcon name="i-lucide-file-text" class="w-12 h-12 text-primary mx-auto mb-4" />
-            <h3 class="text-lg font-semibold mb-2">Generación de Boletines</h3>
-            <p class="text-muted">Seleccione un grupo y periodo para generar los boletines en PDF</p>
+            <h3 class="text-lg font-semibold mb-2">
+              Generación de Boletines
+            </h3>
+            <p class="text-muted">
+              Seleccione un grupo y periodo para generar los boletines en PDF
+            </p>
           </div>
         </UPageCard>
       </div>

@@ -1,4 +1,4 @@
-import type { GradeRecord, GradeRecordInput, WorksheetStudent, Subject } from '~/types/school'
+import type { GradeRecord, GradeRecordInput, WorksheetStudent, Subject, GradeActivity, ActivityType, Group, Period } from '~/types/school'
 
 interface GradeRecordResponse {
   student_id: number
@@ -13,10 +13,15 @@ interface GradeRecordResponse {
 }
 
 interface WorksheetResponse {
-  group: any
-  period: any
+  group: Group
+  period: Period
   subjects: Subject[]
   worksheet: WorksheetStudent[]
+}
+
+interface ActivityScoresResponse {
+  activity: GradeActivity
+  scores: { student_id: number, student_name: string, document_number: string, score: number | null }[]
 }
 
 export const useGrades = () => {
@@ -31,7 +36,7 @@ export const useGrades = () => {
 
   // Bulk save grade records
   const saveGradeRecords = (subjectId: number, periodId: number, records: GradeRecordInput[]) => {
-    return api.post<{ message: string; count: number }>('/grade-records/bulk', {
+    return api.post<{ message: string, count: number }>('/grade-records/bulk', {
       subject_id: subjectId,
       period_id: periodId,
       records
@@ -72,6 +77,32 @@ export const useGrades = () => {
     return 'Bajo'
   }
 
+  // ── Grade Activities ────────────────────────────────────────────────────
+
+  const getActivities = (subjectId: number, periodId: number) => {
+    return api.get<GradeActivity[]>(`/grade-activities?subject_id=${subjectId}&period_id=${periodId}`)
+  }
+
+  const createActivity = (data: { subject_id: number, period_id: number, name: string, type: ActivityType, date?: string }) => {
+    return api.post<GradeActivity>('/grade-activities', data)
+  }
+
+  const updateActivity = (id: number, data: { name?: string, type?: ActivityType, date?: string }) => {
+    return api.put<GradeActivity>(`/grade-activities/${id}`, data)
+  }
+
+  const deleteActivity = (id: number) => {
+    return api.delete<{ message: string }>(`/grade-activities/${id}`)
+  }
+
+  const getActivityScores = (activityId: number, groupId: number) => {
+    return api.get<ActivityScoresResponse>(`/grade-activities/${activityId}/scores?group_id=${groupId}`)
+  }
+
+  const saveActivityScores = (activityId: number, groupId: number, scores: { student_id: number, score: number | null }[]) => {
+    return api.post<{ message: string }>(`/grade-activities/${activityId}/scores/bulk`, { group_id: groupId, scores })
+  }
+
   return {
     getGradeRecords,
     saveGradeRecords,
@@ -79,6 +110,12 @@ export const useGrades = () => {
     getWorksheet,
     getGradesByStudent,
     getPerformanceColor,
-    getPerformanceLabel
+    getPerformanceLabel,
+    getActivities,
+    createActivity,
+    updateActivity,
+    deleteActivity,
+    getActivityScores,
+    saveActivityScores
   }
 }

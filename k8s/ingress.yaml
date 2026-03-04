@@ -1,0 +1,30 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: aula360
+  namespace: aula360
+  labels:
+    app: aula360-app
+  annotations:
+    # Traefik ingress controller
+    kubernetes.io/ingress.class: traefik
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    traefik.ingress.kubernetes.io/router.tls: "true"
+    # cert-manager automatic TLS via Let's Encrypt
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+spec:
+  tls:
+    - hosts:
+        - app.aula360.co
+      secretName: aula360-tls
+  rules:
+    - host: app.aula360.co
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: aula360
+                port:
+                  number: 80

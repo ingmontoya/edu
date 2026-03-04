@@ -179,7 +179,12 @@ watch(searchQuery, debouncedSearch)
         </template>
 
         <template #right>
-          <UButton icon="i-lucide-plus" label="Nuevo Periodo" color="primary" @click="openCreate" />
+          <UButton
+            icon="i-lucide-plus"
+            label="Nuevo Periodo"
+            color="primary"
+            @click="openCreate"
+          />
         </template>
       </UDashboardNavbar>
     </template>
@@ -203,8 +208,12 @@ watch(searchQuery, debouncedSearch)
         <UPageCard variant="subtle">
           <div class="flex items-center justify-between">
             <div>
-              <h3 class="font-semibold mb-1">Distribución de Pesos</h3>
-              <p class="text-sm text-muted">Los pesos de todos los periodos deben sumar 100%</p>
+              <h3 class="font-semibold mb-1">
+                Distribución de Pesos
+              </h3>
+              <p class="text-sm text-muted">
+                Los pesos de todos los periodos deben sumar 100%
+              </p>
             </div>
             <div class="text-right">
               <p class="text-3xl font-bold" :class="totalWeight === 100 ? 'text-green-500' : 'text-yellow-500'">
@@ -322,7 +331,9 @@ watch(searchQuery, debouncedSearch)
           <template #content>
             <UCard>
               <template #header>
-                <h3 class="font-semibold">{{ editingPeriod ? 'Editar Periodo' : 'Nuevo Periodo' }}</h3>
+                <h3 class="font-semibold">
+                  {{ editingPeriod ? 'Editar Periodo' : 'Nuevo Periodo' }}
+                </h3>
               </template>
 
               <div class="space-y-4">

@@ -14,7 +14,7 @@ const loading = ref(true)
 const saving = ref(false)
 const remedial = ref<RemedialActivity | null>(null)
 const students = ref<Student[]>([])
-const grades = ref<Record<number, { grade: number | null; observations: string; status: string }>>({})
+const grades = ref<Record<number, { grade: number | null, observations: string, status: string }>>({})
 
 // Computed
 const remedialId = computed(() => Number(route.params.id))
@@ -60,7 +60,7 @@ const fetchData = async () => {
     }
 
     // Initialize grades from existing data
-    remedial.value.student_remedials?.forEach(sr => {
+    remedial.value.student_remedials?.forEach((sr) => {
       grades.value[sr.student_id] = {
         grade: sr.grade,
         observations: sr.observations || '',
@@ -179,8 +179,12 @@ onMounted(fetchData)
                     {{ getRemedialStatusLabel(remedial.type) }}
                   </UBadge>
                 </div>
-                <h3 class="text-lg font-semibold">{{ remedial.title }}</h3>
-                <p class="text-muted mt-1">{{ remedial.description }}</p>
+                <h3 class="text-lg font-semibold">
+                  {{ remedial.title }}
+                </h3>
+                <p class="text-muted mt-1">
+                  {{ remedial.description }}
+                </p>
                 <div class="flex gap-4 mt-3 text-sm text-muted">
                   <span>
                     <strong>Asignatura:</strong> {{ remedial.subject?.name }}
@@ -199,16 +203,28 @@ onMounted(fetchData)
 
               <div v-if="stats" class="grid grid-cols-2 gap-3 text-center">
                 <div class="p-3 bg-success-50 rounded-lg">
-                  <p class="text-xl font-bold text-success-600">{{ stats.passed }}</p>
-                  <p class="text-xs text-success-600">Aprobados</p>
+                  <p class="text-xl font-bold text-success-600">
+                    {{ stats.passed }}
+                  </p>
+                  <p class="text-xs text-success-600">
+                    Aprobados
+                  </p>
                 </div>
                 <div class="p-3 bg-error-50 rounded-lg">
-                  <p class="text-xl font-bold text-error-600">{{ stats.failed }}</p>
-                  <p class="text-xs text-error-600">Reprobados</p>
+                  <p class="text-xl font-bold text-error-600">
+                    {{ stats.failed }}
+                  </p>
+                  <p class="text-xs text-error-600">
+                    Reprobados
+                  </p>
                 </div>
                 <div class="p-3 bg-warning-50 rounded-lg col-span-2">
-                  <p class="text-xl font-bold text-warning-600">{{ stats.pending }}</p>
-                  <p class="text-xs text-warning-600">Pendientes</p>
+                  <p class="text-xl font-bold text-warning-600">
+                    {{ stats.pending }}
+                  </p>
+                  <p class="text-xs text-warning-600">
+                    Pendientes
+                  </p>
                 </div>
               </div>
             </div>
@@ -218,8 +234,12 @@ onMounted(fetchData)
           <UPageCard v-if="assignedStudents.length === 0" variant="subtle">
             <div class="flex flex-col items-center justify-center py-12 text-muted">
               <UIcon name="i-lucide-users" class="w-12 h-12 mb-4" />
-              <p class="text-lg font-medium mb-2">No hay estudiantes asignados</p>
-              <p class="text-sm">Los estudiantes pueden ser asignados automaticamente o manualmente</p>
+              <p class="text-lg font-medium mb-2">
+                No hay estudiantes asignados
+              </p>
+              <p class="text-sm">
+                Los estudiantes pueden ser asignados automaticamente o manualmente
+              </p>
             </div>
           </UPageCard>
 
@@ -229,11 +249,21 @@ onMounted(fetchData)
               <table class="w-full">
                 <thead>
                   <tr class="border-b">
-                    <th class="text-left py-3 px-4 font-medium">Estudiante</th>
-                    <th class="text-left py-3 px-4 font-medium w-32">Nota</th>
-                    <th class="text-left py-3 px-4 font-medium w-40">Estado</th>
-                    <th class="text-left py-3 px-4 font-medium">Observaciones</th>
-                    <th class="text-center py-3 px-4 font-medium w-20">Acciones</th>
+                    <th class="text-left py-3 px-4 font-medium">
+                      Estudiante
+                    </th>
+                    <th class="text-left py-3 px-4 font-medium w-32">
+                      Nota
+                    </th>
+                    <th class="text-left py-3 px-4 font-medium w-40">
+                      Estado
+                    </th>
+                    <th class="text-left py-3 px-4 font-medium">
+                      Observaciones
+                    </th>
+                    <th class="text-center py-3 px-4 font-medium w-20">
+                      Acciones
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
@@ -242,8 +272,12 @@ onMounted(fetchData)
                       <div class="flex items-center gap-3">
                         <UAvatar :alt="sr.student?.user?.name" size="sm" />
                         <div>
-                          <p class="font-medium">{{ sr.student?.user?.name || 'Estudiante' }}</p>
-                          <p class="text-xs text-muted">{{ sr.student?.enrollment_code }}</p>
+                          <p class="font-medium">
+                            {{ sr.student?.user?.name || 'Estudiante' }}
+                          </p>
+                          <p class="text-xs text-muted">
+                            {{ sr.student?.enrollment_code }}
+                          </p>
                         </div>
                       </div>
                     </td>

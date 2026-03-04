@@ -12,7 +12,7 @@ export const useSiee = () => {
 
   // ============ Achievements (Logros) ============
 
-  const getAchievements = async (params?: { subject_id?: number; period_id?: number }) => {
+  const getAchievements = async (params?: { subject_id?: number, period_id?: number }) => {
     // Guard: both params are required by the API
     if (!params?.subject_id || !params?.period_id) {
       return [] as Achievement[]
@@ -27,7 +27,7 @@ export const useSiee = () => {
     description: string
     type: 'cognitive' | 'procedural' | 'attitudinal'
     order?: number
-    indicators?: { description: string; code?: string }[]
+    indicators?: { description: string, code?: string }[]
   }) => {
     return api.post<Achievement>('/achievements', data)
   }
@@ -40,7 +40,7 @@ export const useSiee = () => {
     return api.delete(`/achievements/${id}`)
   }
 
-  const addIndicator = async (achievementId: number, data: { description: string; code?: string }) => {
+  const addIndicator = async (achievementId: number, data: { description: string, code?: string }) => {
     return api.post<AchievementIndicator>(`/achievements/${achievementId}/indicators`, data)
   }
 
@@ -55,7 +55,7 @@ export const useSiee = () => {
 
   const bulkRecordAchievements = async (data: {
     achievement_id: number
-    records: { student_id: number; status: string; observations?: string }[]
+    records: { student_id: number, status: string, observations?: string }[]
   }) => {
     return api.post('/achievements/bulk-record', data)
   }
@@ -78,7 +78,7 @@ export const useSiee = () => {
     subjectId: number,
     periodId: number,
     file: File
-  ): Promise<{ message: string; count: number; errors: string[] }> => {
+  ): Promise<{ message: string, count: number, errors: string[] }> => {
     const config = useRuntimeConfig()
     const auth = useAuthStore()
 
@@ -147,7 +147,7 @@ export const useSiee = () => {
   }
 
   const autoAssignFailingStudents = async (remedialId: number) => {
-    return api.post<{ assigned_count: number; total_failing: number }>(
+    return api.post<{ assigned_count: number, total_failing: number }>(
       `/remedials/${remedialId}/auto-assign`
     )
   }
@@ -161,14 +161,14 @@ export const useSiee = () => {
   }
 
   const bulkGradeRemedials = async (remedialId: number, data: {
-    grades: { student_remedial_id: number; grade: number; teacher_feedback?: string }[]
+    grades: { student_remedial_id: number, grade: number, teacher_feedback?: string }[]
     update_grade_records?: boolean
   }) => {
     return api.post(`/remedials/${remedialId}/bulk-grade`, data)
   }
 
   const getStudentsNeedingRemedial = async (subjectId: number, periodId: number) => {
-    return api.get<{ students: { student: Student; current_grade: number }[]; count: number }>(
+    return api.get<{ students: { student: Student, current_grade: number }[], count: number }>(
       '/remedials/students-needing',
       { params: { subject_id: subjectId, period_id: periodId } }
     )

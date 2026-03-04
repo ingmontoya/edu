@@ -69,7 +69,14 @@ onMounted(async () => {
     <template #header>
       <UDashboardNavbar title="Nuevo Estudiante">
         <template #leading>
-          <UButton to="/students" icon="i-lucide-arrow-left" label="Volver" color="neutral" variant="ghost" size="sm" />
+          <UButton
+            to="/students"
+            icon="i-lucide-arrow-left"
+            label="Volver"
+            color="neutral"
+            variant="ghost"
+            size="sm"
+          />
         </template>
 
         <template #right>

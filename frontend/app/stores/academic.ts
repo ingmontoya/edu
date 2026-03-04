@@ -29,10 +29,10 @@ export const useAcademicStore = defineStore('academic', {
   }),
 
   getters: {
-    openPeriods: (state) => state.periods.filter(p => !p.is_closed),
+    openPeriods: state => state.periods.filter(p => !p.is_closed),
     currentPeriod: (state) => {
       const today = new Date()
-      return state.periods.find(p => {
+      return state.periods.find((p) => {
         const start = new Date(p.start_date)
         const end = new Date(p.end_date)
         return today >= start && today <= end
@@ -72,7 +72,7 @@ export const useAcademicStore = defineStore('academic', {
 
         // Set active period (current or first open)
         const today = new Date()
-        this.activePeriod = this.periods.find(p => {
+        this.activePeriod = this.periods.find((p) => {
           const start = new Date(p.start_date)
           const end = new Date(p.end_date)
           return today >= start && today <= end && !p.is_closed
@@ -97,7 +97,7 @@ export const useAcademicStore = defineStore('academic', {
       }
     },
 
-    async fetchGroups(params?: { grade_id?: number; academic_year_id?: number }) {
+    async fetchGroups(params?: { grade_id?: number, academic_year_id?: number }) {
       this.loading = true
       try {
         const { getGroups } = useAcademic()
@@ -127,7 +127,7 @@ export const useAcademicStore = defineStore('academic', {
       }
     },
 
-    async fetchSubjects(params?: { area_id?: number; grade_id?: number }) {
+    async fetchSubjects(params?: { area_id?: number, grade_id?: number }) {
       this.loading = true
       try {
         const { getSubjects } = useAcademic()

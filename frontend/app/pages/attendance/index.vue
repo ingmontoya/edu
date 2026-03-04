@@ -173,28 +173,52 @@ watch([selectedGroup, selectedDate], () => {
         <!-- Summary -->
         <div v-if="records.length" class="grid grid-cols-2 md:grid-cols-6 gap-4 sticky top-0 z-10 bg-gray-50 dark:bg-gray-900 py-2 -mx-6 px-6">
           <UPageCard variant="subtle" class="text-center">
-            <p class="text-2xl font-bold">{{ summary.total }}</p>
-            <p class="text-sm text-muted">Total</p>
+            <p class="text-2xl font-bold">
+              {{ summary.total }}
+            </p>
+            <p class="text-sm text-muted">
+              Total
+            </p>
           </UPageCard>
           <UPageCard variant="subtle" class="text-center">
-            <p class="text-2xl font-bold text-green-500">{{ summary.present }}</p>
-            <p class="text-sm text-muted">Presentes</p>
+            <p class="text-2xl font-bold text-green-500">
+              {{ summary.present }}
+            </p>
+            <p class="text-sm text-muted">
+              Presentes
+            </p>
           </UPageCard>
           <UPageCard variant="subtle" class="text-center">
-            <p class="text-2xl font-bold text-red-500">{{ summary.absent }}</p>
-            <p class="text-sm text-muted">Ausentes</p>
+            <p class="text-2xl font-bold text-red-500">
+              {{ summary.absent }}
+            </p>
+            <p class="text-sm text-muted">
+              Ausentes
+            </p>
           </UPageCard>
           <UPageCard variant="subtle" class="text-center">
-            <p class="text-2xl font-bold text-yellow-500">{{ summary.late }}</p>
-            <p class="text-sm text-muted">Tardanzas</p>
+            <p class="text-2xl font-bold text-yellow-500">
+              {{ summary.late }}
+            </p>
+            <p class="text-sm text-muted">
+              Tardanzas
+            </p>
           </UPageCard>
           <UPageCard variant="subtle" class="text-center">
-            <p class="text-2xl font-bold text-blue-500">{{ summary.excused }}</p>
-            <p class="text-sm text-muted">Excusas</p>
+            <p class="text-2xl font-bold text-blue-500">
+              {{ summary.excused }}
+            </p>
+            <p class="text-sm text-muted">
+              Excusas
+            </p>
           </UPageCard>
           <UPageCard variant="subtle" class="text-center">
-            <p class="text-2xl font-bold text-gray-500">{{ summary.pending }}</p>
-            <p class="text-sm text-muted">Pendientes</p>
+            <p class="text-2xl font-bold text-gray-500">
+              {{ summary.pending }}
+            </p>
+            <p class="text-sm text-muted">
+              Pendientes
+            </p>
           </UPageCard>
         </div>
 
@@ -204,10 +228,18 @@ watch([selectedGroup, selectedDate], () => {
             <table class="w-full">
               <thead>
                 <tr class="border-b">
-                  <th class="text-left p-3 font-medium">#</th>
-                  <th class="text-left p-3 font-medium">Estudiante</th>
-                  <th class="text-center p-3 font-medium">Estado</th>
-                  <th class="text-left p-3 font-medium">Observación</th>
+                  <th class="text-left p-3 font-medium">
+                    #
+                  </th>
+                  <th class="text-left p-3 font-medium">
+                    Estudiante
+                  </th>
+                  <th class="text-center p-3 font-medium">
+                    Estado
+                  </th>
+                  <th class="text-left p-3 font-medium">
+                    Observación
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -216,8 +248,12 @@ watch([selectedGroup, selectedDate], () => {
                   :key="record.student_id"
                   class="border-b hover:bg-gray-50 dark:hover:bg-gray-800"
                 >
-                  <td class="p-3 text-muted">{{ index + 1 }}</td>
-                  <td class="p-3 font-medium">{{ record.student_name }}</td>
+                  <td class="p-3 text-muted">
+                    {{ index + 1 }}
+                  </td>
+                  <td class="p-3 font-medium">
+                    {{ record.student_name }}
+                  </td>
                   <td class="p-3">
                     <div class="flex justify-center gap-1">
                       <UTooltip
@@ -257,7 +293,9 @@ watch([selectedGroup, selectedDate], () => {
         <UPageCard v-else-if="!loading && selectedGroup" variant="subtle">
           <div class="text-center py-12">
             <UIcon name="i-lucide-users" class="w-12 h-12 text-muted mx-auto mb-4" />
-            <p class="text-muted">No hay estudiantes en este grupo</p>
+            <p class="text-muted">
+              No hay estudiantes en este grupo
+            </p>
           </div>
         </UPageCard>
 
@@ -265,8 +303,12 @@ watch([selectedGroup, selectedDate], () => {
         <UPageCard v-else-if="!loading" variant="subtle">
           <div class="text-center py-12">
             <UIcon name="i-lucide-calendar-check" class="w-12 h-12 text-primary mx-auto mb-4" />
-            <h3 class="text-lg font-semibold mb-2">Control de Asistencia</h3>
-            <p class="text-muted">Seleccione un grupo y fecha para registrar la asistencia</p>
+            <h3 class="text-lg font-semibold mb-2">
+              Control de Asistencia
+            </h3>
+            <p class="text-muted">
+              Seleccione un grupo y fecha para registrar la asistencia
+            </p>
           </div>
         </UPageCard>
       </div>

@@ -72,7 +72,7 @@ export const useAcademic = () => {
   const deleteGrade = (id: number) => api.delete(`/grades/${id}`)
 
   // Groups
-  const getGroups = (params?: PaginationParams & { grade_id?: number; academic_year_id?: number }) => {
+  const getGroups = (params?: PaginationParams & { grade_id?: number, academic_year_id?: number }) => {
     const query = new URLSearchParams()
     if (params?.page) query.set('page', String(params.page))
     if (params?.per_page) query.set('per_page', String(params.per_page))
@@ -97,7 +97,7 @@ export const useAcademic = () => {
   const deleteArea = (id: number) => api.delete(`/areas/${id}`)
 
   // Subjects
-  const getSubjects = (params?: PaginationParams & { area_id?: number; grade_id?: number; group_id?: number }) => {
+  const getSubjects = (params?: PaginationParams & { area_id?: number, grade_id?: number, group_id?: number }) => {
     const query = new URLSearchParams()
     if (params?.page) query.set('page', String(params.page))
     if (params?.per_page) query.set('per_page', String(params.per_page))
@@ -113,7 +113,7 @@ export const useAcademic = () => {
   const deleteSubject = (id: number) => api.delete(`/subjects/${id}`)
 
   // Students
-  const getStudents = (params?: PaginationParams & { group_id?: number; status?: string }) => {
+  const getStudents = (params?: PaginationParams & { group_id?: number, status?: string }) => {
     const query = new URLSearchParams()
     if (params?.page) query.set('page', String(params.page))
     if (params?.per_page) query.set('per_page', String(params.per_page))
@@ -141,7 +141,7 @@ export const useAcademic = () => {
   const importStudentsFromCsv = async (
     groupId: number,
     file: File
-  ): Promise<{ message: string; count: number; errors: string[] }> => {
+  ): Promise<{ message: string, count: number, errors: string[] }> => {
     const config = useRuntimeConfig()
     const auth = useAuthStore()
 
@@ -180,14 +180,14 @@ export const useAcademic = () => {
   const updateTeacher = (id: number, data: any) => api.put<Teacher>(`/teachers/${id}`, data)
   const deleteTeacher = (id: number) => api.delete(`/teachers/${id}`)
   const getTeacherAssignments = (id: number) => api.get(`/teachers/${id}/assignments`)
-  const assignTeacher = (teacherId: number, data: { subject_id: number; group_id: number; academic_year_id: number }) =>
+  const assignTeacher = (teacherId: number, data: { subject_id: number, group_id: number, academic_year_id: number }) =>
     api.post(`/teachers/${teacherId}/assign`, data)
   const unassignTeacher = (teacherId: number, assignmentId: number) =>
     api.delete(`/teachers/${teacherId}/unassign/${assignmentId}`)
 
   const importTeachersFromCsv = async (
     file: File
-  ): Promise<{ message: string; count: number; errors: string[] }> => {
+  ): Promise<{ message: string, count: number, errors: string[] }> => {
     const config = useRuntimeConfig()
     const auth = useAuthStore()
 
@@ -284,6 +284,6 @@ export const useAcademic = () => {
     getGuardian,
     createGuardian,
     updateGuardian,
-    deleteGuardian,
+    deleteGuardian
   }
 }

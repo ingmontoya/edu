@@ -169,7 +169,12 @@ watch(searchQuery, debouncedSearch)
         </template>
 
         <template #right>
-          <UButton icon="i-lucide-plus" label="Nuevo Grupo" color="primary" @click="openCreate" />
+          <UButton
+            icon="i-lucide-plus"
+            label="Nuevo Grupo"
+            color="primary"
+            @click="openCreate"
+          />
         </template>
       </UDashboardNavbar>
     </template>
@@ -290,7 +295,9 @@ watch(searchQuery, debouncedSearch)
           <template #content>
             <UCard>
               <template #header>
-                <h3 class="font-semibold">{{ editingGroup ? 'Editar Grupo' : 'Nuevo Grupo' }}</h3>
+                <h3 class="font-semibold">
+                  {{ editingGroup ? 'Editar Grupo' : 'Nuevo Grupo' }}
+                </h3>
               </template>
 
               <div class="space-y-4">

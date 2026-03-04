@@ -157,8 +157,12 @@ onMounted(async () => {
                 ]"
                 @click="selectTeacher(teacher)"
               >
-                <p class="font-medium">{{ teacher.user?.name }}</p>
-                <p class="text-xs text-muted">{{ teacher.specialization || 'Sin especialidad' }}</p>
+                <p class="font-medium">
+                  {{ teacher.user?.name }}
+                </p>
+                <p class="text-xs text-muted">
+                  {{ teacher.specialization || 'Sin especialidad' }}
+                </p>
                 <UBadge variant="subtle" size="xs" class="mt-1">
                   {{ teacher.assignments?.length || 0 }} asignaciones
                 </UBadge>
@@ -186,8 +190,12 @@ onMounted(async () => {
             <template #header>
               <div class="flex items-center justify-between">
                 <div>
-                  <h3 class="font-semibold text-lg">{{ selectedTeacher.user?.name }}</h3>
-                  <p class="text-sm text-muted">{{ selectedTeacher.specialization || 'Sin especialidad' }}</p>
+                  <h3 class="font-semibold text-lg">
+                    {{ selectedTeacher.user?.name }}
+                  </h3>
+                  <p class="text-sm text-muted">
+                    {{ selectedTeacher.specialization || 'Sin especialidad' }}
+                  </p>
                 </div>
                 <UButton
                   icon="i-lucide-plus"
@@ -204,7 +212,9 @@ onMounted(async () => {
             <div v-else-if="assignments.length === 0" class="text-center py-12 text-muted">
               <UIcon name="i-lucide-book-open" class="w-12 h-12 mx-auto mb-3" />
               <p>Este docente no tiene asignaciones</p>
-              <p class="text-sm">Haga clic en "Nueva Asignacion" para agregar</p>
+              <p class="text-sm">
+                Haga clic en "Nueva Asignacion" para agregar
+              </p>
             </div>
 
             <div v-else class="space-y-3">
@@ -214,7 +224,9 @@ onMounted(async () => {
                 class="flex items-center justify-between p-4 border rounded-lg"
               >
                 <div>
-                  <p class="font-medium">{{ assignment.subject?.name }}</p>
+                  <p class="font-medium">
+                    {{ assignment.subject?.name }}
+                  </p>
                   <p class="text-sm text-muted">
                     {{ assignment.group?.grade?.name }} {{ assignment.group?.name }}
                     <span v-if="assignment.subject?.area">
@@ -240,8 +252,12 @@ onMounted(async () => {
         <template #content>
           <UCard>
             <template #header>
-              <h3 class="text-lg font-semibold">Nueva Asignacion</h3>
-              <p class="text-sm text-muted">Asignar a {{ selectedTeacher?.user?.name }}</p>
+              <h3 class="text-lg font-semibold">
+                Nueva Asignacion
+              </h3>
+              <p class="text-sm text-muted">
+                Asignar a {{ selectedTeacher?.user?.name }}
+              </p>
             </template>
 
             <div class="space-y-4">

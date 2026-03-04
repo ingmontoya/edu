@@ -172,7 +172,12 @@ watch(searchQuery, debouncedSearch)
         </template>
 
         <template #right>
-          <UButton icon="i-lucide-plus" label="Nuevo Grado" color="primary" @click="openCreate" />
+          <UButton
+            icon="i-lucide-plus"
+            label="Nuevo Grado"
+            color="primary"
+            @click="openCreate"
+          />
         </template>
       </UDashboardNavbar>
     </template>
@@ -203,7 +208,9 @@ watch(searchQuery, debouncedSearch)
             <p class="text-2xl font-bold" :class="`text-${levelColors[level.value]}-500`">
               {{ sortedGrades.filter(g => g.level === level.value).length }}
             </p>
-            <p class="text-sm text-muted">{{ level.label }}</p>
+            <p class="text-sm text-muted">
+              {{ level.label }}
+            </p>
           </UPageCard>
         </div>
 
@@ -307,7 +314,9 @@ watch(searchQuery, debouncedSearch)
           <template #content>
             <UCard>
               <template #header>
-                <h3 class="font-semibold">{{ editingGrade ? 'Editar Grado' : 'Nuevo Grado' }}</h3>
+                <h3 class="font-semibold">
+                  {{ editingGrade ? 'Editar Grado' : 'Nuevo Grado' }}
+                </h3>
               </template>
 
               <div class="space-y-4">

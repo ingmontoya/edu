@@ -74,7 +74,8 @@
       "Bash(pip3 install:*)",
       "Bash(git diff:*)",
       "Bash(git checkout:*)",
-      "Bash(cd /Users/mauricio-massabi/repos/edu/frontend && npx eslint app/composables/useConvivencia.ts app/pages/convivencia/index.vue app/pages/convivencia/new.vue \"app/pages/convivencia/[id].vue\" app/pages/reports/certificates.vue app/pages/students/simat-export.vue app/pages/forgot-password.vue app/pages/reset-password.vue 2>&1)"
+      "Bash(cd /Users/mauricio-massabi/repos/edu/frontend && npx eslint app/composables/useConvivencia.ts app/pages/convivencia/index.vue app/pages/convivencia/new.vue \"app/pages/convivencia/[id].vue\" app/pages/reports/certificates.vue app/pages/students/simat-export.vue app/pages/forgot-password.vue app/pages/reset-password.vue 2>&1)",
+      "WebFetch(domain:www.panoramaed.com)"
     ],
     "deny": [
       "Bash(rm -rf *)",

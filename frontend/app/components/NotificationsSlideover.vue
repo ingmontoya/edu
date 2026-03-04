@@ -2,7 +2,7 @@
 const { isNotificationsSlideoverOpen } = useDashboard()
 
 // Replace with your notifications data source
-const notifications = ref<{ id: number; title: string; body: string; date: string }[]>([])
+const notifications = ref<{ id: number, title: string, body: string, date: string }[]>([])
 </script>
 
 <template>
@@ -22,8 +22,12 @@ const notifications = ref<{ id: number; title: string; body: string; date: strin
         class="px-3 py-2.5 rounded-md hover:bg-elevated/50 flex items-center gap-3 relative -mx-3 first:-mt-3 last:-mb-3"
       >
         <div class="text-sm flex-1">
-          <p class="text-highlighted font-medium">{{ notification.title }}</p>
-          <p class="text-dimmed">{{ notification.body }}</p>
+          <p class="text-highlighted font-medium">
+            {{ notification.title }}
+          </p>
+          <p class="text-dimmed">
+            {{ notification.body }}
+          </p>
         </div>
       </div>
     </template>

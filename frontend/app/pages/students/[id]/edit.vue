@@ -107,7 +107,14 @@ onMounted(async () => {
     <template #header>
       <UDashboardNavbar title="Editar Estudiante">
         <template #leading>
-          <UButton :to="`/students/${studentId}`" icon="i-lucide-arrow-left" label="Volver" color="neutral" variant="ghost" size="sm" />
+          <UButton
+            :to="`/students/${studentId}`"
+            icon="i-lucide-arrow-left"
+            label="Volver"
+            color="neutral"
+            variant="ghost"
+            size="sm"
+          />
         </template>
 
         <template #right>

@@ -36,7 +36,7 @@ const formData = ref({
   description: '',
   type: 'cognitive' as 'cognitive' | 'procedural' | 'attitudinal',
   order: 1,
-  indicators: [] as { description: string; code: string }[]
+  indicators: [] as { description: string, code: string }[]
 })
 
 // Computed
@@ -360,13 +360,21 @@ onMounted(async () => {
             </UBadge>
           </template>
 
-          <UTable :columns="columns" :data="achievements" :loading="loading" :ui="{ tr: 'cursor-pointer hover:bg-elevated/50' }" @select="(_e, row) => openEdit(row.original)">
+          <UTable
+            :columns="columns"
+            :data="achievements"
+            :loading="loading"
+            :ui="{ tr: 'cursor-pointer hover:bg-elevated/50' }"
+            @select="(_e, row) => openEdit(row.original)"
+          >
             <template #code-cell="{ row }">
               <span class="font-mono font-medium">{{ row.original.code || '-' }}</span>
             </template>
 
             <template #description-cell="{ row }">
-              <p class="max-w-md">{{ row.original.description }}</p>
+              <p class="max-w-md">
+                {{ row.original.description }}
+              </p>
             </template>
 
             <template #type-cell="{ row }">
@@ -441,7 +449,9 @@ onMounted(async () => {
                 <!-- Indicators -->
                 <div class="border rounded-lg p-4">
                   <div class="flex items-center justify-between mb-3">
-                    <h4 class="font-medium">Indicadores de Logro</h4>
+                    <h4 class="font-medium">
+                      Indicadores de Logro
+                    </h4>
                     <UButton
                       icon="i-lucide-plus"
                       size="xs"
@@ -498,7 +508,9 @@ onMounted(async () => {
           <template #content>
             <UCard>
               <template #header>
-                <h3 class="text-lg font-semibold">Copiar Logros de Otro Periodo</h3>
+                <h3 class="text-lg font-semibold">
+                  Copiar Logros de Otro Periodo
+                </h3>
               </template>
 
               <div class="space-y-4">
@@ -543,7 +555,9 @@ onMounted(async () => {
           <template #content>
             <UCard>
               <template #header>
-                <h3 class="text-lg font-semibold">Importar Logros desde CSV</h3>
+                <h3 class="text-lg font-semibold">
+                  Importar Logros desde CSV
+                </h3>
               </template>
 
               <div class="space-y-4">
@@ -558,10 +572,14 @@ onMounted(async () => {
                     accept=".csv,.txt"
                     class="hidden"
                     @change="handleFileSelect"
-                  />
+                  >
                   <UIcon name="i-lucide-file-spreadsheet" class="w-10 h-10 mx-auto mb-3 text-muted" />
-                  <p v-if="importFile" class="font-medium">{{ importFile.name }}</p>
-                  <p v-else class="text-muted">Ningún archivo seleccionado</p>
+                  <p v-if="importFile" class="font-medium">
+                    {{ importFile.name }}
+                  </p>
+                  <p v-else class="text-muted">
+                    Ningún archivo seleccionado
+                  </p>
                   <UButton
                     variant="soft"
                     label="Seleccionar archivo"

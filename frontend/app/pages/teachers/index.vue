@@ -289,8 +289,18 @@ const downloadTemplate = () => {
 
         <template #right>
           <div class="flex gap-2">
-            <UButton icon="i-lucide-upload" label="Importar CSV" variant="outline" @click="openImportModal" />
-            <UButton icon="i-lucide-plus" label="Nuevo Docente" color="primary" @click="openCreate" />
+            <UButton
+              icon="i-lucide-upload"
+              label="Importar CSV"
+              variant="outline"
+              @click="openImportModal"
+            />
+            <UButton
+              icon="i-lucide-plus"
+              label="Nuevo Docente"
+              color="primary"
+              @click="openCreate"
+            />
           </div>
         </template>
       </UDashboardNavbar>
@@ -314,26 +324,36 @@ const downloadTemplate = () => {
         <!-- Stats -->
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
           <UPageCard variant="subtle" class="text-center">
-            <p class="text-2xl font-bold text-primary">{{ totalItems }}</p>
-            <p class="text-sm text-muted">Total Docentes</p>
+            <p class="text-2xl font-bold text-primary">
+              {{ totalItems }}
+            </p>
+            <p class="text-sm text-muted">
+              Total Docentes
+            </p>
           </UPageCard>
           <UPageCard variant="subtle" class="text-center">
             <p class="text-2xl font-bold text-green-500">
               {{ teachers.filter(t => t.contract_type === 'full_time').length }}
             </p>
-            <p class="text-sm text-muted">Tiempo Completo</p>
+            <p class="text-sm text-muted">
+              Tiempo Completo
+            </p>
           </UPageCard>
           <UPageCard variant="subtle" class="text-center">
             <p class="text-2xl font-bold text-blue-500">
               {{ teachers.filter(t => t.contract_type === 'part_time').length }}
             </p>
-            <p class="text-sm text-muted">Medio Tiempo</p>
+            <p class="text-sm text-muted">
+              Medio Tiempo
+            </p>
           </UPageCard>
           <UPageCard variant="subtle" class="text-center">
             <p class="text-2xl font-bold text-yellow-500">
               {{ teachers.filter(t => t.contract_type === 'contractor').length }}
             </p>
-            <p class="text-sm text-muted">Contratistas</p>
+            <p class="text-sm text-muted">
+              Contratistas
+            </p>
           </UPageCard>
         </div>
 
@@ -452,7 +472,9 @@ const downloadTemplate = () => {
           <template #content>
             <UCard>
               <template #header>
-                <h3 class="font-semibold">{{ editingTeacher ? 'Editar Docente' : 'Nuevo Docente' }}</h3>
+                <h3 class="font-semibold">
+                  {{ editingTeacher ? 'Editar Docente' : 'Nuevo Docente' }}
+                </h3>
               </template>
 
               <div class="space-y-4">
@@ -530,8 +552,12 @@ const downloadTemplate = () => {
           <template #content>
             <UCard>
               <template #header>
-                <h3 class="text-lg font-semibold">Importar Docentes desde CSV</h3>
-                <p class="text-sm text-muted">Suba un archivo CSV con los datos de los docentes</p>
+                <h3 class="text-lg font-semibold">
+                  Importar Docentes desde CSV
+                </h3>
+                <p class="text-sm text-muted">
+                  Suba un archivo CSV con los datos de los docentes
+                </p>
               </template>
 
               <div class="space-y-4">
@@ -541,11 +567,13 @@ const downloadTemplate = () => {
                     accept=".csv,.txt"
                     class="w-full px-3 py-2 border rounded-md dark:bg-neutral-900 dark:border-neutral-700"
                     @change="handleFileSelect"
-                  />
+                  >
                 </UFormField>
 
                 <div class="text-sm text-muted">
-                  <p class="font-medium mb-1">Formato esperado del CSV:</p>
+                  <p class="font-medium mb-1">
+                    Formato esperado del CSV:
+                  </p>
                   <p>nombre, documento_tipo, documento_numero, email, telefono, direccion, especializacion</p>
                   <UButton
                     variant="link"
@@ -558,9 +586,13 @@ const downloadTemplate = () => {
                 </div>
 
                 <div v-if="importErrors.length > 0" class="p-3 bg-red-50 dark:bg-red-900/20 rounded-md">
-                  <p class="text-sm font-medium text-red-600 dark:text-red-400 mb-2">Errores durante la importacion:</p>
+                  <p class="text-sm font-medium text-red-600 dark:text-red-400 mb-2">
+                    Errores durante la importacion:
+                  </p>
                   <ul class="text-xs text-red-600 dark:text-red-400 list-disc pl-4 max-h-32 overflow-y-auto">
-                    <li v-for="(error, i) in importErrors" :key="i">{{ error }}</li>
+                    <li v-for="(error, i) in importErrors" :key="i">
+                      {{ error }}
+                    </li>
                   </ul>
                 </div>
               </div>

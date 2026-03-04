@@ -21,11 +21,11 @@ export const useAuthStore = defineStore('auth', {
   }),
 
   getters: {
-    isAdmin: (state) => state.user?.role === 'admin',
-    isCoordinator: (state) => state.user?.role === 'coordinator',
-    isTeacher: (state) => state.user?.role === 'teacher',
-    isGuardian: (state) => state.user?.role === 'guardian',
-    isStaff: (state) => ['admin', 'coordinator', 'teacher'].includes(state.user?.role || '')
+    isAdmin: state => state.user?.role === 'admin',
+    isCoordinator: state => state.user?.role === 'coordinator',
+    isTeacher: state => state.user?.role === 'teacher',
+    isGuardian: state => state.user?.role === 'guardian',
+    isStaff: state => ['admin', 'coordinator', 'teacher'].includes(state.user?.role || '')
   },
 
   actions: {

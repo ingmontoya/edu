@@ -407,6 +407,39 @@ export const RemedialStatusLabels: Record<string, string> = {
   excused: 'Excusado'
 }
 
+// ============ Grade Activities (Actividades Evaluativas) ============
+
+export type ActivityType = 'quiz' | 'tarea' | 'participacion' | 'sustentacion' | 'examen' | 'proyecto' | 'otro'
+
+export const ActivityTypeLabels: Record<ActivityType, string> = {
+  quiz: 'Quiz',
+  tarea: 'Tarea',
+  participacion: 'Participación',
+  sustentacion: 'Sustentación',
+  examen: 'Examen',
+  proyecto: 'Proyecto',
+  otro: 'Otro'
+}
+
+export interface GradeActivity {
+  id: number
+  subject_id: number
+  period_id: number
+  teacher_id: number
+  name: string
+  type: ActivityType
+  weight: number
+  date?: string
+  order: number
+}
+
+export interface ActivityScore {
+  student_id: number
+  student_name: string
+  document_number: string
+  score: number | null
+}
+
 // ============ SIMAT Types ============
 
 export type DisciplinaryRecordType = 'type1' | 'type2' | 'type3'
@@ -468,11 +501,11 @@ export const DisciplinaryStatusColors: Record<DisciplinaryRecordStatus, string> 
 
 export interface AiAnalysisRecord {
   id: number
-  period: { id: number; name: string }
+  period: { id: number, name: string }
   risk_level: 'high' | 'medium' | 'low'
   risk_score: number
   narrative: string
-  recommendations: Array<{ subject: string; strategy: string; activity: string }>
+  recommendations: Array<{ subject: string, strategy: string, activity: string }>
   created_at: string
 }
 
@@ -486,6 +519,43 @@ export interface AiAnalysisEvolution {
 export interface AiAnalysisHistoryResponse {
   analyses: AiAnalysisRecord[]
   evolution: AiAnalysisEvolution | null
+}
+
+// ============ Tasks (Tareas) ============
+
+export interface Task {
+  id: number
+  institution_id: number
+  teacher_id: number
+  group_id: number
+  subject_id?: number
+  title: string
+  instructions: string
+  attachment_path?: string
+  attachment_name?: string
+  due_date: string
+  is_published: boolean
+  teacher?: Teacher
+  group?: Group
+  subject?: Subject
+  student_tasks?: StudentTask[]
+  student_tasks_count?: number
+  created_at: string
+  updated_at: string
+}
+
+export interface StudentTask {
+  id: number
+  task_id: number
+  student_id: number
+  status: 'pending' | 'submitted' | 'reviewed'
+  submission_path?: string
+  submission_name?: string
+  submitted_at?: string
+  task?: Task
+  student?: Student
+  created_at: string
+  updated_at: string
 }
 
 // ============ Risk Score ============

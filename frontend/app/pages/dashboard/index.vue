@@ -96,8 +96,12 @@ const formatDate = (date: string) => {
         <!-- Welcome Card -->
         <UPageCard variant="subtle">
           <div>
-            <h2 class="text-xl font-semibold">Bienvenido a <span class="text-primary">Aula360</span></h2>
-            <p class="text-muted">Panel de control del sistema de gestión académica</p>
+            <h2 class="text-xl font-semibold">
+              Bienvenido a <span class="text-primary">Aula360</span>
+            </h2>
+            <p class="text-muted">
+              Panel de control del sistema de gestión académica
+            </p>
           </div>
         </UPageCard>
 
@@ -109,8 +113,12 @@ const formatDate = (date: string) => {
                 <UIcon name="i-lucide-users" class="w-6 h-6 text-blue-600 dark:text-blue-400" />
               </div>
               <div>
-                <p class="text-2xl font-bold">{{ stats.students }}</p>
-                <p class="text-sm text-muted">Estudiantes</p>
+                <p class="text-2xl font-bold">
+                  {{ stats.students }}
+                </p>
+                <p class="text-sm text-muted">
+                  Estudiantes
+                </p>
               </div>
             </div>
           </UPageCard>
@@ -121,8 +129,12 @@ const formatDate = (date: string) => {
                 <UIcon name="i-lucide-layout-grid" class="w-6 h-6 text-purple-600 dark:text-purple-400" />
               </div>
               <div>
-                <p class="text-2xl font-bold">{{ stats.groups }}</p>
-                <p class="text-sm text-muted">Grupos</p>
+                <p class="text-2xl font-bold">
+                  {{ stats.groups }}
+                </p>
+                <p class="text-sm text-muted">
+                  Grupos
+                </p>
               </div>
             </div>
           </UPageCard>
@@ -133,8 +145,12 @@ const formatDate = (date: string) => {
                 <UIcon name="i-lucide-graduation-cap" class="w-6 h-6 text-green-600 dark:text-green-400" />
               </div>
               <div>
-                <p class="text-2xl font-bold">{{ stats.grades }}</p>
-                <p class="text-sm text-muted">Grados</p>
+                <p class="text-2xl font-bold">
+                  {{ stats.grades }}
+                </p>
+                <p class="text-sm text-muted">
+                  Grados
+                </p>
               </div>
             </div>
           </UPageCard>
@@ -145,8 +161,12 @@ const formatDate = (date: string) => {
                 <UIcon name="i-lucide-calendar" class="w-6 h-6 text-orange-600 dark:text-orange-400" />
               </div>
               <div>
-                <p class="text-lg font-bold">{{ stats.activePeriod }}</p>
-                <p class="text-sm text-muted">Periodo Actual</p>
+                <p class="text-lg font-bold">
+                  {{ stats.activePeriod }}
+                </p>
+                <p class="text-sm text-muted">
+                  Periodo Actual
+                </p>
               </div>
             </div>
           </UPageCard>
@@ -155,10 +175,38 @@ const formatDate = (date: string) => {
         <!-- Quick Actions -->
         <UPageCard title="Acciones Rápidas" variant="subtle">
           <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <UButton to="/students/new" icon="i-lucide-user-plus" label="Nuevo Estudiante" color="neutral" variant="outline" block />
-            <UButton to="/grades/record" icon="i-lucide-file-edit" label="Registrar Notas" color="neutral" variant="outline" block />
-            <UButton to="/attendance" icon="i-lucide-calendar-check" label="Tomar Asistencia" color="neutral" variant="outline" block />
-            <UButton to="/reports/cards" icon="i-lucide-file-text" label="Generar Boletines" color="neutral" variant="outline" block />
+            <UButton
+              to="/students/new"
+              icon="i-lucide-user-plus"
+              label="Nuevo Estudiante"
+              color="neutral"
+              variant="outline"
+              block
+            />
+            <UButton
+              to="/grades/record"
+              icon="i-lucide-file-edit"
+              label="Registrar Notas"
+              color="neutral"
+              variant="outline"
+              block
+            />
+            <UButton
+              to="/attendance"
+              icon="i-lucide-calendar-check"
+              label="Tomar Asistencia"
+              color="neutral"
+              variant="outline"
+              block
+            />
+            <UButton
+              to="/reports/cards"
+              icon="i-lucide-file-text"
+              label="Generar Boletines"
+              color="neutral"
+              variant="outline"
+              block
+            />
           </div>
         </UPageCard>
 
@@ -241,21 +289,35 @@ const formatDate = (date: string) => {
         <UPageCard v-if="academicStore.activeYear" title="Año Académico Activo" variant="subtle">
           <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
-              <p class="text-sm text-muted">Año</p>
-              <p class="font-semibold">{{ academicStore.activeYear.name }}</p>
+              <p class="text-sm text-muted">
+                Año
+              </p>
+              <p class="font-semibold">
+                {{ academicStore.activeYear.name }}
+              </p>
             </div>
             <div>
-              <p class="text-sm text-muted">Fecha Inicio</p>
-              <p class="font-semibold">{{ formatDate(academicStore.activeYear.start_date) }}</p>
+              <p class="text-sm text-muted">
+                Fecha Inicio
+              </p>
+              <p class="font-semibold">
+                {{ formatDate(academicStore.activeYear.start_date) }}
+              </p>
             </div>
             <div>
-              <p class="text-sm text-muted">Fecha Fin</p>
-              <p class="font-semibold">{{ formatDate(academicStore.activeYear.end_date) }}</p>
+              <p class="text-sm text-muted">
+                Fecha Fin
+              </p>
+              <p class="font-semibold">
+                {{ formatDate(academicStore.activeYear.end_date) }}
+              </p>
             </div>
           </div>
 
           <div v-if="academicStore.activeYear.periods?.length" class="mt-6">
-            <p class="text-sm text-muted mb-3">Periodos</p>
+            <p class="text-sm text-muted mb-3">
+              Periodos
+            </p>
             <div class="flex flex-wrap gap-2">
               <UBadge
                 v-for="period in academicStore.activeYear.periods"
