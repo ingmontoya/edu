@@ -1,0 +1,19 @@
+{
+  "prompt": "Young woman in her late 20s, casual messy bun, holding a 1oz glass dropper bottle of vitamin C serum close to her face, genuine smile, visible pores, natural skin texture with subtle redness on cheeks, bathroom mirror slightly visible in background, shot on iPhone, slight motion blur on edges, ring light catchlight in both eyes, casual morning routine moment",
+  "negative_prompt": "blurry, plastic skin, airbrushed, cartoon, illustration, perfect symmetry, stock photo, overly posed, watermark, extra fingers, oversaturated",
+  "settings": {
+    "resolution": "1536x1536",
+    "aspect_ratio": "4:5",
+    "style": "ugc-selfie",
+    "lighting": "ring-light",
+    "camera": {
+      "lens": "35mm",
+      "angle": "eye-level",
+      "framing": "medium",
+      "height": "eye-level",
+      "depth_of_field": "shallow",
+      "focus": "subject"
+    },
+    "color_grading": "warm"
+  }
+}

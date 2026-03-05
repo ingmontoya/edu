@@ -1,0 +1,19 @@
+{
+  "prompt": "Colombian male teacher in his 30s, costeño mestizo, wearing a light blue button-up shirt, sitting at a classroom desk in Barranquilla, holding a Samsung tablet showing a grade spreadsheet with student names in Spanish, open classroom behind him with students in white and navy school uniforms, ceiling fan overhead, bright tropical window light, engaged and focused expression, natural skin texture, real hair",
+  "negative_prompt": "blurry, extra fingers, watermark, cartoon, plastic skin, airbrushed, stock photo, cold grey lighting, generic office, formal suit",
+  "settings": {
+    "resolution": "1536x1536",
+    "aspect_ratio": "4:5",
+    "style": "lifestyle-in-context",
+    "lighting": "warm-tropical-window",
+    "camera": {
+      "lens": "35mm",
+      "angle": "eye-level",
+      "framing": "medium",
+      "height": "eye-level",
+      "depth_of_field": "moderate",
+      "focus": "subject"
+    },
+    "color_grading": "warm"
+  }
+}

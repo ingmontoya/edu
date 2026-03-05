@@ -32,10 +32,13 @@ useHead({
   htmlAttrs: { lang: 'es-CO' },
   meta: [
     { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-    { name: 'theme-color', content: '#0f172a' },
-    { name: 'color-scheme', content: 'dark' }
+    { name: 'theme-color', content: '#006DB0' },
+    { name: 'color-scheme', content: 'light' }
   ],
   link: [
+    { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
+    { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' },
+    { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800;900&display=swap' },
     { rel: 'canonical', href: 'https://aula360.com/pricing' },
     { rel: 'sitemap', type: 'application/xml', href: 'https://aula360.com/sitemap.xml' }
   ],
@@ -204,8 +207,8 @@ const plans: Plan[] = [
     annualTotal: '$8.900.000',
     maxStudents: 'Hasta 600 estudiantes',
     badge: 'Más elegido',
-    badgeColor: 'indigo',
-    accentColor: 'indigo',
+    badgeColor: 'blue',
+    accentColor: 'blue',
     cta: 'Solicitar demo',
     ctaStyle: 'filled',
     features: [
@@ -336,20 +339,13 @@ const showDemo = ref(false)
 </script>
 
 <template>
-  <div class="min-h-screen bg-slate-950">
+  <div class="min-h-screen bg-white" style="font-family: 'Figtree', ui-sans-serif, system-ui, sans-serif;">
     <!-- Navbar -->
-    <header class="fixed top-0 left-0 right-0 z-50 bg-slate-950/80 backdrop-blur-xl border-b border-white/[0.06]">
+    <header class="fixed top-0 left-0 right-0 z-50 bg-white border-b border-slate-200 shadow-sm">
       <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" aria-label="Navegación principal">
         <div class="flex items-center justify-between h-16">
-          <a href="/" class="flex items-center gap-3" aria-label="Aula360 - Ir al inicio">
-            <img
-              src="/logo.svg"
-              alt="Aula360"
-              class="h-8 w-8"
-              width="32"
-              height="32"
-            >
-            <span class="text-xl font-bold text-white">Aula<span class="text-indigo-400">360</span></span>
+          <a href="/" aria-label="Aula360 - Ir al inicio">
+            <span class="text-xl font-bold text-slate-900">Aula<span class="text-blue-600">360</span></span>
           </a>
           <div class="hidden md:flex items-center gap-6">
             <a
@@ -359,16 +355,16 @@ const showDemo = ref(false)
               :class="[
                 'text-sm transition-colors duration-200',
                 link.href === '/pricing'
-                  ? 'text-white font-medium'
-                  : 'text-slate-400 hover:text-white'
+                  ? 'text-slate-900 font-semibold'
+                  : 'text-slate-600 hover:text-slate-900'
               ]"
             >{{ link.label }}</a>
           </div>
           <div class="flex items-center gap-3">
-            <a href="/login" class="inline-flex items-center px-4 py-2 text-sm font-medium text-slate-300 hover:text-white hover:bg-white/10 rounded-lg transition-colors duration-200">
+            <a href="/login" class="hidden sm:inline-flex items-center px-4 py-2 text-sm font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-colors duration-200">
               Iniciar Sesión
             </a>
-            <button type="button" class="inline-flex items-center px-4 py-2 text-sm font-semibold text-white bg-indigo-600 hover:bg-indigo-500 rounded-lg shadow-lg shadow-indigo-600/30 transition-colors duration-200" @click="showDemo = true">
+            <button type="button" class="inline-flex items-center px-4 py-2 text-sm font-semibold text-white bg-blue-600 hover:bg-blue-500 rounded-lg transition-colors duration-200 cursor-pointer" @click="showDemo = true">
               Solicitar Demo
             </button>
           </div>
@@ -378,23 +374,17 @@ const showDemo = ref(false)
 
     <main>
       <!-- Hero -->
-      <section class="relative pt-32 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
-        <!-- Orbs decorativos -->
-        <div aria-hidden="true" class="absolute top-20 left-1/4 w-96 h-96 rounded-full bg-indigo-600/20 blur-[120px] pointer-events-none" />
-        <div aria-hidden="true" class="absolute top-40 right-1/4 w-80 h-80 rounded-full bg-violet-600/15 blur-[120px] pointer-events-none" />
-
-        <div class="relative max-w-4xl mx-auto text-center">
-          <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-indigo-500/10 border border-indigo-500/20 mb-8">
-            <UIcon name="i-lucide-tag" class="text-indigo-400 w-4 h-4" />
-            <span class="text-sm text-indigo-300 font-medium">Precios públicos — sin sorpresas</span>
+      <section class="pt-28 pb-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-slate-50 to-white">
+        <div class="max-w-4xl mx-auto text-center">
+          <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50 border border-blue-200 mb-8">
+            <UIcon name="i-lucide-tag" class="text-blue-600 w-4 h-4" />
+            <span class="text-sm text-blue-700 font-medium">Precios públicos — sin sorpresas</span>
           </div>
-          <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight mb-6">
+          <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 leading-tight mb-6">
             Un precio claro para<br>
-            <span class="bg-gradient-to-r from-indigo-400 via-violet-400 to-purple-400 bg-clip-text text-transparent">
-              cada etapa de su institución
-            </span>
+            <span class="text-blue-600">cada etapa de su institución</span>
           </h1>
-          <p class="text-xl text-slate-400 max-w-2xl mx-auto mb-4">
+          <p class="text-xl text-slate-600 max-w-2xl mx-auto mb-4">
             Somos los únicos en el mercado colombiano con precios publicados. Sin negociaciones eternas, sin letra pequeña.
           </p>
           <p class="text-base text-slate-500">
@@ -406,14 +396,14 @@ const showDemo = ref(false)
       <!-- Toggle facturación -->
       <section class="px-4 sm:px-6 lg:px-8 mb-12">
         <div class="flex items-center justify-center gap-4">
-          <span :class="['text-sm font-medium transition-colors', billing === 'monthly' ? 'text-white' : 'text-slate-500']">
+          <span :class="['text-sm font-medium transition-colors', billing === 'monthly' ? 'text-slate-900' : 'text-slate-400']">
             Mensual
           </span>
           <button
             type="button"
             :class="[
-              'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-slate-950',
-              billing === 'annual' ? 'bg-indigo-600' : 'bg-slate-700'
+              'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2',
+              billing === 'annual' ? 'bg-blue-600' : 'bg-slate-300'
             ]"
             :aria-checked="billing === 'annual'"
             role="switch"
@@ -427,10 +417,10 @@ const showDemo = ref(false)
               ]"
             />
           </button>
-          <span :class="['text-sm font-medium transition-colors', billing === 'annual' ? 'text-white' : 'text-slate-500']">
+          <span :class="['text-sm font-medium transition-colors', billing === 'annual' ? 'text-slate-900' : 'text-slate-400']">
             Anual
           </span>
-          <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-xs font-medium text-emerald-400">
+          <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-xs font-medium text-emerald-700">
             <UIcon name="i-lucide-gift" class="w-3 h-3" />
             2 meses gratis
           </span>
@@ -447,19 +437,19 @@ const showDemo = ref(false)
             v-for="plan in plans"
             :key="plan.name"
             :class="[
-              'relative rounded-2xl border p-6 flex flex-col',
-              plan.accentColor === 'indigo'
-                ? 'bg-indigo-950/40 border-indigo-500/40 shadow-xl shadow-indigo-500/10'
-                : 'bg-slate-900/80 border-white/10'
+              'relative rounded-2xl border p-7 flex flex-col transition-all duration-300',
+              plan.accentColor === 'blue'
+                ? 'bg-white border-blue-400 shadow-xl shadow-blue-100 ring-1 ring-blue-400'
+                : 'bg-white border-slate-200 shadow-sm hover:shadow-md'
             ]"
           >
             <!-- Badge -->
-            <div v-if="plan.badge" class="absolute -top-3 left-1/2 -translate-x-1/2">
+            <div v-if="plan.badge" class="absolute -top-3.5 left-1/2 -translate-x-1/2">
               <span
                 :class="[
                   'inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold',
-                  plan.badgeColor === 'indigo'
-                    ? 'bg-indigo-600 text-white'
+                  plan.badgeColor === 'blue'
+                    ? 'bg-blue-600 text-white'
                     : 'bg-violet-600 text-white'
                 ]"
               >
@@ -468,27 +458,27 @@ const showDemo = ref(false)
             </div>
 
             <!-- Nombre del plan -->
-            <h3 class="text-lg font-bold text-white mb-1">
+            <h3 class="text-lg font-bold text-slate-900 mb-1">
               {{ plan.name }}
             </h3>
-            <p class="text-sm text-slate-400 mb-4">
+            <p class="text-sm text-slate-500 mb-5">
               {{ plan.maxStudents }}
             </p>
 
             <!-- Precio -->
-            <div class="mb-6">
+            <div class="mb-6 pb-6 border-b border-slate-100">
               <div v-if="plan.monthly !== null" class="flex items-end gap-1">
-                <span class="text-3xl font-bold text-white">{{ displayPrice(plan) }}</span>
-                <span class="text-slate-400 text-sm mb-1">/mes</span>
+                <span class="text-3xl font-extrabold text-slate-900">{{ displayPrice(plan) }}</span>
+                <span class="text-slate-500 text-sm mb-1">/mes</span>
               </div>
               <div v-else>
-                <span class="text-2xl font-bold text-white">A cotizar</span>
+                <span class="text-2xl font-bold text-slate-900">A cotizar</span>
               </div>
-              <div v-if="billing === 'annual' && plan.annualTotal" class="mt-1 text-xs text-slate-500">
+              <div v-if="billing === 'annual' && plan.annualTotal" class="mt-1 text-xs text-slate-400">
                 {{ plan.annualTotal }}/año
               </div>
-              <div v-if="savingsLabel(plan)" class="mt-1">
-                <span class="inline-flex items-center gap-1 text-xs text-emerald-400 font-medium">
+              <div v-if="savingsLabel(plan)" class="mt-1.5">
+                <span class="inline-flex items-center gap-1 text-xs text-emerald-600 font-medium">
                   <UIcon name="i-lucide-trending-down" class="w-3 h-3" />
                   {{ savingsLabel(plan) }}
                 </span>
@@ -499,10 +489,10 @@ const showDemo = ref(false)
             <button
               type="button"
               :class="[
-                'w-full inline-flex items-center justify-center px-4 py-2.5 rounded-xl text-sm font-semibold transition-colors duration-200 mb-6',
+                'w-full inline-flex items-center justify-center px-4 py-2.5 rounded-xl text-sm font-semibold transition-colors duration-200 mb-6 cursor-pointer',
                 plan.ctaStyle === 'filled'
-                  ? 'bg-indigo-600 hover:bg-indigo-500 text-white shadow-lg shadow-indigo-600/20'
-                  : 'border border-white/20 hover:bg-white/10 text-white'
+                  ? 'bg-blue-600 hover:bg-blue-500 text-white'
+                  : 'border border-slate-300 hover:bg-slate-50 text-slate-700 hover:border-slate-400'
               ]"
               @click="showDemo = true"
             >
@@ -510,7 +500,7 @@ const showDemo = ref(false)
             </button>
 
             <!-- Features -->
-            <ul class="space-y-2.5 flex-1">
+            <ul class="space-y-3 flex-1">
               <li
                 v-for="feature in plan.features"
                 :key="feature.label"
@@ -520,10 +510,10 @@ const showDemo = ref(false)
                   :name="feature.included ? 'i-lucide-check' : 'i-lucide-x'"
                   :class="[
                     'w-4 h-4 mt-0.5 flex-shrink-0',
-                    feature.included ? 'text-emerald-400' : 'text-slate-600'
+                    feature.included ? 'text-emerald-500' : 'text-slate-300'
                   ]"
                 />
-                <span :class="feature.included ? 'text-slate-300' : 'text-slate-600'">
+                <span :class="feature.included ? 'text-slate-700' : 'text-slate-400'">
                   {{ feature.label }}
                 </span>
               </li>
@@ -533,13 +523,13 @@ const showDemo = ref(false)
       </section>
 
       <!-- ROI -->
-      <section class="px-4 sm:px-6 lg:px-8 py-20" aria-labelledby="roi-heading">
+      <section class="px-4 sm:px-6 lg:px-8 py-20 bg-slate-50 border-y border-slate-200" aria-labelledby="roi-heading">
         <div class="max-w-7xl mx-auto">
           <div class="text-center mb-12">
-            <h2 id="roi-heading" class="text-3xl font-bold text-white mb-4">
+            <h2 id="roi-heading" class="text-3xl font-bold text-slate-900 mb-4">
               El costo se paga solo
             </h2>
-            <p class="text-slate-400 max-w-2xl mx-auto">
+            <p class="text-slate-600 max-w-2xl mx-auto">
               Ejemplos reales de instituciones colombianas que miden el retorno de Aula360 en semanas, no en años.
             </p>
           </div>
@@ -547,40 +537,40 @@ const showDemo = ref(false)
             <div
               v-for="roi in roiCases"
               :key="roi.title"
-              class="bg-slate-900/80 border border-white/10 rounded-2xl p-6"
+              class="bg-white border border-slate-200 rounded-2xl p-8 shadow-sm"
             >
-              <div class="flex items-center gap-3 mb-5">
-                <div class="w-10 h-10 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center">
-                  <UIcon :name="roi.icon" class="w-5 h-5 text-indigo-400" />
+              <div class="flex items-center gap-3 mb-6">
+                <div class="w-10 h-10 rounded-xl bg-blue-50 border border-blue-100 flex items-center justify-center shrink-0">
+                  <UIcon :name="roi.icon" class="w-5 h-5 text-blue-600" />
                 </div>
-                <h3 class="text-white font-semibold">
+                <h3 class="text-slate-900 font-bold text-lg">
                   {{ roi.title }}
                 </h3>
               </div>
-              <div class="flex items-center gap-4 mb-4">
-                <div class="flex-1 rounded-xl bg-red-500/10 border border-red-500/20 p-3 text-center">
+              <div class="flex items-center gap-4 mb-5">
+                <div class="flex-1 rounded-xl bg-red-50 border border-red-200 p-3 text-center">
                   <p class="text-xs text-slate-500 mb-1">
                     Antes
                   </p>
-                  <p class="text-lg font-bold text-red-400">
+                  <p class="text-lg font-bold text-red-600">
                     {{ roi.before }}
                   </p>
                 </div>
-                <UIcon name="i-lucide-arrow-right" class="w-5 h-5 text-slate-600 flex-shrink-0" />
-                <div class="flex-1 rounded-xl bg-emerald-500/10 border border-emerald-500/20 p-3 text-center">
+                <UIcon name="i-lucide-arrow-right" class="w-5 h-5 text-slate-400 flex-shrink-0" />
+                <div class="flex-1 rounded-xl bg-emerald-50 border border-emerald-200 p-3 text-center">
                   <p class="text-xs text-slate-500 mb-1">
                     Con Aula360
                   </p>
-                  <p class="text-lg font-bold text-emerald-400">
+                  <p class="text-lg font-bold text-emerald-600">
                     {{ roi.after }}
                   </p>
                 </div>
               </div>
-              <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-indigo-500/10 border border-indigo-500/20 mb-3">
-                <UIcon name="i-lucide-zap" class="w-4 h-4 text-indigo-400" />
-                <span class="text-sm font-semibold text-indigo-300">{{ roi.saving }}</span>
+              <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-blue-50 border border-blue-200 mb-4">
+                <UIcon name="i-lucide-zap" class="w-4 h-4 text-blue-600" />
+                <span class="text-sm font-semibold text-blue-700">{{ roi.saving }}</span>
               </div>
-              <p class="text-sm text-slate-400">
+              <p class="text-sm text-slate-600 leading-relaxed">
                 {{ roi.detail }}
               </p>
             </div>
@@ -589,21 +579,21 @@ const showDemo = ref(false)
       </section>
 
       <!-- Comparativa vs competencia -->
-      <section class="px-4 sm:px-6 lg:px-8 py-20 border-t border-white/[0.06]" aria-labelledby="compare-heading">
+      <section class="px-4 sm:px-6 lg:px-8 py-20" aria-labelledby="compare-heading">
         <div class="max-w-3xl mx-auto">
           <div class="text-center mb-10">
-            <h2 id="compare-heading" class="text-3xl font-bold text-white mb-4">
+            <h2 id="compare-heading" class="text-3xl font-bold text-slate-900 mb-4">
               ¿Por qué Aula360 y no otro?
             </h2>
-            <p class="text-slate-400">
+            <p class="text-slate-600">
               No es una comparativa de features — es una comparativa de filosofía de producto.
             </p>
           </div>
-          <div class="bg-slate-900/80 border border-white/10 rounded-2xl overflow-hidden">
-            <div class="grid grid-cols-3 bg-slate-800/50 border-b border-white/[0.06] px-6 py-3">
-              <span class="text-xs text-slate-500 font-medium uppercase tracking-wider" />
-              <span class="text-xs text-center text-indigo-400 font-semibold uppercase tracking-wider">Aula360</span>
-              <span class="text-xs text-center text-slate-500 font-medium uppercase tracking-wider">Alternativas típicas</span>
+          <div class="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm">
+            <div class="grid grid-cols-3 bg-slate-50 border-b border-slate-200 px-6 py-3">
+              <span class="text-xs text-slate-400 font-medium uppercase tracking-wider" />
+              <span class="text-xs text-center text-blue-600 font-bold uppercase tracking-wider">Aula360</span>
+              <span class="text-xs text-center text-slate-400 font-medium uppercase tracking-wider">Alternativas típicas</span>
             </div>
             <div
               v-for="(row, i) in [
@@ -616,14 +606,14 @@ const showDemo = ref(false)
                 ['Soporte en español colombiano', true, false]
               ]"
               :key="row[0] as string"
-              :class="['grid grid-cols-3 items-center px-6 py-4', i % 2 === 0 ? '' : 'bg-slate-800/20']"
+              :class="['grid grid-cols-3 items-center px-6 py-4', i % 2 === 0 ? 'bg-white' : 'bg-slate-50/60']"
             >
-              <span class="text-sm text-slate-300">{{ row[0] }}</span>
+              <span class="text-sm text-slate-700">{{ row[0] }}</span>
               <div class="flex justify-center">
-                <UIcon name="i-lucide-check-circle-2" class="w-5 h-5 text-emerald-400" />
+                <UIcon name="i-lucide-check-circle-2" class="w-5 h-5 text-emerald-500" />
               </div>
               <div class="flex justify-center">
-                <UIcon name="i-lucide-x-circle" class="w-5 h-5 text-red-400/60" />
+                <UIcon name="i-lucide-x-circle" class="w-5 h-5 text-red-300" />
               </div>
             </div>
           </div>
@@ -631,10 +621,10 @@ const showDemo = ref(false)
       </section>
 
       <!-- FAQ -->
-      <section class="px-4 sm:px-6 lg:px-8 py-20 border-t border-white/[0.06]" aria-labelledby="faq-heading">
+      <section class="px-4 sm:px-6 lg:px-8 py-20 bg-slate-50 border-t border-slate-200" aria-labelledby="faq-heading">
         <div class="max-w-3xl mx-auto">
           <div class="text-center mb-10">
-            <h2 id="faq-heading" class="text-3xl font-bold text-white mb-4">
+            <h2 id="faq-heading" class="text-3xl font-bold text-slate-900 mb-4">
               Preguntas frecuentes
             </h2>
           </div>
@@ -642,22 +632,22 @@ const showDemo = ref(false)
             <div
               v-for="(faq, i) in faqs"
               :key="faq.q"
-              class="bg-slate-900/80 border border-white/10 rounded-xl overflow-hidden"
+              class="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm"
             >
               <button
                 type="button"
-                class="w-full flex items-center justify-between gap-4 px-6 py-4 text-left"
+                class="w-full flex items-center justify-between gap-4 px-6 py-4 text-left cursor-pointer"
                 :aria-expanded="openFaq === i"
                 @click="toggleFaq(i)"
               >
-                <span class="text-white font-medium text-sm sm:text-base">{{ faq.q }}</span>
+                <span class="text-slate-900 font-medium text-sm sm:text-base">{{ faq.q }}</span>
                 <UIcon
                   :name="openFaq === i ? 'i-lucide-chevron-up' : 'i-lucide-chevron-down'"
                   class="w-4 h-4 text-slate-400 flex-shrink-0 transition-transform duration-200"
                 />
               </button>
-              <div v-show="openFaq === i" class="px-6 pb-4">
-                <p class="text-slate-400 text-sm leading-relaxed">
+              <div v-show="openFaq === i" class="px-6 pb-5">
+                <p class="text-slate-600 text-sm leading-relaxed">
                   {{ faq.a }}
                 </p>
               </div>
@@ -667,66 +657,58 @@ const showDemo = ref(false)
       </section>
 
       <!-- CTA final -->
-      <section class="relative px-4 sm:px-6 lg:px-8 py-24 overflow-hidden border-t border-white/[0.06]">
-        <div aria-hidden="true" class="absolute inset-0 flex items-center justify-center pointer-events-none">
-          <div class="w-[600px] h-[300px] rounded-full bg-indigo-600/15 blur-[100px]" />
-        </div>
-        <div class="relative max-w-3xl mx-auto text-center">
-          <h2 class="text-3xl sm:text-4xl font-bold text-white mb-4">
-            ¿Listo para simplificar la gestión de su institución?
-          </h2>
-          <p class="text-slate-400 mb-8 max-w-xl mx-auto">
-            Agende una demo de 30 minutos con nuestro equipo. Le mostramos Aula360 con datos reales de su institución, sin compromiso.
-          </p>
-          <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <button
-              type="button"
-              class="inline-flex items-center gap-2 px-8 py-3.5 text-base font-semibold text-white bg-indigo-600 hover:bg-indigo-500 rounded-xl shadow-xl shadow-indigo-600/40 hover:-translate-y-0.5 transition-all duration-200"
-              @click="showDemo = true"
-            >
-              <UIcon name="i-lucide-calendar" class="w-5 h-5" />
-              Agendar demo gratuita
-            </button>
-            <a href="/#modulos" class="inline-flex items-center gap-2 px-8 py-3.5 text-base font-medium text-white border border-white/20 hover:bg-white/10 rounded-xl transition-colors duration-200">
-              Ver funcionalidades
-            </a>
+      <section class="py-16 px-4 sm:px-6 lg:px-8 bg-white border-t border-slate-200">
+        <div class="max-w-5xl mx-auto">
+          <div class="rounded-3xl px-8 py-16 sm:px-16 sm:py-20 text-center bg-gradient-to-br from-teal-100 via-cyan-50 to-emerald-100">
+            <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 mb-4 tracking-tight">
+              ¿Listo para simplificar la gestión de su institución?
+            </h2>
+            <p class="text-slate-600 mb-10 max-w-xl mx-auto leading-relaxed">
+              Agende una demo de 30 minutos con nuestro equipo. Le mostramos Aula360 con datos reales de su institución, sin compromiso.
+            </p>
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+              <button
+                type="button"
+                class="inline-flex items-center px-8 py-3.5 text-base font-bold text-white bg-slate-900 hover:bg-slate-800 rounded-xl shadow-lg hover:-translate-y-0.5 transition-all duration-200 cursor-pointer"
+                @click="showDemo = true"
+              >
+                Agendar demo gratuita
+                <UIcon name="i-lucide-arrow-right" class="w-5 h-5 ml-2" />
+              </button>
+              <a href="/#modulos" class="inline-flex items-center px-8 py-3.5 text-base font-medium text-slate-900 border-2 border-slate-900 hover:bg-slate-900/10 rounded-xl transition-all duration-200">
+                Ver funcionalidades
+                <UIcon name="i-lucide-arrow-right" class="w-5 h-5 ml-2" />
+              </a>
+            </div>
           </div>
         </div>
       </section>
     </main>
 
     <!-- Footer -->
-    <footer class="bg-slate-950 border-t border-white/[0.06] py-12 px-4 sm:px-6 lg:px-8" role="contentinfo">
+    <footer class="bg-slate-50 border-t border-slate-200 py-12 px-4 sm:px-6 lg:px-8" role="contentinfo">
       <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
-        <a href="/" class="flex items-center gap-3" aria-label="Aula360 - Inicio">
-          <img
-            src="/logo.svg"
-            alt="Aula360"
-            class="h-8 w-8"
-            width="32"
-            height="32"
-            loading="lazy"
-          >
-          <span class="text-xl font-bold text-white">Aula<span class="text-indigo-400">360</span></span>
+        <a href="/" aria-label="Aula360 - Inicio">
+          <span class="text-xl font-bold text-slate-900">Aula<span class="text-blue-600">360</span></span>
         </a>
-        <p class="text-slate-500 text-center italic text-sm">
+        <p class="text-slate-500 text-center text-sm">
           Gestión Académica con IA para instituciones educativas colombianas.
         </p>
         <div class="flex flex-col items-center md:items-end gap-1">
           <div class="flex items-center gap-4">
-            <a href="/pricing" class="text-sm text-indigo-400 hover:text-indigo-300 transition-colors">Precios</a>
-            <span class="text-slate-700">·</span>
-            <a href="/#contacto" class="text-sm text-slate-500 hover:text-slate-400 transition-colors">Contacto</a>
-            <span class="text-slate-700">·</span>
-            <span class="text-slate-600 text-sm">© {{ new Date().getFullYear() }} Aula360.</span>
+            <a href="/pricing" class="text-sm text-blue-600 hover:text-blue-700 transition-colors font-medium">Precios</a>
+            <span class="text-slate-300">·</span>
+            <a href="/#contacto" class="text-sm text-slate-500 hover:text-slate-700 transition-colors">Contacto</a>
+            <span class="text-slate-300">·</span>
+            <span class="text-slate-500 text-sm">© {{ new Date().getFullYear() }} Aula360.</span>
           </div>
-          <p class="text-slate-700 text-xs">
+          <p class="text-slate-400 text-xs">
             Desarrollado por
             <a
               href="https://mauriciomontoya.co"
               target="_blank"
               rel="noopener noreferrer"
-              class="text-slate-500 hover:text-slate-300 transition-colors"
+              class="text-slate-500 hover:text-slate-700 transition-colors"
             >Mauricio Montoya</a>
           </p>
         </div>

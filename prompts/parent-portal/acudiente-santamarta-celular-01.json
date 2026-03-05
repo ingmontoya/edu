@@ -1,0 +1,19 @@
+{
+  "prompt": "Colombian woman in her late 30s, mestiza costeña, wearing casual home clothes, sitting on a sofa in a modest Santa Marta apartment, holding a Samsung Galaxy phone showing a student academic report portal in Spanish with grades and attendance, relieved and happy expression, warm afternoon tropical light through window, natural skin texture, real hair",
+  "negative_prompt": "blurry, extra fingers, watermark, cartoon, plastic skin, airbrushed, stock photo feel, cold grey lighting, luxury apartment",
+  "settings": {
+    "resolution": "1024x1024",
+    "aspect_ratio": "9:16",
+    "style": "ugc-selfie",
+    "lighting": "warm-tropical-window",
+    "camera": {
+      "lens": "35mm",
+      "angle": "eye-level",
+      "framing": "medium",
+      "height": "eye-level",
+      "depth_of_field": "shallow",
+      "focus": "subject"
+    },
+    "color_grading": "warm"
+  }
+}

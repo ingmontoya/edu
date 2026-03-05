@@ -32,10 +32,13 @@ useHead({
   htmlAttrs: { lang: 'es-CO' },
   meta: [
     { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-    { name: 'theme-color', content: '#0f172a' },
-    { name: 'color-scheme', content: 'dark' }
+    { name: 'theme-color', content: '#006DB0' },
+    { name: 'color-scheme', content: 'light' }
   ],
   link: [
+    { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
+    { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' },
+    { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800;900&display=swap' },
     { rel: 'canonical', href: 'https://aula360.com' },
     { rel: 'sitemap', type: 'application/xml', href: 'https://aula360.com/sitemap.xml' }
   ],
@@ -137,51 +140,36 @@ const navLinks = [
   { label: 'Inteligencia Artificial', href: '#ia' },
   { label: 'Módulos', href: '#modulos' },
   { label: 'Beneficios', href: '#beneficios' },
-  { label: 'Comparativo', href: '#comparativo' },
   { label: 'Precios', href: '/pricing' },
   { label: 'Contacto', href: '#contacto' }
 ]
+
+const gradientOverlay = 'linear-gradient(192deg, rgba(255,255,255,0.00) 40%, rgba(255,255,255,0.18) 100%), linear-gradient(0deg, rgba(0,0,0,0.08) 0%, rgba(0,0,0,0.08) 100%)'
 
 const aiFeatures = [
   {
     icon: 'i-lucide-shield-alert',
     title: 'Índice de Riesgo Estudiantil',
     description: 'Calcula un puntaje 0–100 por estudiante combinando materias reprobadas, porcentaje de asistencia, incidentes disciplinarios, nivelaciones pendientes y tendencia de notas. Clasifica automáticamente en Riesgo Alto, Moderado o Bajo para que actúes a tiempo.',
-    accentFrom: 'from-red-500',
-    accentTo: 'to-orange-500',
-    glowBg: 'bg-red-500/15',
-    glowBlur: 'bg-red-500',
-    iconColor: 'text-red-400'
+    cardStyle: `background: ${gradientOverlay}, rgba(37,99,235,1)`
   },
   {
     icon: 'i-lucide-brain',
     title: 'Análisis Pedagógico por Estudiante',
     description: 'Genera narrativas completas y recomendaciones pedagógicas personalizadas por estudiante y por período usando Claude AI. Analiza calificaciones, logros, asistencia, nivelaciones e historial disciplinario en un informe accionable.',
-    accentFrom: 'from-violet-500',
-    accentTo: 'to-purple-500',
-    glowBg: 'bg-violet-500/15',
-    glowBlur: 'bg-violet-500',
-    iconColor: 'text-violet-400'
+    cardStyle: `background: ${gradientOverlay}, rgba(5,150,105,1)`
   },
   {
     icon: 'i-lucide-trending-up',
     title: 'Evolución y Seguimiento Histórico',
     description: 'Cada análisis queda guardado. Visualiza la evolución del riesgo entre períodos: delta de puntaje, cambio de nivel, comparativo anterior vs. actual. El docente ve si sus intervenciones están funcionando con evidencia real.',
-    accentFrom: 'from-indigo-500',
-    accentTo: 'to-blue-500',
-    glowBg: 'bg-indigo-500/15',
-    glowBlur: 'bg-indigo-500',
-    iconColor: 'text-indigo-400'
+    cardStyle: `background: ${gradientOverlay}, rgba(13,148,136,1)`
   },
   {
     icon: 'i-lucide-layout-dashboard',
     title: 'Resumen Ejecutivo Semanal IA',
     description: 'La IA genera automáticamente un resumen ejecutivo para coordinadores con la situación de riesgo de toda la institución: cuántos estudiantes en alerta, tendencias por grado, grupos que requieren atención prioritaria.',
-    accentFrom: 'from-emerald-500',
-    accentTo: 'to-green-500',
-    glowBg: 'bg-emerald-500/15',
-    glowBlur: 'bg-emerald-500',
-    iconColor: 'text-emerald-400'
+    cardStyle: `background: ${gradientOverlay}, rgba(124,58,237,1)`
   }
 ]
 
@@ -200,19 +188,19 @@ const setModuleCategory = (key: string) => {
 }
 
 const modules = [
-  { category: 'IA', icon: 'i-lucide-shield-alert', title: 'Riesgo Estudiantil con IA', description: 'Detecta estudiantes vulnerables con un índice multivariable y accede a recomendaciones generadas por IA para cada caso.', badge: 'IA', pill: 'bg-red-500/15', iconColor: 'text-red-400' },
-  { category: 'Académico', icon: 'i-lucide-graduation-cap', title: 'Gestión Académica', description: 'Configura años académicos, períodos con pesos porcentuales, grados, grupos y asignaturas desde preescolar hasta media.', badge: null, pill: 'bg-blue-500/15', iconColor: 'text-blue-400' },
-  { category: 'Académico', icon: 'i-lucide-users', title: 'Estudiantes y Docentes', description: 'Registro completo con historial académico, estados de matrícula, exportación SIMAT y asignación de acudientes.', badge: null, pill: 'bg-indigo-500/15', iconColor: 'text-indigo-400' },
-  { category: 'Académico', icon: 'i-lucide-file-check', title: 'Calificaciones Colombianas', description: 'Escala Superior/Alto/Básico/Bajo, promedios ponderados, planilla consolidada con ranking y observaciones por estudiante.', badge: null, pill: 'bg-emerald-500/15', iconColor: 'text-emerald-400' },
-  { category: 'Académico', icon: 'i-lucide-calendar-check', title: 'Control de Asistencia', description: 'Registro diario con estados Presente/Ausente/Tardanza/Excusa, alertas automáticas y reportes de ausentismo por período.', badge: null, pill: 'bg-cyan-500/15', iconColor: 'text-cyan-400' },
-  { category: 'Académico', icon: 'i-lucide-clipboard-list', title: 'Tareas y Entregas', description: 'Asigna trabajos al grupo con instrucciones y PDF adjunto. Los acudientes consultan el estado de entrega de su hijo en tiempo real.', badge: null, pill: 'bg-sky-500/15', iconColor: 'text-sky-400' },
-  { category: 'Reportes', icon: 'i-lucide-file-text', title: 'Boletines PDF', description: 'Generación individual y masiva de boletines con logo institucional, notas, promedio, puesto y observaciones del docente.', badge: null, pill: 'bg-orange-500/15', iconColor: 'text-orange-400' },
-  { category: 'Reportes', icon: 'i-lucide-file-badge', title: 'Constancias y Certificados', description: 'Generación automática de constancias de matrícula y de notas en PDF con datos y logo institucional.', badge: null, pill: 'bg-teal-500/15', iconColor: 'text-teal-400' },
-  { category: 'Reportes', icon: 'i-lucide-download', title: 'Exportación SIMAT', description: 'Exporta el registro estudiantil en el formato oficial requerido por el MEN para el Sistema Integrado de Matrícula.', badge: null, pill: 'bg-slate-500/15', iconColor: 'text-slate-400' },
-  { category: 'Normativa', icon: 'i-lucide-target', title: 'SIEE — Evaluación por Logros', description: 'Logros cognitivos, procedimentales y actitudinales con indicadores de desempeño. Importación CSV y copia entre períodos.', badge: null, pill: 'bg-rose-500/15', iconColor: 'text-rose-400' },
-  { category: 'Normativa', icon: 'i-lucide-message-square', title: 'Convivencia Escolar', description: 'Registro de incidentes disciplinarios conforme a la Ley 1620/2013. Historial por estudiante vinculado al índice de riesgo.', badge: null, pill: 'bg-violet-500/15', iconColor: 'text-violet-400' },
-  { category: 'Normativa', icon: 'i-lucide-refresh-cw', title: 'Nivelaciones y Recuperaciones', description: 'Asignación automática de actividades remediales a estudiantes con bajo desempeño. Calificación con actualización de nota original.', badge: null, pill: 'bg-yellow-500/15', iconColor: 'text-yellow-400' },
-  { category: 'Comunicación', icon: 'i-lucide-home', title: 'Portal de Padres', description: 'Acceso seguro para acudientes: notas, asistencia, descarga de boletines y constancias. Disponible 24/7 desde cualquier dispositivo.', badge: null, pill: 'bg-pink-500/15', iconColor: 'text-pink-400' }
+  { category: 'IA', icon: 'i-lucide-shield-alert', title: 'Riesgo Estudiantil con IA', description: 'Detecta estudiantes vulnerables con un índice multivariable y accede a recomendaciones generadas por IA para cada caso.', badge: 'IA', pill: 'bg-amber-50', iconColor: 'text-amber-500' },
+  { category: 'Académico', icon: 'i-lucide-graduation-cap', title: 'Gestión Académica', description: 'Configura años académicos, períodos con pesos porcentuales, grados, grupos y asignaturas desde preescolar hasta media.', badge: null, pill: 'bg-blue-50', iconColor: 'text-blue-600' },
+  { category: 'Académico', icon: 'i-lucide-users', title: 'Estudiantes y Docentes', description: 'Registro completo con historial académico, estados de matrícula, exportación SIMAT y asignación de acudientes.', badge: null, pill: 'bg-blue-50', iconColor: 'text-blue-600' },
+  { category: 'Académico', icon: 'i-lucide-file-check', title: 'Calificaciones Colombianas', description: 'Escala Superior/Alto/Básico/Bajo, promedios ponderados, planilla consolidada con ranking y observaciones por estudiante.', badge: null, pill: 'bg-blue-50', iconColor: 'text-blue-600' },
+  { category: 'Académico', icon: 'i-lucide-calendar-check', title: 'Control de Asistencia', description: 'Registro diario con estados Presente/Ausente/Tardanza/Excusa, alertas automáticas y reportes de ausentismo por período.', badge: null, pill: 'bg-blue-50', iconColor: 'text-blue-600' },
+  { category: 'Académico', icon: 'i-lucide-clipboard-list', title: 'Tareas y Entregas', description: 'Asigna trabajos al grupo con instrucciones y PDF adjunto. Los acudientes consultan el estado de entrega de su hijo en tiempo real.', badge: null, pill: 'bg-blue-50', iconColor: 'text-blue-600' },
+  { category: 'Reportes', icon: 'i-lucide-file-text', title: 'Boletines PDF', description: 'Generación individual y masiva de boletines con logo institucional, notas, promedio, puesto y observaciones del docente.', badge: null, pill: 'bg-blue-50', iconColor: 'text-blue-600' },
+  { category: 'Reportes', icon: 'i-lucide-file-badge', title: 'Constancias y Certificados', description: 'Generación automática de constancias de matrícula y de notas en PDF con datos y logo institucional.', badge: null, pill: 'bg-blue-50', iconColor: 'text-blue-600' },
+  { category: 'Reportes', icon: 'i-lucide-download', title: 'Exportación SIMAT', description: 'Exporta el registro estudiantil en el formato oficial requerido por el MEN para el Sistema Integrado de Matrícula.', badge: null, pill: 'bg-blue-50', iconColor: 'text-blue-600' },
+  { category: 'Normativa', icon: 'i-lucide-target', title: 'SIEE — Evaluación por Logros', description: 'Logros cognitivos, procedimentales y actitudinales con indicadores de desempeño. Importación CSV y copia entre períodos.', badge: null, pill: 'bg-amber-50', iconColor: 'text-amber-500' },
+  { category: 'Normativa', icon: 'i-lucide-message-square', title: 'Convivencia Escolar', description: 'Registro de incidentes disciplinarios conforme a la Ley 1620/2013. Historial por estudiante vinculado al índice de riesgo.', badge: null, pill: 'bg-amber-50', iconColor: 'text-amber-500' },
+  { category: 'Normativa', icon: 'i-lucide-refresh-cw', title: 'Nivelaciones y Recuperaciones', description: 'Asignación automática de actividades remediales a estudiantes con bajo desempeño. Calificación con actualización de nota original.', badge: null, pill: 'bg-amber-50', iconColor: 'text-amber-500' },
+  { category: 'Comunicación', icon: 'i-lucide-home', title: 'Portal de Padres', description: 'Acceso seguro para acudientes: notas, asistencia, descarga de boletines y constancias. Disponible 24/7 desde cualquier dispositivo.', badge: null, pill: 'bg-emerald-50', iconColor: 'text-emerald-600' }
 ]
 
 const filteredModules = computed(() =>
@@ -253,195 +241,260 @@ const includedItems = [
 ]
 
 const showDemo = ref(false)
+const mobileMenuOpen = ref(false)
+const isScrolled = ref(false)
+
+onMounted(() => {
+  const onScroll = () => {
+    isScrolled.value = window.scrollY > 80
+  }
+  window.addEventListener('scroll', onScroll, { passive: true })
+  onUnmounted(() => window.removeEventListener('scroll', onScroll))
+})
 </script>
 
 <template>
-  <div class="min-h-screen bg-slate-950">
+  <div class="min-h-screen bg-white" style="font-family: 'Figtree', ui-sans-serif, system-ui, sans-serif;">
     <!-- ============ NAVBAR ============ -->
-    <header class="fixed top-0 left-0 right-0 z-50 bg-slate-950/80 backdrop-blur-xl border-b border-white/[0.06]">
+    <header
+      class="fixed top-0 left-0 right-0 z-50 bg-white border-b border-slate-200 transition-all duration-300"
+      :class="isScrolled ? 'shadow-sm' : ''"
+    >
       <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" aria-label="Navegación principal">
         <div class="flex items-center justify-between h-16">
-          <a href="/" class="flex items-center gap-3" aria-label="Aula360 - Ir al inicio">
-            <img
-              src="/logo.svg"
-              alt="Aula360"
-              class="h-8 w-8"
-              width="32"
-              height="32"
-            >
-            <span class="text-xl font-bold text-white">Aula<span class="text-indigo-400">360</span></span>
+          <a href="/" aria-label="Aula360 - Ir al inicio">
+            <span class="text-xl font-bold text-slate-900">Aula<span class="text-blue-600">360</span></span>
           </a>
           <div class="hidden md:flex items-center gap-6">
             <a
               v-for="link in navLinks"
               :key="link.href"
               :href="link.href"
-              class="text-sm text-slate-400 hover:text-white transition-colors duration-200"
+              class="text-sm text-slate-600 hover:text-slate-900 transition-colors duration-200 cursor-pointer"
             >{{ link.label }}</a>
           </div>
           <div class="flex items-center gap-3">
             <a
               href="/login"
-              class="inline-flex items-center px-4 py-2 text-sm font-medium text-slate-300 hover:text-white hover:bg-white/10 rounded-lg transition-colors duration-200"
+              class="hidden sm:inline-flex items-center px-4 py-2 text-sm font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-colors duration-200"
             >
               Iniciar Sesión
             </a>
             <button
               type="button"
-              class="inline-flex items-center px-4 py-2 text-sm font-semibold text-white bg-indigo-600 hover:bg-indigo-500 rounded-lg shadow-lg shadow-indigo-600/30 transition-colors duration-200"
+              class="inline-flex items-center px-4 py-2 text-sm font-semibold text-white bg-blue-600 hover:bg-blue-500 rounded-lg transition-colors duration-200 cursor-pointer"
               @click="showDemo = true"
             >
               Solicitar Demo
             </button>
+            <!-- Hamburger: mobile only -->
+            <button
+              type="button"
+              class="md:hidden inline-flex items-center justify-center w-10 h-10 rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition-colors duration-200 cursor-pointer"
+              :aria-expanded="mobileMenuOpen"
+              aria-label="Abrir menú"
+              @click="mobileMenuOpen = !mobileMenuOpen"
+            >
+              <svg
+                v-if="!mobileMenuOpen"
+                xmlns="http://www.w3.org/2000/svg"
+                class="w-5 h-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
+              <svg
+                v-else
+                xmlns="http://www.w3.org/2000/svg"
+                class="w-5 h-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
           </div>
         </div>
+
+        <!-- Mobile menu -->
+        <Transition name="mobile-menu">
+          <div v-if="mobileMenuOpen" class="md:hidden border-t border-slate-200 py-4">
+            <div class="flex flex-col gap-1">
+              <a
+                v-for="link in navLinks"
+                :key="link.href"
+                :href="link.href"
+                class="px-4 py-3 text-sm font-medium text-slate-700 hover:text-slate-900 hover:bg-slate-50 rounded-lg transition-colors duration-200 cursor-pointer"
+                @click="mobileMenuOpen = false"
+              >{{ link.label }}</a>
+              <div class="pt-3 mt-1 border-t border-slate-200 flex flex-col gap-2">
+                <a
+                  href="/login"
+                  class="px-4 py-3 text-sm font-medium text-slate-700 hover:text-slate-900 hover:bg-slate-50 rounded-lg transition-colors duration-200"
+                >
+                  Iniciar Sesión
+                </a>
+                <button
+                  type="button"
+                  class="mx-4 px-4 py-3 text-sm font-semibold text-white bg-blue-600 hover:bg-blue-500 rounded-lg transition-colors duration-200 cursor-pointer text-center"
+                  @click="showDemo = true; mobileMenuOpen = false"
+                >
+                  Solicitar Demo Gratuita
+                </button>
+              </div>
+            </div>
+          </div>
+        </Transition>
       </nav>
     </header>
 
     <main>
       <!-- ============ HERO ============ -->
-      <section class="relative overflow-hidden bg-slate-950 pt-32 pb-28 px-4 sm:px-6 lg:px-8" aria-labelledby="hero-title">
-        <!-- Ambient gradient orbs -->
-        <div aria-hidden="true" class="absolute -top-40 -left-40 w-[600px] h-[600px] rounded-full bg-indigo-600/20 blur-[120px] pointer-events-none" />
-        <div aria-hidden="true" class="absolute -top-20 -right-40 w-[500px] h-[500px] rounded-full bg-violet-600/15 blur-[100px] pointer-events-none" />
-        <div aria-hidden="true" class="absolute bottom-0 left-1/2 -translate-x-1/2 w-[800px] h-[200px] bg-indigo-500/10 blur-[80px] pointer-events-none" />
-
-        <div class="relative z-10 max-w-7xl mx-auto">
-          <div class="text-center max-w-4xl mx-auto">
-            <!-- Badge with pulse dot -->
-            <div class="inline-flex items-center gap-2.5 px-4 py-1.5 mb-8 rounded-full border border-indigo-500/30 bg-indigo-500/10 text-indigo-300 text-sm font-medium backdrop-blur-sm">
-              <span class="relative flex h-2 w-2">
-                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75" />
-                <span class="relative inline-flex rounded-full h-2 w-2 bg-indigo-400" />
-              </span>
-              Plataforma en acceso anticipado — para instituciones pioneras
-            </div>
-
-            <!-- Headline -->
-            <h1 id="hero-title" class="text-5xl sm:text-6xl lg:text-7xl font-extrabold text-white leading-[1.05] tracking-tight mb-6">
-              Detecta el riesgo estudiantil
-              <span class="block bg-gradient-to-r from-indigo-400 via-violet-400 to-purple-400 bg-clip-text text-transparent">
-                antes de que sea tarde.
-              </span>
-            </h1>
-
-            <p class="text-lg sm:text-xl text-slate-400 leading-relaxed max-w-2xl mx-auto mb-10">
-              Aula360 es la plataforma académica con IA que analiza el desempeño de cada estudiante en tiempo real, genera recomendaciones pedagógicas personalizadas y ayuda a tu institución a tomar decisiones que transforman vidas.
-            </p>
-
-            <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <a
-                href="/login"
-                class="inline-flex items-center px-8 py-3.5 text-base font-semibold text-white bg-indigo-600 hover:bg-indigo-500 rounded-xl shadow-xl shadow-indigo-600/40 hover:shadow-indigo-500/50 hover:-translate-y-0.5 transition-all duration-200"
-              >
-                <UIcon name="i-lucide-arrow-right" class="size-5 mr-2" />
-                Ingresar al Sistema
-              </a>
-              <a
-                href="#ia"
-                class="inline-flex items-center px-8 py-3.5 text-base font-medium text-white border border-white/20 hover:bg-white/10 rounded-xl backdrop-blur-sm transition-colors duration-200"
-              >
-                Conocer la IA
-              </a>
-            </div>
-          </div>
-
-          <!-- Hero dashboard preview card -->
-          <div class="relative mt-16 mx-auto max-w-4xl">
-            <div aria-hidden="true" class="absolute -inset-px rounded-2xl bg-gradient-to-r from-indigo-500/50 via-violet-500/50 to-purple-500/50 blur-sm pointer-events-none" />
-            <div class="relative rounded-2xl bg-slate-900/90 border border-white/10 backdrop-blur-xl p-6 shadow-2xl">
-              <!-- Fake browser chrome -->
-              <div class="flex items-center gap-2 mb-5 pb-4 border-b border-white/[0.06]">
-                <div class="flex gap-1.5">
-                  <div class="w-3 h-3 rounded-full bg-red-500/60" />
-                  <div class="w-3 h-3 rounded-full bg-yellow-500/60" />
-                  <div class="w-3 h-3 rounded-full bg-green-500/60" />
-                </div>
-                <div class="flex-1 h-5 rounded bg-slate-800/60 max-w-[200px] mx-auto" />
-              </div>
-
-              <!-- Dashboard header -->
-              <div class="flex items-center justify-between mb-5">
-                <div class="flex items-center gap-2">
-                  <UIcon name="i-lucide-brain" class="w-4 h-4 text-indigo-400" />
-                  <span class="text-sm font-semibold text-white">Índice de Riesgo IA</span>
-                </div>
-                <span class="text-xs px-2.5 py-1 rounded-full bg-indigo-500/15 text-indigo-300 border border-indigo-500/20">
-                  Período 2 · 2024
+      <section class="relative overflow-hidden bg-gradient-to-br from-slate-50 via-white to-cyan-50/40 pt-28 pb-16 px-4 sm:px-6 lg:px-8" aria-labelledby="hero-title">
+        <div class="max-w-7xl mx-auto">
+          <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+            <!-- LEFT: Text -->
+            <div>
+              <!-- Badge with pulse dot -->
+              <div class="inline-flex items-center gap-2.5 px-4 py-1.5 mb-8 rounded-full border border-blue-200 bg-blue-50 text-blue-700 text-sm font-medium">
+                <span class="relative flex h-2 w-2">
+                  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-500 opacity-75" />
+                  <span class="relative inline-flex rounded-full h-2 w-2 bg-blue-500" />
                 </span>
+                Plataforma en acceso anticipado — para instituciones pioneras
               </div>
 
-              <!-- Risk summary chips -->
-              <div class="grid grid-cols-3 gap-3 mb-5">
-                <div class="rounded-xl p-3 bg-red-500/10 border border-red-500/20 text-center">
-                  <p class="text-2xl font-bold text-red-400">
-                    12
-                  </p>
-                  <p class="text-xs text-slate-500 mt-0.5">
-                    Riesgo Alto
-                  </p>
-                </div>
-                <div class="rounded-xl p-3 bg-yellow-500/10 border border-yellow-500/20 text-center">
-                  <p class="text-2xl font-bold text-yellow-400">
-                    27
-                  </p>
-                  <p class="text-xs text-slate-500 mt-0.5">
-                    Moderado
-                  </p>
-                </div>
-                <div class="rounded-xl p-3 bg-green-500/10 border border-green-500/20 text-center">
-                  <p class="text-2xl font-bold text-green-400">
-                    189
-                  </p>
-                  <p class="text-xs text-slate-500 mt-0.5">
-                    Sin Riesgo
-                  </p>
-                </div>
-              </div>
+              <!-- Headline -->
+              <h1 id="hero-title" class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 leading-[1.08] tracking-tight mb-6">
+                Detecta el riesgo estudiantil
+                <span class="block text-blue-600">
+                  antes de que sea tarde.
+                </span>
+              </h1>
 
-              <!-- Student rows -->
-              <div class="space-y-2">
-                <div
-                  v-for="(s, i) in [
-                    { name: 'Valentina García', group: 'Grupo 9-A', score: 78, bar: 'bg-red-500', scoreColor: 'text-red-400' },
-                    { name: 'Sebastián Montoya', group: 'Grupo 8-B', score: 51, bar: 'bg-yellow-500', scoreColor: 'text-yellow-400' },
-                    { name: 'Isabella Restrepo', group: 'Grupo 7-A', score: 22, bar: 'bg-green-500', scoreColor: 'text-green-400' }
-                  ]"
-                  :key="i"
-                  class="flex items-center gap-3 p-2.5 rounded-xl bg-white/[0.03] border border-white/[0.05]"
+              <p class="text-lg text-slate-600 leading-relaxed mb-10 max-w-lg">
+                Aula360 es la plataforma académica con IA que analiza el desempeño de cada estudiante en tiempo real, genera recomendaciones pedagógicas personalizadas y ayuda a tu institución a tomar decisiones que transforman vidas.
+              </p>
+
+              <div class="flex flex-col sm:flex-row items-start gap-4">
+                <a
+                  href="/login"
+                  class="inline-flex items-center px-8 py-3.5 text-base font-semibold text-white bg-blue-600 hover:bg-blue-500 rounded-xl shadow-lg shadow-blue-600/25 hover:-translate-y-0.5 transition-all duration-200"
                 >
-                  <div class="w-7 h-7 rounded-full bg-slate-700 shrink-0 flex items-center justify-center">
-                    <span class="text-xs text-slate-400 font-medium">{{ s.name[0] }}</span>
+                  Ingresar al Sistema
+                  <UIcon name="i-lucide-arrow-right" class="size-5 ml-2" />
+                </a>
+                <a
+                  href="#ia"
+                  class="inline-flex items-center px-8 py-3.5 text-base font-medium text-slate-700 border border-slate-300 hover:bg-slate-50 hover:border-slate-400 rounded-xl transition-colors duration-200"
+                >
+                  Conocer la IA
+                  <UIcon name="i-lucide-arrow-right" class="size-5 ml-2" />
+                </a>
+              </div>
+            </div>
+
+            <!-- RIGHT: Dashboard mock -->
+            <div class="relative">
+              <div class="rounded-2xl bg-white border border-slate-200 p-6 shadow-xl shadow-slate-200/60">
+                <!-- Fake browser chrome -->
+                <div class="flex items-center gap-2 mb-5 pb-4 border-b border-slate-100">
+                  <div class="flex gap-1.5">
+                    <div class="w-3 h-3 rounded-full bg-red-400" />
+                    <div class="w-3 h-3 rounded-full bg-yellow-400" />
+                    <div class="w-3 h-3 rounded-full bg-green-400" />
                   </div>
-                  <div class="flex-1 min-w-0">
-                    <p class="text-xs font-medium text-slate-200 truncate">
-                      {{ s.name }}
-                    </p>
-                    <p class="text-xs text-slate-600">
-                      {{ s.group }}
-                    </p>
-                  </div>
+                  <div class="flex-1 h-5 rounded bg-slate-100 max-w-[200px] mx-auto" />
+                </div>
+
+                <!-- Dashboard header -->
+                <div class="flex items-center justify-between mb-5">
                   <div class="flex items-center gap-2">
-                    <div class="w-16 h-1.5 rounded-full bg-slate-800 overflow-hidden">
-                      <div class="h-full rounded-full" :class="s.bar" :style="`width:${s.score}%`" />
-                    </div>
-                    <span class="text-xs font-mono font-semibold w-6 text-right" :class="s.scoreColor">{{ s.score }}</span>
+                    <UIcon name="i-lucide-brain" class="w-4 h-4 text-blue-600" />
+                    <span class="text-sm font-semibold text-slate-900">Índice de Riesgo IA</span>
                   </div>
-                  <div class="flex items-center gap-1 text-xs px-2 py-1 rounded-lg bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 shrink-0 cursor-pointer hover:bg-indigo-500/20 transition-colors">
-                    <UIcon name="i-lucide-sparkles" class="w-3 h-3" />
-                    IA
+                  <span class="text-xs px-2.5 py-1 rounded-full bg-blue-50 text-blue-700 border border-blue-200">
+                    Período 2 · 2024
+                  </span>
+                </div>
+
+                <!-- Risk summary chips -->
+                <div class="grid grid-cols-3 gap-3 mb-5">
+                  <div class="rounded-xl p-3 bg-red-50 border border-red-200 text-center">
+                    <p class="text-2xl font-bold text-red-600">
+                      12
+                    </p>
+                    <p class="text-xs text-slate-500 mt-0.5">
+                      Riesgo Alto
+                    </p>
+                  </div>
+                  <div class="rounded-xl p-3 bg-amber-50 border border-amber-200 text-center">
+                    <p class="text-2xl font-bold text-amber-600">
+                      27
+                    </p>
+                    <p class="text-xs text-slate-500 mt-0.5">
+                      Moderado
+                    </p>
+                  </div>
+                  <div class="rounded-xl p-3 bg-emerald-50 border border-emerald-200 text-center">
+                    <p class="text-2xl font-bold text-emerald-600">
+                      189
+                    </p>
+                    <p class="text-xs text-slate-500 mt-0.5">
+                      Sin Riesgo
+                    </p>
                   </div>
                 </div>
-              </div>
 
-              <!-- AI status bar -->
-              <div class="mt-4 flex items-center gap-2.5 px-3 py-2.5 rounded-xl bg-indigo-500/8 border border-indigo-500/15">
-                <UIcon name="i-lucide-brain" class="w-3.5 h-3.5 text-indigo-400 animate-pulse shrink-0" />
-                <span class="text-xs text-indigo-300/70">Analizando patrones con Claude AI...</span>
-                <div class="flex gap-0.5 ml-auto">
-                  <span class="w-1 h-1 rounded-full bg-indigo-400 animate-bounce" style="animation-delay:0ms" />
-                  <span class="w-1 h-1 rounded-full bg-indigo-400 animate-bounce" style="animation-delay:150ms" />
-                  <span class="w-1 h-1 rounded-full bg-indigo-400 animate-bounce" style="animation-delay:300ms" />
+                <!-- Student rows -->
+                <div class="space-y-2">
+                  <div
+                    v-for="(s, i) in [
+                      { name: 'Valentina García', group: 'Grupo 9-A', score: 78, bar: 'bg-red-500', scoreColor: 'text-red-600' },
+                      { name: 'Sebastián Montoya', group: 'Grupo 8-B', score: 51, bar: 'bg-amber-500', scoreColor: 'text-amber-600' },
+                      { name: 'Isabella Restrepo', group: 'Grupo 7-A', score: 22, bar: 'bg-emerald-500', scoreColor: 'text-emerald-600' }
+                    ]"
+                    :key="i"
+                    class="flex items-center gap-3 p-2.5 rounded-xl bg-slate-50 border border-slate-100"
+                  >
+                    <div class="w-7 h-7 rounded-full bg-slate-200 shrink-0 flex items-center justify-center">
+                      <span class="text-xs text-slate-600 font-semibold">{{ s.name[0] }}</span>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                      <p class="text-xs font-medium text-slate-900 truncate">
+                        {{ s.name }}
+                      </p>
+                      <p class="text-xs text-slate-500">
+                        {{ s.group }}
+                      </p>
+                    </div>
+                    <div class="flex items-center gap-2">
+                      <div class="w-16 h-1.5 rounded-full bg-slate-200 overflow-hidden">
+                        <div class="h-full rounded-full" :class="s.bar" :style="`width:${s.score}%`" />
+                      </div>
+                      <span class="text-xs font-mono font-semibold w-6 text-right" :class="s.scoreColor">{{ s.score }}</span>
+                    </div>
+                    <div class="flex items-center gap-1 text-xs px-2 py-1 rounded-lg bg-blue-50 text-blue-700 border border-blue-200 shrink-0 cursor-pointer hover:bg-blue-100 transition-colors">
+                      <UIcon name="i-lucide-sparkles" class="w-3 h-3" />
+                      IA
+                    </div>
+                  </div>
+                </div>
+
+                <!-- AI status bar -->
+                <div class="mt-4 flex items-center gap-2.5 px-3 py-2.5 rounded-xl bg-blue-50 border border-blue-200">
+                  <UIcon name="i-lucide-brain" class="w-3.5 h-3.5 text-blue-600 animate-pulse shrink-0" />
+                  <span class="text-xs text-blue-700">Analizando patrones con Claude AI...</span>
+                  <div class="flex gap-0.5 ml-auto ai-dots">
+                    <span class="w-1 h-1 rounded-full bg-blue-500 ai-dot" style="animation-delay:0ms" />
+                    <span class="w-1 h-1 rounded-full bg-blue-500 ai-dot" style="animation-delay:150ms" />
+                    <span class="w-1 h-1 rounded-full bg-blue-500 ai-dot" style="animation-delay:300ms" />
+                  </div>
                 </div>
               </div>
             </div>
@@ -449,42 +502,88 @@ const showDemo = ref(false)
         </div>
       </section>
 
+      <!-- ============ SOCIAL PROOF STATS ============ -->
+      <section class="bg-white border-y border-slate-200 py-10 px-4 sm:px-6 lg:px-8" aria-label="Estadísticas de la plataforma">
+        <div class="max-w-5xl mx-auto">
+          <!-- Testimonial trust anchor -->
+          <figure class="text-center mb-8 pb-8 border-b border-slate-200">
+            <blockquote class="text-slate-700 text-sm italic leading-relaxed max-w-xl mx-auto mb-3">
+              "Pasamos de hojas de cálculo a tener todo centralizado. En 48 horas ya teníamos los boletines del primer período listos."
+            </blockquote>
+            <figcaption class="text-slate-500 text-xs">
+              — Coordinadora Académica, Institución Educativa, Bogotá D.C.
+            </figcaption>
+          </figure>
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-0 md:divide-x md:divide-slate-200">
+            <div class="flex flex-col items-center text-center md:px-8">
+              <p class="text-3xl font-extrabold text-slate-900 mb-1">
+                13
+              </p>
+              <p class="text-sm text-slate-500">
+                Módulos integrados
+              </p>
+            </div>
+            <div class="flex flex-col items-center text-center md:px-8">
+              <p class="text-3xl font-extrabold text-blue-600 mb-1">
+                100%
+              </p>
+              <p class="text-sm text-slate-500">
+                Normativa MEN / SIEE
+              </p>
+            </div>
+            <div class="flex flex-col items-center text-center md:px-8">
+              <p class="text-3xl font-extrabold text-slate-900 mb-1">
+                48h
+              </p>
+              <p class="text-sm text-slate-500">
+                Onboarding guiado
+              </p>
+            </div>
+            <div class="flex flex-col items-center text-center md:px-8">
+              <p class="text-3xl font-extrabold text-emerald-600 mb-1">
+                24/7
+              </p>
+              <p class="text-sm text-slate-500">
+                Portal para padres
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <!-- ============ AI FEATURES ============ -->
-      <section id="ia" class="relative bg-slate-900 py-24 px-4 sm:px-6 lg:px-8 border-b border-white/[0.06]" aria-labelledby="ia-title">
+      <section id="ia" class="bg-slate-50 py-24 px-4 sm:px-6 lg:px-8 border-b border-slate-200" aria-labelledby="ia-title">
         <div class="max-w-7xl mx-auto">
           <div class="text-center mb-16">
-            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-violet-500/10 border border-violet-500/20 text-violet-300 text-xs font-semibold uppercase tracking-widest mb-4">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-200 text-blue-700 text-xs font-medium tracking-wide mb-4">
               <UIcon name="i-lucide-sparkles" class="w-3.5 h-3.5" />
               Motor de Inteligencia Artificial
             </div>
-            <h2 id="ia-title" class="text-3xl sm:text-4xl font-bold text-white mb-4">
-              IA que realmente <span class="text-violet-400">impacta el aprendizaje</span>
+            <h2 id="ia-title" class="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">
+              IA que realmente <span class="text-blue-600">impacta el aprendizaje</span>
             </h2>
-            <p class="text-slate-400 text-lg max-w-2xl mx-auto">
+            <p class="text-slate-600 text-lg max-w-2xl mx-auto">
               No es automatización básica. Es análisis profundo impulsado por IA que convierte datos académicos en acciones concretas para cada estudiante.
             </p>
           </div>
 
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
             <article
               v-for="feature in aiFeatures"
               :key="feature.title"
-              class="relative group rounded-2xl bg-slate-800/60 border border-white/[0.08] backdrop-blur-sm p-6 overflow-hidden hover:border-white/[0.15] transition-all duration-300 hover:bg-slate-800/80"
+              class="group rounded-3xl p-10 overflow-hidden hover:-translate-y-1 hover:shadow-2xl transition-all duration-300 cursor-default"
+              :style="feature.cardStyle"
             >
-              <!-- Colored left border accent -->
-              <div class="absolute left-0 top-6 bottom-6 w-[3px] rounded-full bg-gradient-to-b" :class="`${feature.accentFrom} ${feature.accentTo}`" />
-
-              <!-- Glowing icon -->
-              <div class="relative mb-5 w-12 h-12 rounded-xl flex items-center justify-center">
-                <div class="absolute inset-0 rounded-xl opacity-20 blur-md" :class="feature.glowBlur" />
-                <div class="absolute inset-0 rounded-xl" :class="feature.glowBg" />
-                <UIcon :name="feature.icon" class="relative size-5" :class="feature.iconColor" />
+              <!-- Icon + Title inline -->
+              <div class="flex items-center gap-3 mb-5">
+                <div class="w-11 h-11 rounded-xl flex items-center justify-center bg-white/20 shrink-0">
+                  <UIcon :name="feature.icon" class="size-5 text-white" />
+                </div>
+                <h3 class="text-lg font-bold text-white leading-snug">
+                  {{ feature.title }}
+                </h3>
               </div>
-
-              <h3 class="text-lg font-semibold text-white mb-2">
-                {{ feature.title }}
-              </h3>
-              <p class="text-sm text-slate-400 leading-relaxed">
+              <p class="text-sm text-white/80 leading-relaxed pl-14">
                 {{ feature.description }}
               </p>
             </article>
@@ -493,13 +592,13 @@ const showDemo = ref(false)
       </section>
 
       <!-- ============ MODULES ============ -->
-      <section id="modulos" class="py-24 px-4 sm:px-6 lg:px-8 bg-slate-950 border-b border-white/[0.06]" aria-labelledby="modulos-title">
+      <section id="modulos" class="py-24 px-4 sm:px-6 lg:px-8 bg-white border-b border-slate-200" aria-labelledby="modulos-title">
         <div class="max-w-5xl mx-auto">
           <div class="text-center mb-12">
-            <h2 id="modulos-title" class="text-3xl sm:text-4xl font-bold text-white mb-4">
+            <h2 id="modulos-title" class="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">
               Todo lo que tu institución necesita,<br class="hidden sm:block"> en un solo lugar
             </h2>
-            <p class="text-lg text-slate-400 max-w-2xl mx-auto">
+            <p class="text-lg text-slate-600 max-w-2xl mx-auto">
               13 módulos diseñados para el contexto educativo colombiano. Explora por categoría.
             </p>
           </div>
@@ -509,10 +608,10 @@ const showDemo = ref(false)
             <button
               v-for="cat in moduleCategories"
               :key="cat.key"
-              class="inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium border transition-all duration-200"
+              class="inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium border transition-all duration-200 cursor-pointer"
               :class="activeCategoryKey === cat.key
-                ? 'bg-indigo-500/20 border-indigo-500/40 text-indigo-300'
-                : 'bg-white/[0.03] border-white/[0.08] text-slate-400 hover:text-white hover:bg-white/[0.06]'"
+                ? 'bg-blue-600 border-blue-600 text-white shadow-sm'
+                : 'bg-white border-slate-200 text-slate-600 hover:text-slate-900 hover:border-slate-300 hover:bg-slate-50'"
               @click="setModuleCategory(cat.key)"
             >
               <UIcon :name="cat.icon" class="w-3.5 h-3.5" />
@@ -529,19 +628,19 @@ const showDemo = ref(false)
               <article
                 v-for="mod in filteredModules"
                 :key="mod.title"
-                class="group flex items-start gap-4 bg-slate-900 rounded-2xl p-5 border border-white/[0.06] hover:border-white/[0.12] hover:-translate-y-0.5 transition-all duration-200"
+                class="group flex items-start gap-4 bg-white rounded-2xl p-5 border border-slate-200 shadow-sm hover:border-indigo-300 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200"
               >
                 <div class="p-2.5 rounded-xl shrink-0 mt-0.5" :class="mod.pill">
                   <UIcon :name="mod.icon" class="size-5" :class="mod.iconColor" />
                 </div>
                 <div class="min-w-0">
                   <div class="flex items-center gap-2 mb-1">
-                    <h3 class="text-sm font-semibold text-white group-hover:text-indigo-300 transition-colors duration-200">
+                    <h3 class="text-sm font-semibold text-slate-900 group-hover:text-blue-600 transition-colors duration-200">
                       {{ mod.title }}
                     </h3>
                     <span
                       v-if="mod.badge"
-                      class="text-xs px-1.5 py-0.5 rounded-md bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 font-semibold"
+                      class="text-xs px-1.5 py-0.5 rounded-md bg-blue-100 text-blue-700 border border-blue-200 font-semibold"
                     >
                       {{ mod.badge }}
                     </span>
@@ -555,96 +654,90 @@ const showDemo = ref(false)
           </Transition>
 
           <!-- Module count hint -->
-          <p class="text-center text-xs text-slate-700 mt-8">
+          <p class="text-center text-xs text-slate-400 mt-8">
             Mostrando {{ filteredModules.length }} de 13 módulos
           </p>
         </div>
       </section>
 
       <!-- ============ BENEFITS ============ -->
-      <section id="beneficios" class="relative py-24 px-4 sm:px-6 lg:px-8 overflow-hidden border-b border-white/[0.06]" aria-labelledby="beneficios-title">
-        <div aria-hidden="true" class="absolute inset-0 bg-gradient-to-br from-slate-950 via-indigo-950/50 to-slate-950 pointer-events-none" />
-        <div aria-hidden="true" class="absolute top-0 right-0 w-[600px] h-[600px] rounded-full bg-violet-600/10 blur-[120px] pointer-events-none" />
-
-        <div class="relative z-10 max-w-7xl mx-auto">
+      <section id="beneficios" class="py-24 px-4 sm:px-6 lg:px-8 bg-slate-50 border-b border-slate-200" aria-labelledby="beneficios-title">
+        <div class="max-w-7xl mx-auto">
           <div class="text-center mb-16">
-            <h2 id="beneficios-title" class="text-3xl sm:text-4xl font-bold text-white mb-4">
+            <h2 id="beneficios-title" class="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">
               Diseñado para cada actor de tu institución
             </h2>
-            <p class="text-lg text-slate-400 max-w-2xl mx-auto">
+            <p class="text-lg text-slate-600 max-w-2xl mx-auto">
               Cada rol tiene exactamente lo que necesita, sin complejidad innecesaria.
             </p>
           </div>
 
           <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
             <!-- Institution -->
-            <article class="relative rounded-2xl p-8 overflow-hidden bg-blue-600/10 backdrop-blur-xl border border-blue-500/20 hover:border-blue-400/30 transition-all duration-300 hover:bg-blue-600/15">
-              <div aria-hidden="true" class="absolute -top-12 -right-12 w-32 h-32 rounded-full bg-blue-500/20 blur-2xl pointer-events-none" />
-              <div class="relative">
-                <div class="p-3 bg-blue-500/20 rounded-xl border border-blue-400/20 w-fit mb-6">
-                  <UIcon name="i-lucide-building-2" class="size-6 text-blue-300" />
+            <article class="rounded-2xl p-10 bg-white border border-slate-200 shadow-sm hover:shadow-md transition-all duration-300">
+              <div class="flex items-center gap-3 mb-8">
+                <div class="p-2.5 bg-blue-50 rounded-xl shrink-0">
+                  <UIcon name="i-lucide-building-2" class="size-5 text-blue-500" />
                 </div>
-                <h3 class="text-xl font-bold text-white mb-6">
+                <h3 class="text-lg font-bold text-slate-900">
                   Para Directivos y Coordinadores
                 </h3>
-                <ul class="space-y-3">
-                  <li v-for="b in benefitsInstitution" :key="b" class="flex items-start gap-3">
-                    <UIcon name="i-lucide-check-circle" class="size-4 shrink-0 mt-0.5 text-blue-300" />
-                    <span class="text-sm text-blue-100/80">{{ b }}</span>
-                  </li>
-                </ul>
               </div>
+              <ul class="space-y-4">
+                <li v-for="b in benefitsInstitution" :key="b" class="flex items-start gap-3">
+                  <UIcon name="i-lucide-check-circle" class="size-4 shrink-0 mt-0.5 text-blue-400" />
+                  <span class="text-sm text-slate-600 leading-relaxed">{{ b }}</span>
+                </li>
+              </ul>
             </article>
 
             <!-- Teachers -->
-            <article class="relative rounded-2xl p-8 overflow-hidden bg-emerald-600/10 backdrop-blur-xl border border-emerald-500/20 hover:border-emerald-400/30 transition-all duration-300 hover:bg-emerald-600/15">
-              <div aria-hidden="true" class="absolute -top-12 -right-12 w-32 h-32 rounded-full bg-emerald-500/20 blur-2xl pointer-events-none" />
-              <div class="relative">
-                <div class="p-3 bg-emerald-500/20 rounded-xl border border-emerald-400/20 w-fit mb-6">
-                  <UIcon name="i-lucide-book-open" class="size-6 text-emerald-300" />
+            <article class="rounded-2xl p-10 bg-white border border-slate-200 shadow-sm hover:shadow-md transition-all duration-300">
+              <div class="flex items-center gap-3 mb-8">
+                <div class="p-2.5 bg-emerald-50 rounded-xl shrink-0">
+                  <UIcon name="i-lucide-book-open" class="size-5 text-emerald-500" />
                 </div>
-                <h3 class="text-xl font-bold text-white mb-6">
+                <h3 class="text-lg font-bold text-slate-900">
                   Para Docentes
                 </h3>
-                <ul class="space-y-3">
-                  <li v-for="b in benefitsTeachers" :key="b" class="flex items-start gap-3">
-                    <UIcon name="i-lucide-check-circle" class="size-4 shrink-0 mt-0.5 text-emerald-300" />
-                    <span class="text-sm text-emerald-100/80">{{ b }}</span>
-                  </li>
-                </ul>
               </div>
+              <ul class="space-y-4">
+                <li v-for="b in benefitsTeachers" :key="b" class="flex items-start gap-3">
+                  <UIcon name="i-lucide-check-circle" class="size-4 shrink-0 mt-0.5 text-emerald-400" />
+                  <span class="text-sm text-slate-600 leading-relaxed">{{ b }}</span>
+                </li>
+              </ul>
             </article>
 
             <!-- Parents -->
-            <article class="relative rounded-2xl p-8 overflow-hidden bg-purple-600/10 backdrop-blur-xl border border-purple-500/20 hover:border-purple-400/30 transition-all duration-300 hover:bg-purple-600/15">
-              <div aria-hidden="true" class="absolute -top-12 -right-12 w-32 h-32 rounded-full bg-purple-500/20 blur-2xl pointer-events-none" />
-              <div class="relative">
-                <div class="p-3 bg-purple-500/20 rounded-xl border border-purple-400/20 w-fit mb-6">
-                  <UIcon name="i-lucide-heart" class="size-6 text-purple-300" />
+            <article class="rounded-2xl p-10 bg-white border border-slate-200 shadow-sm hover:shadow-md transition-all duration-300">
+              <div class="flex items-center gap-3 mb-8">
+                <div class="p-2.5 bg-violet-50 rounded-xl shrink-0">
+                  <UIcon name="i-lucide-heart" class="size-5 text-violet-500" />
                 </div>
-                <h3 class="text-xl font-bold text-white mb-6">
+                <h3 class="text-lg font-bold text-slate-900">
                   Para Padres de Familia
                 </h3>
-                <ul class="space-y-3">
-                  <li v-for="b in benefitsParents" :key="b" class="flex items-start gap-3">
-                    <UIcon name="i-lucide-check-circle" class="size-4 shrink-0 mt-0.5 text-purple-300" />
-                    <span class="text-sm text-purple-100/80">{{ b }}</span>
-                  </li>
-                </ul>
               </div>
+              <ul class="space-y-4">
+                <li v-for="b in benefitsParents" :key="b" class="flex items-start gap-3">
+                  <UIcon name="i-lucide-check-circle" class="size-4 shrink-0 mt-0.5 text-violet-400" />
+                  <span class="text-sm text-slate-600 leading-relaxed">{{ b }}</span>
+                </li>
+              </ul>
             </article>
           </div>
         </div>
       </section>
 
       <!-- ============ INCLUDED BAND ============ -->
-      <section class="px-4 sm:px-6 lg:px-8 py-16 border-t border-white/[0.06] bg-slate-950" aria-labelledby="incluido-title">
+      <section class="px-4 sm:px-6 lg:px-8 py-16 border-t border-slate-200 bg-white" aria-labelledby="incluido-title">
         <div class="max-w-7xl mx-auto">
-          <h2 id="incluido-title" class="text-center text-slate-400 text-sm font-medium mb-2 uppercase tracking-wider">
+          <h2 id="incluido-title" class="text-center text-slate-500 text-sm font-medium mb-2 uppercase tracking-wider">
             Incluido en todos los planes
           </h2>
           <p class="text-center mb-10">
-            <a href="/pricing" class="text-indigo-400 hover:text-indigo-300 text-sm font-semibold transition-colors">
+            <a href="/pricing" class="text-blue-600 hover:text-blue-700 text-sm font-semibold transition-colors">
               Desde $490.000/mes · Ver precios →
             </a>
           </p>
@@ -654,11 +747,11 @@ const showDemo = ref(false)
               :key="item.label"
               class="flex flex-col items-center text-center gap-3"
             >
-              <div class="w-12 h-12 rounded-xl bg-slate-800 border border-white/10 flex items-center justify-center">
-                <UIcon :name="item.icon" class="w-5 h-5 text-indigo-400" />
+              <div class="w-12 h-12 rounded-xl bg-blue-50 border border-blue-100 flex items-center justify-center">
+                <UIcon :name="item.icon" class="w-5 h-5 text-blue-600" />
               </div>
               <div>
-                <p class="text-white text-sm font-medium">
+                <p class="text-slate-900 text-sm font-medium">
                   {{ item.label }}
                 </p>
                 <p class="text-slate-500 text-xs mt-0.5">
@@ -671,66 +764,57 @@ const showDemo = ref(false)
       </section>
 
       <!-- ============ CTA ============ -->
-      <section id="contacto" class="relative overflow-hidden py-24 px-4 sm:px-6 lg:px-8" aria-labelledby="cta-title">
-        <div aria-hidden="true" class="absolute inset-0 bg-gradient-to-br from-indigo-700 via-indigo-600 to-violet-700 pointer-events-none" />
-        <div aria-hidden="true" class="absolute inset-0 opacity-30 pointer-events-none" style="background-image: radial-gradient(circle at 20% 80%, rgba(139,92,246,0.4) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(79,70,229,0.4) 0%, transparent 50%);" />
-        <div aria-hidden="true" class="absolute top-0 left-1/2 -translate-x-1/2 w-full h-px bg-gradient-to-r from-transparent via-white/30 to-transparent pointer-events-none" />
-
-        <div class="relative z-10 max-w-4xl mx-auto text-center">
-          <h2 id="cta-title" class="text-3xl sm:text-5xl font-extrabold text-white mb-6 leading-tight tracking-tight">
-            Tu institución merece tomar<br class="hidden sm:block"> decisiones con datos reales.
-          </h2>
-          <p class="text-lg text-indigo-200 mb-10 max-w-2xl mx-auto leading-relaxed">
-            Aula360 está lista para tu institución. Sé parte de las primeras instituciones colombianas en usar IA para detectar riesgo estudiantil, reducir carga administrativa y mantener a los padres informados.
-          </p>
-          <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <button
-              type="button"
-              class="inline-flex items-center px-8 py-3.5 text-base font-bold text-indigo-700 bg-white hover:bg-indigo-50 rounded-xl shadow-xl shadow-black/20 hover:-translate-y-0.5 transition-all duration-200"
-              @click="showDemo = true"
-            >
-              <UIcon name="i-lucide-calendar" class="size-5 mr-2" />
-              Solicitar Demo Gratuita
-            </button>
-            <a
-              href="/login"
-              class="inline-flex items-center px-8 py-3.5 text-base font-medium text-white border border-white/30 hover:bg-white/10 hover:border-white/50 backdrop-blur-sm rounded-xl transition-all duration-200"
-            >
-              Ingresar al Sistema
-            </a>
+      <section id="contacto" class="py-16 px-4 sm:px-6 lg:px-8 bg-white" aria-labelledby="cta-title">
+        <div class="max-w-5xl mx-auto">
+          <div class="rounded-3xl px-8 py-16 sm:px-16 sm:py-20 text-center bg-gradient-to-br from-teal-100 via-cyan-50 to-emerald-100">
+            <h2 id="cta-title" class="text-3xl sm:text-5xl font-extrabold text-slate-900 mb-6 leading-tight tracking-tight">
+              Tu institución merece tomar<br class="hidden sm:block"> decisiones con datos reales.
+            </h2>
+            <p class="text-lg text-slate-600 mb-10 max-w-2xl mx-auto leading-relaxed">
+              Aula360 está lista para tu institución. Sé parte de las primeras instituciones colombianas en usar IA para detectar riesgo estudiantil, reducir carga administrativa y mantener a los padres informados.
+            </p>
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+              <button
+                type="button"
+                class="inline-flex items-center px-8 py-3.5 text-base font-bold text-white bg-slate-900 hover:bg-slate-800 rounded-xl shadow-lg hover:-translate-y-0.5 transition-all duration-200 cursor-pointer"
+                @click="showDemo = true"
+              >
+                Solicitar Demo Gratuita
+                <UIcon name="i-lucide-arrow-right" class="size-5 ml-2" />
+              </button>
+              <a
+                href="/login"
+                class="inline-flex items-center px-8 py-3.5 text-base font-medium text-slate-900 border-2 border-slate-900 hover:bg-slate-900/10 rounded-xl transition-all duration-200"
+              >
+                Ingresar al Sistema
+                <UIcon name="i-lucide-arrow-right" class="size-5 ml-2" />
+              </a>
+            </div>
           </div>
         </div>
       </section>
     </main>
 
     <!-- ============ FOOTER ============ -->
-    <footer class="bg-slate-950 border-t border-white/[0.06] py-12 px-4 sm:px-6 lg:px-8" role="contentinfo">
+    <footer class="bg-slate-50 border-t border-slate-200 py-12 px-4 sm:px-6 lg:px-8" role="contentinfo">
       <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
-        <a href="/" class="flex items-center gap-3" aria-label="Aula360 - Inicio">
-          <img
-            src="/logo.svg"
-            alt="Aula360"
-            class="h-8 w-8"
-            width="32"
-            height="32"
-            loading="lazy"
-          >
-          <span class="text-xl font-bold text-white">Aula<span class="text-indigo-400">360</span></span>
+        <a href="/" aria-label="Aula360 - Inicio">
+          <span class="text-xl font-bold text-slate-900">Aula<span class="text-blue-600">360</span></span>
         </a>
-        <p class="text-slate-500 text-center italic text-sm">
+        <p class="text-slate-500 text-center text-sm">
           Gestión Académica con IA para instituciones educativas colombianas.
         </p>
         <div class="flex flex-col items-center md:items-end gap-1">
-          <p class="text-slate-600 text-sm">
+          <p class="text-slate-500 text-sm">
             © {{ new Date().getFullYear() }} Aula360. Todos los derechos reservados.
           </p>
-          <p class="text-slate-700 text-xs">
+          <p class="text-slate-400 text-xs">
             Desarrollado por
             <a
               href="https://mauriciomontoya.co"
               target="_blank"
               rel="noopener noreferrer"
-              class="text-slate-500 hover:text-slate-300 transition-colors"
+              class="text-slate-500 hover:text-slate-700 transition-colors"
             >Mauricio Montoya</a>
           </p>
         </div>
@@ -753,5 +837,49 @@ const showDemo = ref(false)
 .mod-tab-leave-to {
   opacity: 0;
   transform: translateY(-6px);
+}
+
+/* Mobile menu transition */
+.mobile-menu-enter-active,
+.mobile-menu-leave-active {
+  transition: opacity 0.15s ease, transform 0.15s ease;
+}
+.mobile-menu-enter-from,
+.mobile-menu-leave-to {
+  opacity: 0;
+  transform: translateY(-8px);
+}
+
+/* AI typing dots */
+.ai-dot {
+  animation: ai-bounce 1s ease-in-out infinite;
+}
+@keyframes ai-bounce {
+  0%, 80%, 100% { transform: translateY(0); opacity: 0.6; }
+  40% { transform: translateY(-4px); opacity: 1; }
+}
+
+/* Respect user's motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .mod-tab-enter-active,
+  .mod-tab-leave-active,
+  .mobile-menu-enter-active,
+  .mobile-menu-leave-active {
+    transition: opacity 0.1s ease;
+  }
+  .mod-tab-enter-from,
+  .mod-tab-leave-to {
+    transform: none;
+  }
+  .ai-dot {
+    animation: none;
+    opacity: 0.7;
+  }
+  .animate-ping {
+    animation: none;
+  }
+  .animate-pulse {
+    animation: none;
+  }
 }
 </style>

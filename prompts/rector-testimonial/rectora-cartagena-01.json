@@ -1,0 +1,19 @@
+{
+  "prompt": "Colombian woman in her early 50s, Afro-Colombian, warm confident smile, wearing a navy blazer over a white blouse, standing in a colonial school corridor in Cartagena, colorful arched walls behind her, ceiling fan visible, soft warm natural light through open archway, she is the school rector, natural skin texture, real hair, authentic expression, not stock photo",
+  "negative_prompt": "blurry, extra fingers, watermark, cartoon, plastic skin, airbrushed, stock photo feel, European-only features, cold lighting",
+  "settings": {
+    "resolution": "1536x1536",
+    "aspect_ratio": "1:1",
+    "style": "editorial-professional",
+    "lighting": "warm-tropical-window",
+    "camera": {
+      "lens": "85mm",
+      "angle": "eye-level",
+      "framing": "medium",
+      "height": "eye-level",
+      "depth_of_field": "shallow",
+      "focus": "subject"
+    },
+    "color_grading": "warm"
+  }
+}
