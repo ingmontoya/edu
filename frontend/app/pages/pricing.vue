@@ -152,14 +152,6 @@ useHead({
 
 const billing = ref<'monthly' | 'annual'>('annual')
 
-const navLinks = [
-  { label: 'Inteligencia Artificial', href: '/#ia' },
-  { label: 'Módulos', href: '/#modulos' },
-  { label: 'Beneficios', href: '/#beneficios' },
-  { label: 'Comparativo', href: '/#comparativo' },
-  { label: 'Precios', href: '/pricing' },
-  { label: 'Contacto', href: '/#contacto' }
-]
 
 interface Plan {
   name: string
@@ -341,36 +333,7 @@ const showDemo = ref(false)
 <template>
   <div class="min-h-screen bg-white" style="font-family: 'Figtree', ui-sans-serif, system-ui, sans-serif;">
     <!-- Navbar -->
-    <header class="fixed top-0 left-0 right-0 z-50 bg-white border-b border-slate-200 shadow-sm">
-      <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" aria-label="Navegación principal">
-        <div class="flex items-center justify-between h-16">
-          <a href="/" aria-label="Aula360 - Ir al inicio">
-            <span class="text-xl font-bold text-slate-900">Aula<span class="text-blue-600">360</span></span>
-          </a>
-          <div class="hidden md:flex items-center gap-6">
-            <a
-              v-for="link in navLinks"
-              :key="link.href"
-              :href="link.href"
-              :class="[
-                'text-sm transition-colors duration-200',
-                link.href === '/pricing'
-                  ? 'text-slate-900 font-semibold'
-                  : 'text-slate-600 hover:text-slate-900'
-              ]"
-            >{{ link.label }}</a>
-          </div>
-          <div class="flex items-center gap-3">
-            <a href="/login" class="hidden sm:inline-flex items-center px-4 py-2 text-sm font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-colors duration-200">
-              Iniciar Sesión
-            </a>
-            <button type="button" class="inline-flex items-center px-4 py-2 text-sm font-semibold text-white bg-blue-600 hover:bg-blue-500 rounded-lg transition-colors duration-200 cursor-pointer" @click="showDemo = true">
-              Solicitar Demo
-            </button>
-          </div>
-        </div>
-      </nav>
-    </header>
+    <PublicNavbar @open-demo="showDemo = true" />
 
     <main>
       <!-- Hero -->
