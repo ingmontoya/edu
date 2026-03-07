@@ -6,7 +6,7 @@ definePageMeta({
 useSeoMeta({
   title: 'Precios — Aula360 | Software de Gestión Académica para Colegios Colombianos',
   description: 'Planes transparentes para instituciones educativas colombianas. Desde $490.000/mes. Sin costos ocultos, sin costo por docente. Boletines PDF, SIEE, portal de padres e IA incluidos.',
-  keywords: 'precio software gestión académica colombia, plan aula360, precio plataforma educativa colegio, software colegio colombia precio, gestión escolar SaaS colombia',
+  keywords: 'precio software gestión académica colombia, plan aula360, precio plataforma educativa colegio, software colegio colombia precio, gestión escolar SaaS colombia, cuánto cuesta software escolar colombia, plan básico estándar avanzado aula360, software académico sin costo por docente, prueba gratuita software colegio, SaaS educativo colombia precio público',
   author: 'Aula360',
   robots: 'index, follow',
   ogTitle: 'Precios Aula360 — Software Académico para Colegios Colombianos',
@@ -485,6 +485,17 @@ const showDemo = ref(false)
         </div>
       </section>
 
+
+      <!-- Enlace sector oficial -->
+      <div class="text-center pb-10 px-4">
+        <p class="text-sm text-slate-500">
+          ¿Eres una institución educativa oficial (colegio público)?
+          <a href="/sector-oficial" class="text-blue-600 hover:text-blue-700 font-semibold transition-colors">
+            Ver oferta para el sector oficial →
+          </a>
+        </p>
+      </div>
+
       <!-- ROI -->
       <section class="px-4 sm:px-6 lg:px-8 py-20 bg-slate-50 border-y border-slate-200" aria-labelledby="roi-heading">
         <div class="max-w-7xl mx-auto">
@@ -649,34 +660,7 @@ const showDemo = ref(false)
     </main>
 
     <!-- Footer -->
-    <footer class="bg-slate-50 border-t border-slate-200 py-12 px-4 sm:px-6 lg:px-8" role="contentinfo">
-      <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
-        <a href="/" aria-label="Aula360 - Inicio">
-          <span class="text-xl font-bold text-slate-900">Aula<span class="text-blue-600">360</span></span>
-        </a>
-        <p class="text-slate-500 text-center text-sm">
-          Gestión Académica con IA para instituciones educativas colombianas.
-        </p>
-        <div class="flex flex-col items-center md:items-end gap-1">
-          <div class="flex items-center gap-4">
-            <a href="/pricing" class="text-sm text-blue-600 hover:text-blue-700 transition-colors font-medium">Precios</a>
-            <span class="text-slate-300">·</span>
-            <a href="/#contacto" class="text-sm text-slate-500 hover:text-slate-700 transition-colors">Contacto</a>
-            <span class="text-slate-300">·</span>
-            <span class="text-slate-500 text-sm">© {{ new Date().getFullYear() }} Aula360.</span>
-          </div>
-          <p class="text-slate-400 text-xs">
-            Desarrollado por
-            <a
-              href="https://mauriciomontoya.co"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="text-slate-500 hover:text-slate-700 transition-colors"
-            >Mauricio Montoya</a>
-          </p>
-        </div>
-      </div>
-    </footer>
+    <PublicFooter />
 
     <DemoFormModal v-model="showDemo" />
   </div>

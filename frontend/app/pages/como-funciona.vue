@@ -4,17 +4,69 @@ definePageMeta({
 })
 
 useSeoMeta({
-  title: 'Cómo funciona Aula360 — Flujos y detalles de la plataforma',
-  description: 'Conoce en detalle cómo Aula360 gestiona el ciclo académico completo: notas, asistencia, riesgo estudiantil con IA, boletines PDF y portal de padres.',
-  robots: 'index, follow'
+  title: 'Cómo funciona Aula360 — Ciclo Académico para Colegios Colombianos',
+  description: 'Descubre cómo Aula360 gestiona el ciclo académico completo: notas, asistencia, riesgo estudiantil con IA, boletines PDF, SIEE y portal de padres.',
+  keywords: 'cómo funciona software gestión académica, ciclo académico colegio colombia, índice riesgo estudiantil IA, boletines PDF automáticos colegio, portal padres colegio colombia, SIEE evaluación logros colombia, SIMAT exportación MEN, asistencia escolar digital, calificaciones escala colombiana, convivencia escolar Ley 1620',
+  author: 'Aula360',
+  robots: 'index, follow',
+  ogTitle: 'Cómo funciona Aula360 — Ciclo Académico para Colegios Colombianos',
+  ogDescription: 'Descubre cómo Aula360 gestiona el ciclo académico completo: notas, asistencia, riesgo estudiantil con IA, boletines PDF, SIEE y portal de padres.',
+  ogType: 'website',
+  ogImage: 'https://aula360.com/og-image.png',
+  ogImageWidth: '1200',
+  ogImageHeight: '630',
+  ogImageAlt: 'Aula360 — Cómo funciona la plataforma de gestión académica para colegios colombianos',
+  ogUrl: 'https://aula360.com/como-funciona',
+  ogLocale: 'es_CO',
+  ogLocaleAlternate: ['es_ES', 'es_419'],
+  ogSiteName: 'Aula360',
+  twitterCard: 'summary_large_image',
+  twitterSite: '@aula360co',
+  twitterCreator: '@aula360co',
+  twitterTitle: 'Cómo funciona Aula360 — Ciclo Académico para Colegios Colombianos',
+  twitterDescription: 'Desde la configuración inicial hasta el boletín PDF. Todo en una sola plataforma para colegios colombianos.',
+  twitterImage: 'https://aula360.com/og-image.png'
 })
 
 useHead({
   htmlAttrs: { lang: 'es-CO' },
+  meta: [
+    { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+    { name: 'theme-color', content: '#006DB0' },
+    { name: 'color-scheme', content: 'light' }
+  ],
   link: [
     { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
     { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' },
-    { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800;900&display=swap' }
+    { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800;900&display=swap' },
+    { rel: 'canonical', href: 'https://aula360.com/como-funciona' },
+    { rel: 'sitemap', type: 'application/xml', href: 'https://aula360.com/sitemap.xml' }
+  ],
+  script: [
+    {
+      type: 'application/ld+json',
+      innerHTML: JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'WebPage',
+        'name': 'Cómo funciona Aula360',
+        'url': 'https://aula360.com/como-funciona',
+        'description': 'Flujos detallados de la plataforma Aula360: ciclo académico, índice de riesgo estudiantil con IA, generación de boletines PDF y portal de padres para instituciones educativas colombianas.',
+        'inLanguage': 'es-CO',
+        'isPartOf': { '@type': 'WebSite', 'url': 'https://aula360.com', 'name': 'Aula360' },
+        'about': { '@type': 'SoftwareApplication', 'name': 'Aula360', 'applicationCategory': 'EducationalApplication', 'url': 'https://aula360.com' }
+      })
+    },
+    {
+      type: 'application/ld+json',
+      innerHTML: JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        'itemListElement': [
+          { '@type': 'ListItem', 'position': 1, 'name': 'Inicio', 'item': 'https://aula360.com' },
+          { '@type': 'ListItem', 'position': 2, 'name': 'Cómo funciona', 'item': 'https://aula360.com/como-funciona' }
+        ]
+      })
+    }
   ]
 })
 
@@ -53,7 +105,7 @@ const cycleSteps = [
     number: '05',
     icon: 'i-lucide-brain',
     title: 'Análisis con IA',
-    description: 'El motor de IA calcula el índice de riesgo por estudiante y genera recomendaciones pedagógicas personalizadas con Claude AI.',
+    description: 'El motor de IA calcula el índice de riesgo por estudiante y genera recomendaciones pedagógicas personalizadas con IA.',
     color: 'cyan'
   },
   {
@@ -255,7 +307,7 @@ const colorMap: Record<string, { dot: string; connector: string; number: string 
               <!-- Score display -->
               <div class="w-full rounded-2xl bg-white border border-blue-200 shadow-lg p-7 text-center">
                 <UIcon name="i-lucide-brain" class="size-8 text-blue-600 mx-auto mb-3 animate-pulse" />
-                <p class="text-xs font-semibold uppercase tracking-widest text-blue-500 mb-2">Claude AI analiza y pondera</p>
+                <p class="text-xs font-semibold uppercase tracking-widest text-blue-500 mb-2">IA analiza y pondera</p>
                 <div class="text-6xl font-black text-slate-900 leading-none mb-2">0–100</div>
                 <p class="text-sm text-slate-400">Puntaje de riesgo por estudiante</p>
 
@@ -295,7 +347,7 @@ const colorMap: Record<string, { dot: string; connector: string; number: string 
                   <p class="text-sm font-bold text-violet-800">Narrativa pedagógica IA</p>
                 </div>
                 <p class="text-xs text-violet-700 leading-relaxed">
-                  Claude genera un informe personalizado con análisis de causas y recomendaciones concretas de intervención para el docente.
+                  La IA genera un informe personalizado con análisis de causas y recomendaciones concretas de intervención para el docente.
                 </p>
               </div>
             </div>
@@ -584,19 +636,7 @@ const colorMap: Record<string, { dot: string; connector: string; number: string 
     </main>
 
     <!-- FOOTER -->
-    <footer class="bg-slate-50 border-t border-slate-200 py-10 px-4 sm:px-6 lg:px-8" role="contentinfo">
-      <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
-        <a href="/" aria-label="Aula360 - Inicio">
-          <span class="text-xl font-bold text-slate-900">Aula<span class="text-blue-600">360</span></span>
-        </a>
-        <p class="text-slate-500 text-sm">
-          Gestión Académica con IA para instituciones educativas colombianas.
-        </p>
-        <p class="text-slate-400 text-xs">
-          © {{ new Date().getFullYear() }} Aula360. Todos los derechos reservados.
-        </p>
-      </div>
-    </footer>
+    <PublicFooter />
 
     <DemoFormModal v-model="showDemo" />
   </div>

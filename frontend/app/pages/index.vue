@@ -5,8 +5,8 @@ definePageMeta({
 
 useSeoMeta({
   title: 'Aula360 — Gestión Académica con IA para Colegios Colombianos',
-  description: 'Aula360 transforma la gestión académica con Inteligencia Artificial. Índice de riesgo estudiantil, análisis pedagógico con IA, boletines PDF, SIEE y portal de padres. Diseñado para instituciones educativas colombianas.',
-  keywords: 'software gestión académica colombia, plataforma educativa colombia, SIEE colombia, boletines PDF colegio, riesgo estudiantil IA, software colegio colombia, calificaciones colegio, inteligencia artificial educación, Aula360',
+  description: 'Gestión académica con IA para colegios colombianos. Índice de riesgo estudiantil, boletines PDF, SIEE, SIMAT y portal de padres. Onboarding en 48h.',
+  keywords: 'software gestión académica colombia, plataforma educativa colombia, SIEE colombia, boletines PDF colegio, riesgo estudiantil IA, software colegio colombia, calificaciones colegio, inteligencia artificial educación, SIMAT exportación MEN, convivencia escolar Ley 1620, portal padres colegio, Aula360',
   author: 'Aula360',
   robots: 'index, follow',
   ogTitle: 'Aula360 — Gestión Académica con IA para Colegios Colombianos',
@@ -52,7 +52,7 @@ useHead({
         'url': 'https://aula360.com',
         'applicationCategory': 'EducationalApplication',
         'operatingSystem': 'Web',
-        'description': 'Sistema de gestión académica con IA para instituciones educativas colombianas. Incluye índice de riesgo estudiantil, análisis pedagógico con Claude AI, SIEE, boletines PDF y portal de padres.',
+        'description': 'Sistema de gestión académica con IA para instituciones educativas colombianas. Incluye índice de riesgo estudiantil, análisis pedagógico con IA, SIEE, boletines PDF y portal de padres.',
         'priceRange': '$490.000 - $2.900.000+ COP/mes',
         'offers': {
           '@type': 'Offer',
@@ -76,7 +76,7 @@ useHead({
         'inLanguage': 'es-CO',
         'featureList': [
           'Índice de Riesgo Estudiantil con IA',
-          'Análisis pedagógico por estudiante con Claude AI',
+          'Análisis pedagógico por estudiante con IA',
           'Cumplimiento SIEE colombiano',
           'Boletines PDF individuales y masivos',
           'Portal de padres 24/7',
@@ -148,7 +148,7 @@ const aiFeatures = [
   {
     icon: 'i-lucide-brain',
     title: 'Análisis Pedagógico por Estudiante',
-    description: 'Genera narrativas completas y recomendaciones pedagógicas personalizadas por estudiante y por período usando Claude AI. Analiza calificaciones, logros, asistencia, nivelaciones e historial disciplinario en un informe accionable.',
+    description: 'Genera narrativas completas y recomendaciones pedagógicas personalizadas por estudiante y por período usando IA. Analiza calificaciones, logros, asistencia, nivelaciones e historial disciplinario en un informe accionable.',
     cardStyle: `background: ${gradientOverlay}, rgba(5,150,105,1)`
   },
   {
@@ -376,7 +376,7 @@ const showDemo = ref(false)
                 <!-- AI status bar -->
                 <div class="mt-4 flex items-center gap-2.5 px-3 py-2.5 rounded-xl bg-blue-50 border border-blue-200">
                   <UIcon name="i-lucide-brain" class="w-3.5 h-3.5 text-blue-600 animate-pulse shrink-0" />
-                  <span class="text-xs text-blue-700">Analizando patrones con Claude AI...</span>
+                  <span class="text-xs text-blue-700">Analizando patrones con IA...</span>
                   <div class="flex gap-0.5 ml-auto ai-dots">
                     <span class="w-1 h-1 rounded-full bg-blue-500 ai-dot" style="animation-delay:0ms" />
                     <span class="w-1 h-1 rounded-full bg-blue-500 ai-dot" style="animation-delay:150ms" />
@@ -705,30 +705,7 @@ const showDemo = ref(false)
     </main>
 
     <!-- ============ FOOTER ============ -->
-    <footer class="bg-slate-50 border-t border-slate-200 py-12 px-4 sm:px-6 lg:px-8" role="contentinfo">
-      <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
-        <a href="/" aria-label="Aula360 - Inicio">
-          <span class="text-xl font-bold text-slate-900">Aula<span class="text-blue-600">360</span></span>
-        </a>
-        <p class="text-slate-500 text-center text-sm">
-          Gestión Académica con IA para instituciones educativas colombianas.
-        </p>
-        <div class="flex flex-col items-center md:items-end gap-1">
-          <p class="text-slate-500 text-sm">
-            © {{ new Date().getFullYear() }} Aula360. Todos los derechos reservados.
-          </p>
-          <p class="text-slate-400 text-xs">
-            Desarrollado por
-            <a
-              href="https://mauriciomontoya.co"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="text-slate-500 hover:text-slate-700 transition-colors"
-            >Mauricio Montoya</a>
-          </p>
-        </div>
-      </div>
-    </footer>
+    <PublicFooter />
 
     <DemoFormModal v-model="showDemo" />
   </div>
