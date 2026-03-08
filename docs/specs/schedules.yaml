@@ -1,0 +1,266 @@
+openapi: 3.0.3
+info:
+  title: Schedules API
+  description: Module for managing class schedules (Horarios de Clase) in Aula360
+  version: 1.0.0
+
+paths:
+  /api/schedules:
+    get:
+      summary: List schedules with filters
+      tags: [Schedules]
+      parameters:
+        - name: group_id
+          in: query
+          schema:
+            type: integer
+        - name: teacher_id
+          in: query
+          schema:
+            type: integer
+        - name: academic_year_id
+          in: query
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: List of schedules
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Schedule'
+    post:
+      summary: Create a schedule block
+      tags: [Schedules]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ScheduleInput'
+      responses:
+        '201':
+          description: Schedule created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Schedule'
+        '422':
+          description: Validation error or scheduling conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConflictError'
+
+  /api/schedules/{id}:
+    put:
+      summary: Update a schedule block
+      tags: [Schedules]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ScheduleInput'
+      responses:
+        '200':
+          description: Schedule updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Schedule'
+        '422':
+          description: Scheduling conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConflictError'
+    delete:
+      summary: Delete a schedule block
+      tags: [Schedules]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Schedule deleted
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+
+  /api/schedules/group/{group}:
+    get:
+      summary: Weekly schedule grid for a group
+      tags: [Schedules]
+      parameters:
+        - name: group
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: academic_year_id
+          in: query
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Full weekly schedule for the group
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ScheduleWithAssignment'
+
+  /api/schedules/teacher/{teacher}:
+    get:
+      summary: Weekly schedule for a teacher
+      tags: [Schedules]
+      parameters:
+        - name: teacher
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: academic_year_id
+          in: query
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Full weekly schedule for the teacher
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ScheduleWithAssignment'
+
+components:
+  schemas:
+    ScheduleInput:
+      type: object
+      required:
+        - teacher_assignment_id
+        - day_of_week
+        - start_time
+        - end_time
+      properties:
+        teacher_assignment_id:
+          type: integer
+        day_of_week:
+          type: integer
+          minimum: 1
+          maximum: 5
+          description: "1=Lunes, 2=Martes, 3=Miércoles, 4=Jueves, 5=Viernes"
+        start_time:
+          type: string
+          pattern: '^\d{2}:\d{2}$'
+          example: "08:00"
+        end_time:
+          type: string
+          pattern: '^\d{2}:\d{2}$'
+          example: "09:00"
+        classroom:
+          type: string
+          nullable: true
+          example: "Aula 101"
+
+    Schedule:
+      type: object
+      properties:
+        id:
+          type: integer
+        teacher_assignment_id:
+          type: integer
+        day_of_week:
+          type: integer
+        start_time:
+          type: string
+        end_time:
+          type: string
+        classroom:
+          type: string
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+
+    ScheduleWithAssignment:
+      allOf:
+        - $ref: '#/components/schemas/Schedule'
+        - type: object
+          properties:
+            assignment:
+              type: object
+              properties:
+                id:
+                  type: integer
+                teacher:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    user:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                subject:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    name:
+                      type: string
+                    credits:
+                      type: number
+                      nullable: true
+                group:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    name:
+                      type: string
+                    grade:
+                      type: object
+                      properties:
+                        short_name:
+                          type: string
+
+    ConflictError:
+      type: object
+      properties:
+        message:
+          type: string
+          example: "El docente ya tiene una clase en ese horario"
+        errors:
+          type: object

@@ -90,6 +90,11 @@ const mainLinks = computed<NavigationMenuItem[]>(() => {
         icon: 'i-lucide-chevron-right',
         to: '/academic/subjects',
         onSelect: () => { open.value = false }
+      }, {
+        label: 'Horarios',
+        icon: 'i-lucide-clock',
+        to: '/academic/schedules',
+        onSelect: () => { open.value = false }
       }]
     })
   }
@@ -160,6 +165,15 @@ const mainLinks = computed<NavigationMenuItem[]>(() => {
         onSelect: () => { open.value = false }
       }]
     })
+
+    if (auth.isTeacher && !auth.isAdmin && !auth.isCoordinator) {
+      links.push({
+        label: 'Mi Horario',
+        icon: 'i-lucide-clock',
+        to: '/academic/schedules/teacher',
+        onSelect: () => { open.value = false }
+      })
+    }
 
     links.push({
       label: 'Asistencia',

@@ -593,6 +593,39 @@ export interface RiskScore {
   }
 }
 
+// ============ Schedules (Horarios de Clase) ============
+
+export interface Schedule {
+  id: number
+  day_of_week: number           // 1–5
+  start_time: string            // "08:00"
+  end_time: string              // "09:00"
+  classroom?: string | null
+  teacher_assignment_id: number
+  assignment?: {
+    id: number
+    teacher?: Teacher
+    subject?: Subject
+    group?: Group
+  }
+}
+
+export const DayLabels: Record<number, string> = {
+  1: 'Lunes',
+  2: 'Martes',
+  3: 'Miércoles',
+  4: 'Jueves',
+  5: 'Viernes',
+}
+
+export const DayColors: Record<number, string> = {
+  1: 'blue',
+  2: 'green',
+  3: 'purple',
+  4: 'orange',
+  5: 'red',
+}
+
 // ============ Enrollments (Educacion Superior) ============
 
 export type EnrollmentStatus = 'enrolled' | 'withdrawn' | 'completed' | 'failed'

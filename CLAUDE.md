@@ -29,6 +29,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - Diff behavior between main and your changes when relevant
 - Ask yourself: "Would a staff engineer approve this?"
 - Run tests, check logs, demonstrate correctness
+- **UI changes ALWAYS require Playwright MCP verification** — no exceptions
+- Do not rely on "it should work" — open the browser and confirm visually
+- Check browser console for errors during verification
 
 ### 5. Demand Elegance (Balanced)
 - For non-trivial changes: pause and ask "is there a more elegant way?"
@@ -94,7 +97,12 @@ Once the spec is approved:
 
 ## Project Overview
 
-**Aula360** is an academic management platform for Colombian educational institutions. It manages students, teachers, grades, attendance, report cards, and the Colombian SIEE (Sistema Institucional de Evaluación de Estudiantes).
+**Aula360** is an academic management platform for Colombian educational institutions operating in **dual mode**:
+
+- **K-12 mode** (`education_level = 'k12'`): group-based model managing students, teachers, grades, attendance, report cards, and the Colombian SIEE (Sistema Institucional de Evaluación de Estudiantes).
+- **Higher Education mode** (`education_level = 'higher'`): enrollment-based model with subjects by credits, PAPA (Promedio Académico Ponderado Acumulado), kardex, and student self-service portal. Pilot institution: Colegio Mayor de Cartagena.
+
+The `Institution.education_level` field is the discriminator. Both modes share the same codebase; the enrollment system is additive (K-12 group logic is not replaced).
 
 ## Stack
 
@@ -109,9 +117,12 @@ Once the spec is approved:
 ```
 /                    # Laravel 12 backend (REST API)
 /frontend/           # Nuxt 3 + Vue 3 SPA (dashboard app)
+/docs/specs/         # OpenAPI specs (module contracts — source of truth)
 /tasks/              # Task tracking and lessons learned
   todo.md            # Current task plan with checkable items
   lessons.md         # Accumulated patterns and corrections
+  higher-ed-pm.md    # Product plan for higher-ed mode (Ruta B)
+  higher-ed-architecture.md  # Technical architecture for higher-ed
 ```
 
 ## Development Commands
@@ -152,7 +163,8 @@ sail artisan test --filter=TestName   # single test
 ### Database
 ```bash
 sail artisan migrate
-sail artisan db:seed         # seeds with SchoolSeeder (demo data)
+sail artisan db:seed         # seeds with SchoolSeeder (K-12 demo data)
+sail artisan db:seed --class=ColeMayorSeeder  # seeds Colegio Mayor de Cartagena (higher-ed demo)
 sail artisan migrate:fresh --seed   # reset and reseed
 ```
 
@@ -178,6 +190,7 @@ All protected routes use the `tenant` middleware (`TenantMiddleware`). It resolv
 - `TenantService` — static service managing per-request institution context
 - `GradeCalculatorService` — weighted grade averages, ranking, performance levels
 - `ReportCardPdfService` — PDF generation for boletines
+- `CertificatePdfService` — PDF generation for constancias (enrollment certificates)
 
 ### Grade Scale (Colombian)
 | Range | Level |
@@ -191,15 +204,48 @@ Passing grade: **3.0**. See `app/Enums/PerformanceLevel.php`.
 
 ### Frontend Structure
 - **`composables/useApi.ts`** — central HTTP client; injects Bearer token from auth store, handles 401 redirects
-- **`stores/auth.ts`** — Pinia store; persists token/user in localStorage, provides role getters (`isAdmin`, `isTeacher`, `isGuardian`, etc.)
+- **`stores/auth.ts`** — Pinia store; persists token/user in localStorage, provides role getters (`isAdmin`, `isTeacher`, `isGuardian`, `isStudent`, etc.)
 - **`stores/academic.ts`**, **`stores/institution.ts`** — domain state stores
-- **`composables/use*.ts`** — domain composables wrapping API calls (useGrades, useAttendance, useAcademic, useReports, useSiee)
-- **`types/school.ts`** — all shared TypeScript types
+- **`composables/use*.ts`** — domain composables wrapping API calls (useGrades, useAttendance, useAcademic, useReports, useSiee, useEnrollments)
+- **`types/school.ts`** — all shared TypeScript types (includes `Enrollment`, `EnrollmentStatus`, `EducationLevel`)
 
 ### User Roles
-`admin` | `coordinator` | `teacher` | `guardian`
+`admin` | `coordinator` | `teacher` | `guardian` | `student`
 
-The `guardian` role has a restricted portal (`/guardian/*` routes in `PortalController`). Staff roles are `admin`, `coordinator`, `teacher`.
+- The `guardian` role has a restricted portal (`/guardian/*` routes in `PortalController`). Staff roles are `admin`, `coordinator`, `teacher`.
+- The `student` role has a restricted self-service portal (`/student/*` pages, `/api/student/*` endpoints in `StudentPortalController`). Students can only see their own enrollments, grades, and kardex — isolation enforced by `auth()->id()` in the controller.
+
+> ⚠️ **Note:** `student` is referenced in frontend code and `StudentPortalController` but is not yet added to the `UserRole` enum. Add it to the enum before any new student-related work.
+
+### Higher Education — Enrollment Model
+When `institution.education_level === 'higher'`, the platform switches from the K-12 group model to an enrollment-based model:
+
+| Concept | K-12 | Higher Ed |
+|---------|------|-----------|
+| Student grouping | `Group` (fixed class) | `Enrollment` per subject |
+| Grade tracking | Periods + subjects per group | Per-enrollment final grade |
+| Academic average | Simple weighted average | **PAPA** (credit-weighted) |
+| Reporting | Boletín | Kardex |
+| Student access | Via guardian | Direct student portal |
+
+**PAPA formula:**
+```
+PAPA = Σ(final_grade × subject.credits) / Σ(subject.credits)
+```
+Calculated on-demand in `StudentPortalController`. Passing threshold: **3.0**.
+
+**Key endpoints (higher-ed):**
+
+| Endpoint | Controller | Purpose |
+|----------|-----------|---------|
+| `GET /api/enrollments` | `EnrollmentController` | List with filters |
+| `POST /api/enrollments` | `EnrollmentController` | Create (duplicate-safe) |
+| `POST /api/enrollments/bulk` | `EnrollmentController` | Bulk create |
+| `POST /api/enrollments/calculate-finals` | `EnrollmentController` | Batch final grade calc |
+| `GET /api/student/me` | `StudentPortalController` | Own profile + summary |
+| `GET /api/student/enrollments` | `StudentPortalController` | Own enrollments |
+| `GET /api/student/grades` | `StudentPortalController` | Own grades |
+| `GET /api/student/kardex` | `StudentPortalController` | Multi-year history + PAPA |
 
 ### Nuxt Proxy
 The frontend proxies `/api/**` → `http://localhost:9090/api/**` via `routeRules` in `nuxt.config.ts`, so both services share the same origin in development.
@@ -213,26 +259,42 @@ The frontend proxies `/api/**` → `http://localhost:9090/api/**` via `routeRule
 2. Run `./vendor/bin/pint --test` — no lint errors
 3. Verify multi-tenancy: confirm `institution_id` scoping works correctly
 4. Check guardian isolation: guardians must only see their own children's data
-5. Validate grade calculations against the Colombian scale (3.0 passing threshold)
-6. Ensure API responses follow thin-controller → service delegation pattern
+5. Check student isolation: students must only see their own enrollments/grades (enforced via `auth()->id()`)
+6. Validate grade calculations against the Colombian scale (3.0 passing threshold)
+7. Ensure API responses follow thin-controller → service delegation pattern
+8. For higher-ed features: verify `education_level` discriminator is respected where relevant
 
 ### Frontend — Before marking any task complete:
 1. Run `npm run lint` from `/frontend/` — no lint errors
 2. Run `npm run typecheck` from `/frontend/` — no TypeScript errors
-3. Verify the feature works for all relevant roles: admin, coordinator, teacher, guardian
+3. Verify the feature works for all relevant roles: admin, coordinator, teacher, guardian, student
 4. Check responsive behavior if UI was modified
 5. Confirm `useApi` composable is used (never raw `fetch` / `axios`)
 6. Verify guardian portal restrictions are not bypassed
+7. Verify student portal restrictions are not bypassed (`/student/*` pages)
+8. Run Playwright MCP visual verification:
+   - Navigate to every page modified
+   - Check for console errors
+   - Verify UI consistency across relevant roles
+   - Never mark UI work done without visual confirmation
 
 ---
 
 ## Test Credentials (from seeder)
+
+### K-12 (SchoolSeeder)
 | Role | Email | Password |
 |------|-------|----------|
 | Admin | admin@aula360.com | password |
 | Coordinator | coordinator@aula360.com | password |
 | Teacher | teacher@aula360.com | password |
 | Guardian | guardian@aula360.com | password |
+
+### Higher Education (ColeMayorSeeder — Colegio Mayor de Cartagena)
+| Role | Email | Password |
+|------|-------|----------|
+| Admin | admin@colemayor.edu.co | password |
+| Student | (created by ColeMayorSeeder — check seeder for exact email) | password |
 
 ---
 
@@ -244,7 +306,12 @@ The frontend proxies `/api/**` → `http://localhost:9090/api/**` via `routeRule
 - **Never** bypass the `tenant` middleware on protected routes without explicit justification
 - **Never** assume grade thresholds — always reference `PerformanceLevel` enum (3.0 = passing)
 - **Always** delegate complex logic to Services — controllers stay thin
-- **Always** validate that guardian users can only access their own children's data
+- **Always** validate that guardian users can only see their own children's data
+- **Always** validate that student users can only see their own enrollments/grades (`auth()->id()` in `StudentPortalController`)
 - **Always** run both `pint --test` and `composer run test` before considering backend work done
 - **Always** run both `npm run lint` and `npm run typecheck` before considering frontend work done
-- **Always** test with all 4 roles (admin, coordinator, teacher, guardian) when touching permissions
+- **Always** test with all 5 roles (admin, coordinator, teacher, guardian, student) when touching permissions
+- **Higher-ed specific**: PAPA is credit-weighted — never use a simple average for higher-ed grade summaries
+- **Higher-ed specific**: Enrollments have a unique constraint `(student_id, subject_id, academic_year_id, semester_number)` — always use bulk create for batch operations (it skips duplicates silently)
+- **Higher-ed specific**: `student` role is not yet in `UserRole` enum — add it before writing new student auth logic
+- **Mode discrimination**: Check `institution.education_level` before rendering K-12-specific UI (groups, boletines) in shared components

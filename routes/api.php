@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AcademicYearController;
+use App\Http\Controllers\Api\ScheduleController;
 use App\Http\Controllers\Api\AchievementController;
 use App\Http\Controllers\Api\AnnouncementController;
 use App\Http\Controllers\Api\AreaController;
@@ -185,6 +186,12 @@ Route::middleware(['auth:sanctum', 'tenant'])->group(function () {
     });
     Route::put('student-remedials/{studentRemedial}/grade', [RemedialController::class, 'gradeStudent']);
     Route::get('students/{student}/remedials', [RemedialController::class, 'studentRemedials']);
+
+    // Schedules (Horarios de Clase)
+    Route::get('schedules/group/{group}/assignments', [ScheduleController::class, 'groupAssignments']);
+    Route::get('schedules/group/{group}', [ScheduleController::class, 'groupSchedule']);
+    Route::get('schedules/teacher/{teacher}', [ScheduleController::class, 'teacherSchedule']);
+    Route::apiResource('schedules', ScheduleController::class)->except(['show']);
 
     // Disciplinary (Convivencia Escolar - Ley 1620/2013)
     Route::apiResource('disciplinary', DisciplinaryController::class);
