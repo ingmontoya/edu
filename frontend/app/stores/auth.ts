@@ -25,6 +25,7 @@ export const useAuthStore = defineStore('auth', {
     isCoordinator: state => state.user?.role === 'coordinator',
     isTeacher: state => state.user?.role === 'teacher',
     isGuardian: state => state.user?.role === 'guardian',
+    isStudent: state => state.user?.role === 'student',
     isStaff: state => ['admin', 'coordinator', 'teacher'].includes(state.user?.role || '')
   },
 
@@ -57,10 +58,11 @@ export const useAuthStore = defineStore('auth', {
         }
 
         return { success: true }
-      } catch (error: any) {
+      } catch (error: unknown) {
+        const err = error as { data?: { message?: string } }
         return {
           success: false,
-          message: error.data?.message || 'Login failed'
+          message: err.data?.message || 'Login failed'
         }
       }
     },

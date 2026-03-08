@@ -2,10 +2,41 @@
 import type { NavigationMenuItem } from '@nuxt/ui'
 
 const auth = useAuthStore()
+const institution = useInstitutionStore()
+const { t } = useTerminology()
 const open = ref(false)
+
+onMounted(async () => {
+  if (auth.isAuthenticated && !institution.institution) {
+    await institution.fetch()
+  }
+})
+
+watch(() => auth.isAuthenticated, async (authed) => {
+  if (authed && !institution.institution) {
+    await institution.fetch()
+  }
+})
 
 const mainLinks = computed<NavigationMenuItem[]>(() => {
   const links: NavigationMenuItem[] = []
+
+  // Student portal
+  if (auth.isStudent) {
+    links.push({
+      label: 'Mi Portal',
+      icon: 'i-lucide-layout-dashboard',
+      to: '/student',
+      onSelect: () => { open.value = false }
+    })
+    links.push({
+      label: 'Historial Académico',
+      icon: 'i-lucide-book-open',
+      to: '/student/kardex',
+      onSelect: () => { open.value = false }
+    })
+    return links
+  }
 
   // Guardian has different home
   if (auth.isGuardian) {
@@ -45,17 +76,17 @@ const mainLinks = computed<NavigationMenuItem[]>(() => {
         to: '/academic/years',
         onSelect: () => { open.value = false }
       }, {
-        label: 'Grados',
+        label: t.value.grades,
         icon: 'i-lucide-chevron-right',
         to: '/academic/grades',
         onSelect: () => { open.value = false }
       }, {
-        label: 'Grupos',
+        label: t.value.groups,
         icon: 'i-lucide-chevron-right',
         to: '/academic/groups',
         onSelect: () => { open.value = false }
       }, {
-        label: 'Áreas y Asignaturas',
+        label: `Áreas y ${t.value.subjects}`,
         icon: 'i-lucide-chevron-right',
         to: '/academic/subjects',
         onSelect: () => { open.value = false }
@@ -75,12 +106,16 @@ const mainLinks = computed<NavigationMenuItem[]>(() => {
           icon: 'i-lucide-chevron-right',
           to: '/students',
           onSelect: () => { open.value = false }
-        }, {
-          label: 'Exportar SIMAT',
-          icon: 'i-lucide-chevron-right',
-          to: '/students/simat-export',
-          onSelect: () => { open.value = false }
-        }]
+        }, ...(
+          t.value.showSimat
+            ? [{
+                label: t.value.simatLabel,
+                icon: 'i-lucide-chevron-right',
+                to: '/students/simat-export',
+                onSelect: () => { open.value = false }
+              }]
+            : []
+        )]
       })
     } else {
       links.push({
@@ -96,6 +131,15 @@ const mainLinks = computed<NavigationMenuItem[]>(() => {
         label: 'Docentes',
         icon: 'i-lucide-briefcase',
         to: '/teachers',
+        onSelect: () => { open.value = false }
+      })
+    }
+
+    if ((auth.isAdmin || auth.isCoordinator) && institution.isHigherEd) {
+      links.push({
+        label: 'Matrículas',
+        icon: 'i-lucide-book-open-check',
+        to: '/enrollments',
         onSelect: () => { open.value = false }
       })
     }
@@ -136,12 +180,12 @@ const mainLinks = computed<NavigationMenuItem[]>(() => {
       icon: 'i-lucide-bar-chart-3',
       type: 'trigger',
       children: [{
-        label: 'Boletines',
+        label: t.value.reportCards,
         icon: 'i-lucide-chevron-right',
-        to: '/reports/cards',
+        to: institution.isHigherEd ? '/reports/kardex' : '/reports/cards',
         onSelect: () => { open.value = false }
       }, {
-        label: 'Constancias',
+        label: t.value.certificates,
         icon: 'i-lucide-chevron-right',
         to: '/reports/certificates',
         onSelect: () => { open.value = false }
@@ -163,7 +207,7 @@ const mainLinks = computed<NavigationMenuItem[]>(() => {
       }]
     })
 
-    if (auth.isAdmin || auth.isCoordinator) {
+    if ((auth.isAdmin || auth.isCoordinator) && t.value.showConvivencia) {
       links.push({
         label: 'Convivencia',
         icon: 'i-lucide-shield',
@@ -172,7 +216,7 @@ const mainLinks = computed<NavigationMenuItem[]>(() => {
       })
     }
 
-    links.push({
+    if (t.value.showSiee) links.push({
       label: 'SIEE',
       icon: 'i-lucide-target',
       type: 'trigger',

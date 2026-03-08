@@ -14,6 +14,10 @@ export const useInstitutionStore = defineStore('institution', {
     error: null
   }),
 
+  getters: {
+    isHigherEd: (state): boolean => state.institution?.education_level === 'higher'
+  },
+
   actions: {
     async fetch() {
       this.loading = true

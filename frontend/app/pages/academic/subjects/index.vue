@@ -6,6 +6,7 @@ definePageMeta({
 })
 
 const academicStore = useAcademicStore()
+const institution = useInstitutionStore()
 const { getSubjects, createSubject, updateSubject, deleteSubject, getAreas } = useAcademic()
 const toast = useToast()
 
@@ -26,7 +27,8 @@ const formData = ref({
   grade_id: undefined as number | undefined,
   area_id: undefined as number | undefined,
   name: '',
-  intensity_hours: 4
+  intensity_hours: 4,
+  credits: 3
 })
 
 const gradeFilterItems = computed(() => [
@@ -51,13 +53,19 @@ const perPageOptions = [
   { value: 100, label: '100 por página' }
 ]
 
-const columns = [
-  { accessorKey: 'name', header: 'Asignatura' },
-  { accessorKey: 'area', header: 'Área' },
-  { accessorKey: 'grade', header: 'Grado' },
-  { accessorKey: 'weekly_hours', header: 'Hrs/Sem' },
-  { accessorKey: 'actions', header: '' }
-]
+const columns = computed(() => {
+  const cols: { accessorKey: string, header: string }[] = [
+    { accessorKey: 'name', header: 'Asignatura' },
+    { accessorKey: 'area', header: 'Área' },
+    { accessorKey: 'grade', header: 'Grado' },
+    { accessorKey: 'weekly_hours', header: 'Hrs/Sem' }
+  ]
+  if (institution.isHigherEd) {
+    cols.push({ accessorKey: 'credits', header: 'Créditos' })
+  }
+  cols.push({ accessorKey: 'actions', header: '' })
+  return cols
+})
 
 const fetchSubjects = async () => {
   loading.value = true
@@ -92,7 +100,8 @@ const openCreate = () => {
     grade_id: selectedGrade.value ?? undefined,
     area_id: selectedArea.value ?? undefined,
     name: '',
-    intensity_hours: 4
+    intensity_hours: 4,
+    credits: 3
   }
   showModal.value = true
 }
@@ -103,7 +112,8 @@ const openEdit = (subject: Subject) => {
     grade_id: subject.grade_id,
     area_id: subject.area_id,
     name: subject.name,
-    intensity_hours: subject.intensity_hours || 4
+    intensity_hours: subject.intensity_hours || 4,
+    credits: subject.credits ?? 3
   }
   showModal.value = true
 }
@@ -226,6 +236,10 @@ watch(searchQuery, debouncedSearch)
             {{ row.original.weekly_hours || '—' }} hrs
           </template>
 
+          <template #credits-cell="{ row }">
+            {{ row.original.credits ?? '—' }}
+          </template>
+
           <template #actions-cell="{ row }">
             <div class="flex gap-2 justify-end">
               <UButton
@@ -336,6 +350,15 @@ watch(searchQuery, debouncedSearch)
               type="number"
               min="1"
               max="20"
+            />
+          </UFormField>
+
+          <UFormField v-if="institution.isHigherEd" label="Créditos académicos">
+            <UInput
+              v-model="formData.credits"
+              type="number"
+              min="1"
+              max="10"
             />
           </UFormField>
         </div>

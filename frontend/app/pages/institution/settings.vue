@@ -41,7 +41,8 @@ const formData = ref({
   email: '',
   city: '',
   department: '',
-  rector_name: ''
+  rector_name: '',
+  education_level: 'k12' as 'k12' | 'higher'
 })
 
 const handleSave = async () => {
@@ -73,7 +74,8 @@ onMounted(async () => {
       email: institutionStore.institution.email || '',
       city: institutionStore.institution.city || '',
       department: institutionStore.institution.department || '',
-      rector_name: institutionStore.institution.rector_name || ''
+      rector_name: institutionStore.institution.rector_name || '',
+      education_level: (institutionStore.institution.education_level ?? 'k12') as 'k12' | 'higher'
     }
   }
 
@@ -131,6 +133,63 @@ onMounted(async () => {
               <UFormField label="Nombre del Rector" class="md:col-span-2">
                 <UInput v-model="formData.rector_name" placeholder="Nombre completo del rector" />
               </UFormField>
+            </div>
+          </UPageCard>
+
+          <!-- Education Level / Modalidad -->
+          <UPageCard
+            title="Modalidad Educativa"
+            description="Define el tipo de institución. Esto adapta la terminología y los módulos disponibles en toda la plataforma."
+            variant="subtle"
+          >
+            <div class="flex flex-col gap-4">
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <button
+                  type="button"
+                  class="flex items-start gap-4 rounded-xl border-2 p-4 text-left transition-all cursor-pointer"
+                  :class="formData.education_level === 'k12'
+                    ? 'border-primary bg-primary/5'
+                    : 'border-default hover:border-muted'"
+                  @click="formData.education_level = 'k12'"
+                >
+                  <UIcon name="i-lucide-school" class="size-6 mt-0.5 shrink-0" :class="formData.education_level === 'k12' ? 'text-primary' : 'text-muted'" />
+                  <div>
+                    <p class="font-semibold text-sm" :class="formData.education_level === 'k12' ? 'text-primary' : 'text-highlighted'">
+                      Preescolar / Básica / Media
+                    </p>
+                    <p class="text-xs text-muted mt-0.5">
+                      Colegios, escuelas y bachillerato. Usa SIEE, SIMAT, Boletines y Convivencia.
+                    </p>
+                  </div>
+                </button>
+
+                <button
+                  type="button"
+                  class="flex items-start gap-4 rounded-xl border-2 p-4 text-left transition-all cursor-pointer"
+                  :class="formData.education_level === 'higher'
+                    ? 'border-primary bg-primary/5'
+                    : 'border-default hover:border-muted'"
+                  @click="formData.education_level = 'higher'"
+                >
+                  <UIcon name="i-lucide-graduation-cap" class="size-6 mt-0.5 shrink-0" :class="formData.education_level === 'higher' ? 'text-primary' : 'text-muted'" />
+                  <div>
+                    <p class="font-semibold text-sm" :class="formData.education_level === 'higher' ? 'text-primary' : 'text-highlighted'">
+                      Educación Superior
+                    </p>
+                    <p class="text-xs text-muted mt-0.5">
+                      Institución universitaria, tecnológico o universidad. Usa Programas, Semestres y Kardex.
+                    </p>
+                  </div>
+                </button>
+              </div>
+
+              <UAlert
+                v-if="formData.education_level === 'higher'"
+                color="info"
+                icon="i-lucide-info"
+                title="Modo Educación Superior activo"
+                description="La navegación mostrará Programas, Semestres y Kardex. Se ocultarán SIMAT, SIEE y Convivencia."
+              />
             </div>
           </UPageCard>
 

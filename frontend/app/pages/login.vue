@@ -201,7 +201,9 @@ const rememberMe = ref(false)
 const errorMessage = ref('')
 
 const getRedirectPath = () => {
-  return auth.isGuardian ? '/guardian' : '/dashboard'
+  if (auth.isGuardian) return '/guardian'
+  if (auth.isStudent) return '/student'
+  return '/dashboard'
 }
 
 onMounted(() => {

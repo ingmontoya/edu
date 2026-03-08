@@ -21,6 +21,8 @@ export interface AiQuota {
   resets_at: string | null
 }
 
+export type EducationLevel = 'k12' | 'higher'
+
 export interface Institution {
   id: number
   name: string
@@ -33,6 +35,7 @@ export interface Institution {
   city?: string
   department?: string
   rector_name?: string
+  education_level?: EducationLevel
   grading_scale?: GradingScale
   ai_quota?: AiQuota
 }
@@ -115,6 +118,7 @@ export interface Subject {
   name: string
   weekly_hours: number
   intensity_hours?: number
+  credits?: number
   order: number
   area?: Area
   grade?: Grade
@@ -587,4 +591,22 @@ export interface RiskScore {
     pending_remedials: number
     grade_trend: number | null
   }
+}
+
+// ============ Enrollments (Educacion Superior) ============
+
+export type EnrollmentStatus = 'enrolled' | 'withdrawn' | 'completed' | 'failed'
+
+export interface Enrollment {
+  id: number
+  institution_id: number
+  student_id: number
+  subject_id: number
+  academic_year_id: number
+  semester_number: number
+  status: EnrollmentStatus
+  final_grade?: number | null
+  student?: Student
+  subject?: Subject
+  academic_year?: AcademicYear
 }

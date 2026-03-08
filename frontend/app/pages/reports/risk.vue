@@ -7,6 +7,7 @@ definePageMeta({
 })
 
 const academicStore = useAcademicStore()
+const institution = useInstitutionStore()
 const { getRiskScores, getAiStudentAnalysis } = useReports()
 const toast = useToast()
 
@@ -165,7 +166,7 @@ watch([searchQuery, selectedLevel], () => {
 <template>
   <UDashboardPanel grow>
     <template #header>
-      <UDashboardNavbar title="Índice de Riesgo Estudiantil">
+      <UDashboardNavbar :title="institution.isHigherEd ? 'Índice de Riesgo de Deserción' : 'Índice de Riesgo Estudiantil'">
         <template #leading>
           <UDashboardSidebarCollapse />
         </template>
@@ -179,6 +180,7 @@ watch([searchQuery, selectedLevel], () => {
               class="w-36"
             />
             <USelectMenu
+              v-if="!institution.isHigherEd"
               v-model="selectedGroup"
               :items="groupItems"
               value-key="value"
