@@ -41,7 +41,6 @@ const groupItems = computed(() => {
     .map(g => ({ value: g.id, label: g.full_name || `${g.grade?.name} ${g.name}` }))
 })
 
-
 const achievementItems = computed(() =>
   achievements.value.map(a => ({ value: a.id, label: `${a.code || ''} - ${a.description.substring(0, 50)}...` }))
 )

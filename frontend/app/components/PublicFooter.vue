@@ -16,7 +16,9 @@
         <!-- Links -->
         <div class="flex flex-wrap gap-x-12 gap-y-8">
           <div>
-            <p class="text-xs font-semibold uppercase tracking-widest text-slate-400 mb-3">Plataforma</p>
+            <p class="text-xs font-semibold uppercase tracking-widest text-slate-400 mb-3">
+              Plataforma
+            </p>
             <ul class="space-y-2">
               <li><a href="/como-funciona" class="text-sm text-slate-600 hover:text-slate-900 transition-colors">Cómo funciona</a></li>
               <li><a href="/#ia" class="text-sm text-slate-600 hover:text-slate-900 transition-colors">Inteligencia Artificial</a></li>
@@ -25,7 +27,9 @@
             </ul>
           </div>
           <div>
-            <p class="text-xs font-semibold uppercase tracking-widest text-slate-400 mb-3">Planes</p>
+            <p class="text-xs font-semibold uppercase tracking-widest text-slate-400 mb-3">
+              Planes
+            </p>
             <ul class="space-y-2">
               <li><a href="/pricing" class="text-sm text-slate-600 hover:text-slate-900 transition-colors">Precios</a></li>
               <li><a href="/universidades" class="text-sm text-slate-600 hover:text-slate-900 transition-colors">Universidades</a></li>
@@ -33,7 +37,9 @@
             </ul>
           </div>
           <div>
-            <p class="text-xs font-semibold uppercase tracking-widest text-slate-400 mb-3">Acceso</p>
+            <p class="text-xs font-semibold uppercase tracking-widest text-slate-400 mb-3">
+              Acceso
+            </p>
             <ul class="space-y-2">
               <li><a href="/login" class="text-sm text-slate-600 hover:text-slate-900 transition-colors">Iniciar sesión</a></li>
               <li><a href="/#contacto" class="text-sm text-slate-600 hover:text-slate-900 transition-colors">Solicitar demo</a></li>

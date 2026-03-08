@@ -143,7 +143,6 @@ onMounted(async () => {
                   placeholder="Seleccionar asignatura"
                 />
               </UFormField>
-
             </div>
 
             <UFormField label="Titulo" required>

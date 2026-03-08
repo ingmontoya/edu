@@ -92,7 +92,6 @@ const process = [
     <PublicNavbar @open-demo="showDemo = true" />
 
     <main class="pt-16">
-
       <!-- HERO -->
       <section class="bg-gradient-to-br from-slate-800 to-slate-900 py-24 px-4 sm:px-6 lg:px-8">
         <div class="max-w-4xl mx-auto text-center">
@@ -132,7 +131,9 @@ const process = [
         <div class="max-w-5xl mx-auto">
           <div class="grid md:grid-cols-2 gap-16 items-center">
             <div>
-              <p class="text-xs font-semibold uppercase tracking-widest text-slate-400 mb-4">Entendemos el contexto</p>
+              <p class="text-xs font-semibold uppercase tracking-widest text-slate-400 mb-4">
+                Entendemos el contexto
+              </p>
               <h2 class="text-3xl font-bold text-slate-900 leading-snug mb-6">
                 La misma tecnología,<br> adaptada a su realidad
               </h2>
@@ -144,16 +145,22 @@ const process = [
               </p>
             </div>
             <div class="space-y-4">
-              <div v-for="item in [
-                { label: 'Contratación directa o por licitación', icon: 'i-lucide-file-check' },
-                { label: 'Facturación a nombre de la secretaría o la institución', icon: 'i-lucide-receipt' },
-                { label: 'Pago anual o por vigencia fiscal', icon: 'i-lucide-calendar' },
-                { label: 'Carta de intención sin costo', icon: 'i-lucide-mail' }
-              ]" :key="item.label" class="flex items-center gap-4 p-4 rounded-xl bg-slate-50 border border-slate-200">
+              <div
+                v-for="item in [
+                  { label: 'Contratación directa o por licitación', icon: 'i-lucide-file-check' },
+                  { label: 'Facturación a nombre de la secretaría o la institución', icon: 'i-lucide-receipt' },
+                  { label: 'Pago anual o por vigencia fiscal', icon: 'i-lucide-calendar' },
+                  { label: 'Carta de intención sin costo', icon: 'i-lucide-mail' }
+                ]"
+                :key="item.label"
+                class="flex items-center gap-4 p-4 rounded-xl bg-slate-50 border border-slate-200"
+              >
                 <div class="w-9 h-9 rounded-lg bg-white border border-slate-200 flex items-center justify-center shrink-0 shadow-sm">
                   <UIcon :name="item.icon" class="size-4 text-slate-600" />
                 </div>
-                <p class="text-sm font-medium text-slate-800">{{ item.label }}</p>
+                <p class="text-sm font-medium text-slate-800">
+                  {{ item.label }}
+                </p>
               </div>
             </div>
           </div>
@@ -180,8 +187,12 @@ const process = [
               <div class="w-10 h-10 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-center mb-4">
                 <UIcon :name="item.icon" class="size-5 text-slate-700" />
               </div>
-              <h3 class="text-sm font-bold text-slate-900 mb-1.5">{{ item.title }}</h3>
-              <p class="text-xs text-slate-500 leading-relaxed">{{ item.desc }}</p>
+              <h3 class="text-sm font-bold text-slate-900 mb-1.5">
+                {{ item.title }}
+              </h3>
+              <p class="text-xs text-slate-500 leading-relaxed">
+                {{ item.desc }}
+              </p>
             </div>
           </div>
         </div>
@@ -200,9 +211,15 @@ const process = [
           </div>
           <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             <div v-for="step in process" :key="step.step" class="relative">
-              <div class="text-4xl font-black text-slate-100 mb-3 leading-none">{{ step.step }}</div>
-              <h3 class="text-sm font-bold text-slate-900 mb-2">{{ step.title }}</h3>
-              <p class="text-xs text-slate-500 leading-relaxed">{{ step.desc }}</p>
+              <div class="text-4xl font-black text-slate-100 mb-3 leading-none">
+                {{ step.step }}
+              </div>
+              <h3 class="text-sm font-bold text-slate-900 mb-2">
+                {{ step.title }}
+              </h3>
+              <p class="text-xs text-slate-500 leading-relaxed">
+                {{ step.desc }}
+              </p>
             </div>
           </div>
         </div>
@@ -218,7 +235,9 @@ const process = [
             <p class="text-lg text-slate-600 mb-3 max-w-xl mx-auto leading-relaxed">
               Nombre de la institución, municipio, secretaría de educación y número de estudiantes. Con eso es suficiente para preparar una propuesta.
             </p>
-            <p class="text-sm text-slate-400 mb-10">Le respondemos en menos de 24 horas.</p>
+            <p class="text-sm text-slate-400 mb-10">
+              Le respondemos en menos de 24 horas.
+            </p>
             <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
               <button
                 type="button"

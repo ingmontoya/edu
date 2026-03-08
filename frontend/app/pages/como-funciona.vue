@@ -146,7 +146,7 @@ const portalCards = [
   { icon: 'i-lucide-clipboard-check', title: 'Tareas y entregas', desc: 'Consulta las tareas asignadas y el estado de entrega de cada trabajo.', color: 'text-emerald-600', bg: 'bg-emerald-50' }
 ]
 
-const colorMap: Record<string, { dot: string; connector: string; number: string }> = {
+const colorMap: Record<string, { dot: string, connector: string, number: string }> = {
   blue: { dot: 'bg-blue-600', connector: 'bg-blue-200', number: 'text-blue-600 bg-blue-50 border-blue-200' },
   indigo: { dot: 'bg-indigo-600', connector: 'bg-indigo-200', number: 'text-indigo-600 bg-indigo-50 border-indigo-200' },
   violet: { dot: 'bg-violet-600', connector: 'bg-violet-200', number: 'text-violet-600 bg-violet-50 border-violet-200' },
@@ -162,7 +162,6 @@ const colorMap: Record<string, { dot: string; connector: string; number: string 
     <PublicNavbar @open-demo="showDemo = true" />
 
     <main class="pt-16">
-
       <!-- ============ HERO ============ -->
       <section class="bg-gradient-to-br from-slate-50 via-white to-blue-50/30 py-20 px-4 sm:px-6 lg:px-8 border-b border-slate-200">
         <div class="max-w-3xl mx-auto text-center">
@@ -210,48 +209,57 @@ const colorMap: Record<string, { dot: string; connector: string; number: string 
                   :class="i % 2 !== 0 ? 'lg:col-start-2' : ''"
                 >
                   <div class="flex items-start gap-4">
-                    <div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0"
+                    <div
+                      class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0"
                       :class="{
                         'bg-blue-50': step.color === 'blue',
                         'bg-indigo-50': step.color === 'indigo',
                         'bg-violet-50': step.color === 'violet',
                         'bg-purple-50': step.color === 'purple',
                         'bg-cyan-50': step.color === 'cyan',
-                        'bg-emerald-50': step.color === 'emerald',
+                        'bg-emerald-50': step.color === 'emerald'
                       }"
                     >
-                      <UIcon :name="step.icon" class="size-5"
+                      <UIcon
+                        :name="step.icon"
+                        class="size-5"
                         :class="{
                           'text-blue-600': step.color === 'blue',
                           'text-indigo-600': step.color === 'indigo',
                           'text-violet-600': step.color === 'violet',
                           'text-purple-600': step.color === 'purple',
                           'text-cyan-600': step.color === 'cyan',
-                          'text-emerald-600': step.color === 'emerald',
+                          'text-emerald-600': step.color === 'emerald'
                         }"
                       />
                     </div>
                     <div>
                       <div class="flex items-center gap-2 mb-1.5">
-                        <span class="text-xs font-bold tracking-widest"
+                        <span
+                          class="text-xs font-bold tracking-widest"
                           :class="{
                             'text-blue-500': step.color === 'blue',
                             'text-indigo-500': step.color === 'indigo',
                             'text-violet-500': step.color === 'violet',
                             'text-purple-500': step.color === 'purple',
                             'text-cyan-500': step.color === 'cyan',
-                            'text-emerald-500': step.color === 'emerald',
+                            'text-emerald-500': step.color === 'emerald'
                           }"
                         >PASO {{ step.number }}</span>
                       </div>
-                      <h3 class="text-base font-bold text-slate-900 mb-1.5">{{ step.title }}</h3>
-                      <p class="text-sm text-slate-500 leading-relaxed">{{ step.description }}</p>
+                      <h3 class="text-base font-bold text-slate-900 mb-1.5">
+                        {{ step.title }}
+                      </h3>
+                      <p class="text-sm text-slate-500 leading-relaxed">
+                        {{ step.description }}
+                      </p>
                     </div>
                   </div>
                 </div>
 
                 <!-- Center dot on desktop -->
-                <div class="hidden lg:flex absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-5 h-5 rounded-full border-4 border-white z-10 shadow"
+                <div
+                  class="hidden lg:flex absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-5 h-5 rounded-full border-4 border-white z-10 shadow"
                   :class="colorMap[step.color].dot"
                 />
 
@@ -282,7 +290,9 @@ const colorMap: Record<string, { dot: string; connector: string; number: string 
           <div class="grid lg:grid-cols-3 gap-8 items-start">
             <!-- Inputs -->
             <div class="space-y-3">
-              <p class="text-xs font-semibold uppercase tracking-widest text-slate-400 mb-5">Entradas al modelo</p>
+              <p class="text-xs font-semibold uppercase tracking-widest text-slate-400 mb-5">
+                Entradas al modelo
+              </p>
               <div
                 v-for="input in riskInputs"
                 :key="input.label"
@@ -291,8 +301,12 @@ const colorMap: Record<string, { dot: string; connector: string; number: string 
               >
                 <UIcon :name="input.icon" class="size-4 shrink-0 mt-0.5" :class="input.color" />
                 <div>
-                  <p class="text-sm font-semibold text-slate-800">{{ input.label }}</p>
-                  <p class="text-xs text-slate-500">{{ input.sub }}</p>
+                  <p class="text-sm font-semibold text-slate-800">
+                    {{ input.label }}
+                  </p>
+                  <p class="text-xs text-slate-500">
+                    {{ input.sub }}
+                  </p>
                 </div>
               </div>
             </div>
@@ -307,9 +321,15 @@ const colorMap: Record<string, { dot: string; connector: string; number: string 
               <!-- Score display -->
               <div class="w-full rounded-2xl bg-white border border-blue-200 shadow-lg p-7 text-center">
                 <UIcon name="i-lucide-brain" class="size-8 text-blue-600 mx-auto mb-3 animate-pulse" />
-                <p class="text-xs font-semibold uppercase tracking-widest text-blue-500 mb-2">IA analiza y pondera</p>
-                <div class="text-6xl font-black text-slate-900 leading-none mb-2">0–100</div>
-                <p class="text-sm text-slate-400">Puntaje de riesgo por estudiante</p>
+                <p class="text-xs font-semibold uppercase tracking-widest text-blue-500 mb-2">
+                  IA analiza y pondera
+                </p>
+                <div class="text-6xl font-black text-slate-900 leading-none mb-2">
+                  0–100
+                </div>
+                <p class="text-sm text-slate-400">
+                  Puntaje de riesgo por estudiante
+                </p>
 
                 <div class="mt-5 h-3 w-full rounded-full overflow-hidden bg-slate-100">
                   <div class="h-full w-full rounded-full risk-gradient" />
@@ -326,7 +346,9 @@ const colorMap: Record<string, { dot: string; connector: string; number: string 
 
             <!-- Output: levels -->
             <div class="space-y-3">
-              <p class="text-xs font-semibold uppercase tracking-widest text-slate-400 mb-5">Clasificación y acción</p>
+              <p class="text-xs font-semibold uppercase tracking-widest text-slate-400 mb-5">
+                Clasificación y acción
+              </p>
               <div
                 v-for="level in riskLevels"
                 :key="level.label"
@@ -334,17 +356,23 @@ const colorMap: Record<string, { dot: string; connector: string; number: string 
                 :class="[level.bg, level.border]"
               >
                 <div class="flex items-center justify-between mb-1">
-                  <p class="text-sm font-bold" :class="level.text">{{ level.label }}</p>
+                  <p class="text-sm font-bold" :class="level.text">
+                    {{ level.label }}
+                  </p>
                   <span class="text-xs font-mono font-semibold px-2 py-0.5 rounded-full bg-white/20" :class="level.text">{{ level.range }}</span>
                 </div>
-                <p class="text-xs" :class="level.text" style="opacity:0.85">{{ level.desc }}</p>
+                <p class="text-xs" :class="level.text" style="opacity:0.85">
+                  {{ level.desc }}
+                </p>
               </div>
 
               <!-- AI narrative output -->
               <div class="rounded-xl border border-violet-200 bg-violet-50 p-4 shadow-sm mt-2">
                 <div class="flex items-center gap-2 mb-2">
                   <UIcon name="i-lucide-sparkles" class="size-3.5 text-violet-600" />
-                  <p class="text-sm font-bold text-violet-800">Narrativa pedagógica IA</p>
+                  <p class="text-sm font-bold text-violet-800">
+                    Narrativa pedagógica IA
+                  </p>
                 </div>
                 <p class="text-xs text-violet-700 leading-relaxed">
                   La IA genera un informe personalizado con análisis de causas y recomendaciones concretas de intervención para el docente.
@@ -359,7 +387,9 @@ const colorMap: Record<string, { dot: string; connector: string; number: string 
               <UIcon name="i-lucide-layout-dashboard" class="size-6 text-purple-600" />
             </div>
             <div>
-              <p class="text-base font-bold text-slate-900 mb-1">Resumen ejecutivo semanal</p>
+              <p class="text-base font-bold text-slate-900 mb-1">
+                Resumen ejecutivo semanal
+              </p>
               <p class="text-sm text-slate-500 leading-relaxed">
                 Cada semana, la IA consolida el estado de riesgo de toda la institución en un reporte ejecutivo para coordinadores: cuántos estudiantes en alerta, tendencias por grado y grupos prioritarios.
               </p>
@@ -401,8 +431,12 @@ const colorMap: Record<string, { dot: string; connector: string; number: string 
                 </div>
                 <!-- Step number -->
                 <span class="text-xs font-bold text-slate-300 mb-1.5">0{{ i + 1 }}</span>
-                <p class="text-sm font-semibold text-slate-900 mb-1.5 leading-snug">{{ step.title }}</p>
-                <p class="text-xs text-slate-500 leading-relaxed">{{ step.desc }}</p>
+                <p class="text-sm font-semibold text-slate-900 mb-1.5 leading-snug">
+                  {{ step.title }}
+                </p>
+                <p class="text-xs text-slate-500 leading-relaxed">
+                  {{ step.desc }}
+                </p>
 
                 <!-- Arrow between steps -->
                 <div v-if="i < boletinSteps.length - 1" class="hidden sm:flex absolute right-0 top-10 -translate-y-1/2 translate-x-1/2 z-20">
@@ -414,7 +448,9 @@ const colorMap: Record<string, { dot: string; connector: string; number: string 
 
           <!-- Boletin preview mock -->
           <div class="mt-14 rounded-2xl border border-slate-200 bg-slate-50 p-8 shadow-sm">
-            <p class="text-xs font-semibold uppercase tracking-widest text-slate-400 text-center mb-6">Vista previa del boletín generado</p>
+            <p class="text-xs font-semibold uppercase tracking-widest text-slate-400 text-center mb-6">
+              Vista previa del boletín generado
+            </p>
             <div class="max-w-md mx-auto bg-white rounded-xl border border-slate-200 shadow-md overflow-hidden">
               <!-- Header institucional -->
               <div class="bg-blue-600 px-6 py-4 flex items-center gap-3">
@@ -422,39 +458,58 @@ const colorMap: Record<string, { dot: string; connector: string; number: string 
                   <UIcon name="i-lucide-school" class="size-5 text-white" />
                 </div>
                 <div>
-                  <p class="text-white font-bold text-sm leading-tight">Institución Educativa Ejemplo</p>
-                  <p class="text-blue-200 text-xs">Boletín Académico — Período 2 · 2024</p>
+                  <p class="text-white font-bold text-sm leading-tight">
+                    Institución Educativa Ejemplo
+                  </p>
+                  <p class="text-blue-200 text-xs">
+                    Boletín Académico — Período 2 · 2024
+                  </p>
                 </div>
               </div>
               <!-- Student info -->
               <div class="px-6 py-4 border-b border-slate-100">
                 <div class="flex items-center justify-between">
                   <div>
-                    <p class="text-sm font-bold text-slate-900">Valentina García</p>
-                    <p class="text-xs text-slate-500">Grado 9° · Grupo A · Puesto <span class="font-semibold text-slate-700">#3 de 32</span></p>
+                    <p class="text-sm font-bold text-slate-900">
+                      Valentina García
+                    </p>
+                    <p class="text-xs text-slate-500">
+                      Grado 9° · Grupo A · Puesto <span class="font-semibold text-slate-700">#3 de 32</span>
+                    </p>
                   </div>
                   <div class="text-right">
-                    <p class="text-2xl font-black text-blue-600">4.2</p>
-                    <p class="text-xs text-slate-400">Promedio</p>
+                    <p class="text-2xl font-black text-blue-600">
+                      4.2
+                    </p>
+                    <p class="text-xs text-slate-400">
+                      Promedio
+                    </p>
                   </div>
                 </div>
               </div>
               <!-- Grades -->
               <div class="px-6 py-4 space-y-2">
-                <div v-for="(subject, idx) in [
-                  { name: 'Matemáticas', grade: 3.8, level: 'Básico' },
-                  { name: 'Lengua Castellana', grade: 4.5, level: 'Alto' },
-                  { name: 'Ciencias Naturales', grade: 4.6, level: 'Superior' },
-                  { name: 'Inglés', grade: 3.2, level: 'Básico' }
-                ]" :key="idx" class="flex items-center justify-between py-1.5">
-                  <p class="text-xs text-slate-700 font-medium">{{ subject.name }}</p>
+                <div
+                  v-for="(subject, idx) in [
+                    { name: 'Matemáticas', grade: 3.8, level: 'Básico' },
+                    { name: 'Lengua Castellana', grade: 4.5, level: 'Alto' },
+                    { name: 'Ciencias Naturales', grade: 4.6, level: 'Superior' },
+                    { name: 'Inglés', grade: 3.2, level: 'Básico' }
+                  ]"
+                  :key="idx"
+                  class="flex items-center justify-between py-1.5"
+                >
+                  <p class="text-xs text-slate-700 font-medium">
+                    {{ subject.name }}
+                  </p>
                   <div class="flex items-center gap-2">
-                    <span class="text-xs px-1.5 py-0.5 rounded text-slate-500"
+                    <span
+                      class="text-xs px-1.5 py-0.5 rounded text-slate-500"
                       :class="{
                         'bg-red-50 text-red-600': subject.grade < 3,
                         'bg-yellow-50 text-yellow-600': subject.grade >= 3 && subject.grade < 4,
                         'bg-blue-50 text-blue-600': subject.grade >= 4 && subject.grade < 4.6,
-                        'bg-emerald-50 text-emerald-600': subject.grade >= 4.6,
+                        'bg-emerald-50 text-emerald-600': subject.grade >= 4.6
                       }"
                     >{{ subject.level }}</span>
                     <span class="text-sm font-bold text-slate-900 w-8 text-right">{{ subject.grade }}</span>
@@ -463,7 +518,9 @@ const colorMap: Record<string, { dot: string; connector: string; number: string 
               </div>
               <!-- Observacion -->
               <div class="px-6 py-4 bg-slate-50 border-t border-slate-100">
-                <p class="text-xs text-slate-400 mb-1 font-medium">Observación del docente</p>
+                <p class="text-xs text-slate-400 mb-1 font-medium">
+                  Observación del docente
+                </p>
                 <p class="text-xs text-slate-600 italic leading-relaxed">
                   "Valentina muestra fortaleza en ciencias. Se recomienda refuerzo en matemáticas, especialmente en álgebra."
                 </p>
@@ -499,8 +556,12 @@ const colorMap: Record<string, { dot: string; connector: string; number: string 
                     <UIcon :name="card.icon" class="size-4" :class="card.color" />
                   </div>
                   <div>
-                    <p class="text-sm font-semibold text-slate-900 mb-0.5">{{ card.title }}</p>
-                    <p class="text-sm text-slate-500 leading-relaxed">{{ card.desc }}</p>
+                    <p class="text-sm font-semibold text-slate-900 mb-0.5">
+                      {{ card.title }}
+                    </p>
+                    <p class="text-sm text-slate-500 leading-relaxed">
+                      {{ card.desc }}
+                    </p>
                   </div>
                 </li>
               </ul>
@@ -515,35 +576,59 @@ const colorMap: Record<string, { dot: string; connector: string; number: string 
                     <UIcon name="i-lucide-user" class="size-4 text-white" />
                   </div>
                   <div>
-                    <p class="text-white text-sm font-semibold">Carolina García</p>
-                    <p class="text-violet-200 text-xs">Acudiente — Valentina García</p>
+                    <p class="text-white text-sm font-semibold">
+                      Carolina García
+                    </p>
+                    <p class="text-violet-200 text-xs">
+                      Acudiente — Valentina García
+                    </p>
                   </div>
                 </div>
                 <div class="grid grid-cols-3 gap-2">
                   <div class="rounded-lg bg-white/10 p-2.5 text-center">
-                    <p class="text-white text-lg font-black">4.2</p>
-                    <p class="text-violet-200 text-xs">Promedio</p>
+                    <p class="text-white text-lg font-black">
+                      4.2
+                    </p>
+                    <p class="text-violet-200 text-xs">
+                      Promedio
+                    </p>
                   </div>
                   <div class="rounded-lg bg-white/10 p-2.5 text-center">
-                    <p class="text-white text-lg font-black">94%</p>
-                    <p class="text-violet-200 text-xs">Asistencia</p>
+                    <p class="text-white text-lg font-black">
+                      94%
+                    </p>
+                    <p class="text-violet-200 text-xs">
+                      Asistencia
+                    </p>
                   </div>
                   <div class="rounded-lg bg-white/10 p-2.5 text-center">
-                    <p class="text-white text-lg font-black">#3</p>
-                    <p class="text-violet-200 text-xs">Puesto</p>
+                    <p class="text-white text-lg font-black">
+                      #3
+                    </p>
+                    <p class="text-violet-200 text-xs">
+                      Puesto
+                    </p>
                   </div>
                 </div>
               </div>
 
               <!-- Content -->
               <div class="p-5 space-y-3">
-                <p class="text-xs font-semibold text-slate-400 uppercase tracking-widest">Notas recientes</p>
-                <div v-for="(row, i) in [
-                  { subject: 'Ciencias Naturales', grade: 4.6, delta: '+0.4', up: true },
-                  { subject: 'Lengua Castellana', grade: 4.5, delta: '+0.1', up: true },
-                  { subject: 'Matemáticas', grade: 3.8, delta: '-0.2', up: false },
-                ]" :key="i" class="flex items-center justify-between py-2.5 border-b border-slate-50 last:border-0">
-                  <p class="text-sm text-slate-700 font-medium">{{ row.subject }}</p>
+                <p class="text-xs font-semibold text-slate-400 uppercase tracking-widest">
+                  Notas recientes
+                </p>
+                <div
+                  v-for="(row, i) in [
+                    { subject: 'Ciencias Naturales', grade: 4.6, delta: '+0.4', up: true },
+                    { subject: 'Lengua Castellana', grade: 4.5, delta: '+0.1', up: true },
+                    { subject: 'Matemáticas', grade: 3.8, delta: '-0.2', up: false }
+                  ]"
+                  :key="i"
+                  class="flex items-center justify-between py-2.5 border-b border-slate-50 last:border-0"
+                >
+                  <p class="text-sm text-slate-700 font-medium">
+                    {{ row.subject }}
+                  </p>
                   <div class="flex items-center gap-2">
                     <span class="text-xs" :class="row.up ? 'text-emerald-500' : 'text-red-400'">{{ row.delta }}</span>
                     <span class="text-sm font-bold text-slate-900">{{ row.grade }}</span>
@@ -580,21 +665,27 @@ const colorMap: Record<string, { dot: string; connector: string; number: string 
           <div class="grid grid-cols-1 sm:grid-cols-3 gap-5">
             <div class="rounded-2xl border border-amber-200 bg-amber-50 p-6">
               <UIcon name="i-lucide-target" class="size-6 text-amber-600 mb-3" />
-              <h3 class="text-sm font-bold text-slate-900 mb-1.5">SIEE — Evaluación por Logros</h3>
+              <h3 class="text-sm font-bold text-slate-900 mb-1.5">
+                SIEE — Evaluación por Logros
+              </h3>
               <p class="text-xs text-slate-500 leading-relaxed">
                 Logros cognitivos, procedimentales y actitudinales con indicadores de desempeño. Escala Bajo / Básico / Alto / Superior según el decreto 1290.
               </p>
             </div>
             <div class="rounded-2xl border border-blue-200 bg-blue-50 p-6">
               <UIcon name="i-lucide-download" class="size-6 text-blue-600 mb-3" />
-              <h3 class="text-sm font-bold text-slate-900 mb-1.5">Exportación SIMAT (MEN)</h3>
+              <h3 class="text-sm font-bold text-slate-900 mb-1.5">
+                Exportación SIMAT (MEN)
+              </h3>
               <p class="text-xs text-slate-500 leading-relaxed">
                 Exporta el registro estudiantil en el formato oficial requerido por el Ministerio de Educación Nacional para el Sistema Integrado de Matrícula.
               </p>
             </div>
             <div class="rounded-2xl border border-rose-200 bg-rose-50 p-6">
               <UIcon name="i-lucide-message-square" class="size-6 text-rose-600 mb-3" />
-              <h3 class="text-sm font-bold text-slate-900 mb-1.5">Convivencia — Ley 1620/2013</h3>
+              <h3 class="text-sm font-bold text-slate-900 mb-1.5">
+                Convivencia — Ley 1620/2013
+              </h3>
               <p class="text-xs text-slate-500 leading-relaxed">
                 Registro de incidentes disciplinarios clasificados por tipo. El historial alimenta directamente el índice de riesgo estudiantil con IA.
               </p>
@@ -646,6 +737,4 @@ const colorMap: Record<string, { dot: string; connector: string; number: string 
 .risk-gradient {
   background: linear-gradient(to right, #10b981, #f59e0b, #ef4444);
 }
-
-
 </style>

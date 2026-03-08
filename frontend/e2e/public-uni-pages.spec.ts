@@ -18,7 +18,9 @@ test.describe('University public pages navigation', () => {
 
   test('/universidades/pricing carga sin errores', async ({ page }) => {
     const errors: string[] = []
-    page.on('console', msg => { if (msg.type() === 'error') errors.push(msg.text()) })
+    page.on('console', (msg) => {
+      if (msg.type() === 'error') errors.push(msg.text())
+    })
     page.on('pageerror', err => errors.push(err.message))
 
     await page.goto(`${BASE}/universidades/pricing`)
@@ -44,7 +46,7 @@ test.describe('University public pages navigation', () => {
 
   test('/universidades/como-funciona carga sin errores', async ({ page }) => {
     const failed404: string[] = []
-    page.on('response', res => {
+    page.on('response', (res) => {
       if (res.status() === 404 && !res.url().includes('favicon')) {
         failed404.push(`404: ${res.url()}`)
       }

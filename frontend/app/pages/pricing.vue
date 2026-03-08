@@ -152,7 +152,6 @@ useHead({
 
 const billing = ref<'monthly' | 'annual'>('annual')
 
-
 interface Plan {
   name: string
   monthly: number | null
@@ -484,7 +483,6 @@ const showDemo = ref(false)
           </div>
         </div>
       </section>
-
 
       <!-- Enlace sector oficial -->
       <div class="text-center pb-10 px-4">
