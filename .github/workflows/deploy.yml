@@ -46,13 +46,10 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Install pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 9
-
       - name: Install frontend dependencies
-        run: cd frontend && pnpm install --frozen-lockfile
+        # Use npm (not pnpm) to avoid pnpm-workspace.yaml "packages field missing" error.
+        # Lint and typecheck don't require a frozen lockfile — npm install is sufficient.
+        run: cd frontend && npm install --no-package-lock
 
       - name: Frontend lint
         run: cd frontend && npm run lint
