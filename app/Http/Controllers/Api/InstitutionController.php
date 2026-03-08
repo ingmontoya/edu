@@ -37,6 +37,7 @@ class InstitutionController extends Controller
             'department' => 'nullable|string|max:100',
             'rector_name' => 'nullable|string|max:255',
             'grading_scale' => 'nullable|array',
+            'education_level' => 'nullable|in:k12,higher',
         ]);
 
         $institution = TenantService::getInstitution();

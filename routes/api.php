@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\AttendanceController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CertificateController;
 use App\Http\Controllers\Api\DisciplinaryController;
+use App\Http\Controllers\Api\EnrollmentController;
 use App\Http\Controllers\Api\GradeActivityController;
 use App\Http\Controllers\Api\GradeController;
 use App\Http\Controllers\Api\GradeRecordController;
@@ -20,6 +21,7 @@ use App\Http\Controllers\Api\RemedialController;
 use App\Http\Controllers\Api\ReportCardController;
 use App\Http\Controllers\Api\ReportController;
 use App\Http\Controllers\Api\StudentController;
+use App\Http\Controllers\Api\StudentPortalController;
 use App\Http\Controllers\Api\StudentTaskController;
 use App\Http\Controllers\Api\SubjectController;
 use App\Http\Controllers\Api\TaskController;
@@ -78,6 +80,11 @@ Route::middleware(['auth:sanctum', 'tenant'])->group(function () {
     // Areas & Subjects
     Route::apiResource('areas', AreaController::class);
     Route::apiResource('subjects', SubjectController::class);
+
+    // Enrollments (Matrículas por asignatura)
+    Route::post('enrollments/bulk', [EnrollmentController::class, 'bulkStore']);
+    Route::post('enrollments/calculate-finals', [EnrollmentController::class, 'calculateFinals']);
+    Route::apiResource('enrollments', EnrollmentController::class)->except(['show']);
 
     // SIMAT Export
     Route::get('students/simat-export', [StudentController::class, 'simatExport']);
@@ -195,6 +202,14 @@ Route::middleware(['auth:sanctum', 'tenant'])->group(function () {
     Route::post('student-tasks/{studentTask}/submit', [StudentTaskController::class, 'submit']);
     Route::get('student-tasks/{studentTask}/download', [StudentTaskController::class, 'downloadSubmission']);
     Route::put('student-tasks/{studentTask}/review', [StudentTaskController::class, 'review']);
+
+    // Portal Estudiante IES (rol: student)
+    Route::prefix('student')->group(function () {
+        Route::get('me', [StudentPortalController::class, 'me']);
+        Route::get('enrollments', [StudentPortalController::class, 'enrollments']);
+        Route::get('grades', [StudentPortalController::class, 'grades']);
+        Route::get('kardex', [StudentPortalController::class, 'kardex']);
+    });
 
     // Portal Acudiente (rutas específicas)
     Route::prefix('guardian')->group(function () {

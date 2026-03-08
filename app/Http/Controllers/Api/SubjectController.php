@@ -4,15 +4,18 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Subject;
-use Illuminate\Http\Request;
+use App\Services\TenantService;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class SubjectController extends Controller
 {
     public function index(Request $request): JsonResponse
     {
         $user = $request->user();
-        $query = Subject::with(['area', 'grade']);
+        $institutionId = TenantService::getInstitutionId();
+        $query = Subject::with(['area', 'grade'])
+            ->whereHas('grade', fn ($q) => $q->where('institution_id', $institutionId));
 
         if ($request->area_id) {
             $query->where('area_id', $request->area_id);

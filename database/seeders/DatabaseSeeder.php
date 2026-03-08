@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
             P0DemoSeeder::class,
             TeacherAssignmentsSeeder::class,
             DemoUsersSeeder::class,
+            ColeMayorSeeder::class,
         ]);
     }
 }

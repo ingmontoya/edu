@@ -10,6 +10,7 @@ class Institution extends Model
     protected $fillable = [
         'name', 'nit', 'dane_code', 'logo', 'address',
         'phone', 'email', 'city', 'department', 'rector_name', 'grading_scale',
+        'education_level',
         'ai_analyses_limit', 'ai_analyses_used', 'ai_quota_resets_at',
     ];
 

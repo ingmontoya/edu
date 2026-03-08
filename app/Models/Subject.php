@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Subject extends Model
 {
     protected $fillable = [
-        'area_id', 'grade_id', 'name', 'weekly_hours', 'order',
+        'area_id', 'grade_id', 'name', 'weekly_hours', 'credits', 'order',
     ];
 
     public function area(): BelongsTo
@@ -30,5 +30,10 @@ class Subject extends Model
     public function teacherAssignments(): HasMany
     {
         return $this->hasMany(TeacherAssignment::class);
+    }
+
+    public function enrollments(): HasMany
+    {
+        return $this->hasMany(Enrollment::class);
     }
 }

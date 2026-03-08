@@ -15,7 +15,7 @@ return new class extends Migration
             $table->string('email');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->string('role')->default('guardian'); // admin, coordinator, teacher, guardian
+            $table->string('role')->default('guardian'); // admin, coordinator, teacher, guardian, student
             $table->string('document_type')->nullable(); // CC, TI, CE, RC, etc
             $table->string('document_number')->nullable();
             $table->string('phone')->nullable();
