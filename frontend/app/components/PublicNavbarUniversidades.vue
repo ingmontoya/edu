@@ -6,22 +6,23 @@ const mobileMenuOpen = ref(false)
 const isScrolled = ref(false)
 
 onMounted(() => {
-  const onScroll = () => { isScrolled.value = window.scrollY > 80 }
+  const onScroll = () => {
+    isScrolled.value = window.scrollY > 80
+  }
   window.addEventListener('scroll', onScroll, { passive: true })
   onUnmounted(() => window.removeEventListener('scroll', onScroll))
 })
 
 const navLinks = [
-  { label: 'Inteligencia Artificial', href: '/#ia' },
-  { label: 'Módulos', href: '/#modulos' },
-  { label: 'Cómo funciona', href: '/como-funciona' },
-  { label: 'Universidades', href: '/universidades' },
-  { label: 'Precios', href: '/pricing' },
-  { label: 'Contacto', href: '/#contacto' }
+  { label: 'Inteligencia Artificial', href: '/universidades#ia-superior' },
+  { label: 'Módulos', href: '/universidades#modulos-uni' },
+  { label: 'Cómo funciona', href: '/universidades/como-funciona' },
+  { label: 'Precios', href: '/universidades/pricing' },
+  { label: 'Contacto', href: '/universidades#contacto-uni' }
 ]
 
 function isActive(href: string) {
-  if (href.startsWith('/#')) return false
+  if (href.includes('#')) return false
   return route.path === href
 }
 </script>
@@ -33,19 +34,41 @@ function isActive(href: string) {
   >
     <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" aria-label="Navegación principal">
       <div class="flex items-center justify-between h-16">
-        <a href="/" aria-label="Aula360 - Ir al inicio">
-          <span class="text-xl font-bold text-slate-900">Aula<span class="text-blue-600">360</span></span>
+        <!-- Logo links to /universidades, not / -->
+        <a href="/universidades" aria-label="Aula360 para Universidades - Ir al inicio">
+          <span class="text-xl font-bold text-slate-900">Aula<span class="text-violet-600">360</span></span>
         </a>
 
-        <!-- Desktop links -->
-        <div class="hidden md:flex items-center gap-6">
+        <!-- Context badge -->
+        <div class="hidden lg:flex items-center">
+          <span class="text-xs font-medium text-violet-600 bg-violet-50 border border-violet-200 px-2.5 py-1 rounded-full mr-6">
+            Educación Superior
+          </span>
+
+          <div class="flex items-center gap-6">
+            <a
+              v-for="link in navLinks"
+              :key="link.href"
+              :href="link.href"
+              class="text-sm transition-colors duration-200"
+              :class="isActive(link.href)
+                ? 'text-slate-900 font-semibold border-b-2 border-violet-600 pb-0.5'
+                : 'text-slate-600 hover:text-slate-900'"
+            >
+              {{ link.label }}
+            </a>
+          </div>
+        </div>
+
+        <!-- Desktop links (md only, no badge) -->
+        <div class="hidden md:flex lg:hidden items-center gap-5">
           <a
             v-for="link in navLinks"
             :key="link.href"
             :href="link.href"
             class="text-sm transition-colors duration-200"
             :class="isActive(link.href)
-              ? 'text-slate-900 font-semibold border-b-2 border-blue-600 pb-0.5'
+              ? 'text-slate-900 font-semibold border-b-2 border-violet-600 pb-0.5'
               : 'text-slate-600 hover:text-slate-900'"
           >
             {{ link.label }}
@@ -62,7 +85,7 @@ function isActive(href: string) {
           </a>
           <button
             type="button"
-            class="inline-flex items-center px-4 py-2 text-sm font-semibold text-white bg-blue-600 hover:bg-blue-500 rounded-lg transition-colors duration-200 cursor-pointer"
+            class="inline-flex items-center px-4 py-2 text-sm font-semibold text-white bg-violet-600 hover:bg-violet-500 rounded-lg transition-colors duration-200 cursor-pointer"
             @click="emit('open-demo')"
           >
             Solicitar Demo
@@ -76,10 +99,26 @@ function isActive(href: string) {
             aria-label="Abrir menú"
             @click="mobileMenuOpen = !mobileMenuOpen"
           >
-            <svg v-if="!mobileMenuOpen" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <svg
+              v-if="!mobileMenuOpen"
+              xmlns="http://www.w3.org/2000/svg"
+              class="w-5 h-5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="2"
+            >
               <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
             </svg>
-            <svg v-else xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <svg
+              v-else
+              xmlns="http://www.w3.org/2000/svg"
+              class="w-5 h-5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="2"
+            >
               <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
             </svg>
           </button>
@@ -89,6 +128,11 @@ function isActive(href: string) {
       <!-- Mobile menu -->
       <Transition name="mobile-menu">
         <div v-if="mobileMenuOpen" class="md:hidden border-t border-slate-200 py-4">
+          <div class="px-4 mb-3">
+            <span class="text-xs font-medium text-violet-600 bg-violet-50 border border-violet-200 px-2.5 py-1 rounded-full">
+              Educación Superior
+            </span>
+          </div>
           <div class="flex flex-col gap-1">
             <a
               v-for="link in navLinks"
@@ -96,7 +140,7 @@ function isActive(href: string) {
               :href="link.href"
               class="px-4 py-3 text-sm font-medium rounded-lg transition-colors duration-200"
               :class="isActive(link.href)
-                ? 'text-blue-600 font-semibold bg-blue-50'
+                ? 'text-violet-600 font-semibold bg-violet-50'
                 : 'text-slate-700 hover:text-slate-900 hover:bg-slate-50'"
               @click="mobileMenuOpen = false"
             >
@@ -108,7 +152,7 @@ function isActive(href: string) {
               </a>
               <button
                 type="button"
-                class="mx-4 px-4 py-3 text-sm font-semibold text-white bg-blue-600 hover:bg-blue-500 rounded-lg transition-colors duration-200 cursor-pointer text-center"
+                class="mx-4 px-4 py-3 text-sm font-semibold text-white bg-violet-600 hover:bg-violet-500 rounded-lg transition-colors duration-200 cursor-pointer text-center"
                 @click="emit('open-demo'); mobileMenuOpen = false"
               >
                 Solicitar Demo Gratuita
