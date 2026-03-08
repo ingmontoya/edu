@@ -9,7 +9,9 @@
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
     "lint": "eslint .",
-    "typecheck": "nuxt typecheck"
+    "typecheck": "nuxt typecheck",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui"
   },
   "dependencies": {
     "@iconify-json/lucide": "^1.2.82",
@@ -26,6 +28,7 @@
   },
   "devDependencies": {
     "@nuxt/eslint": "^1.12.1",
+    "@playwright/test": "^1.58.2",
     "eslint": "^9.39.2",
     "tailwindcss": "^4.2.1",
     "typescript": "^5.9.3",
