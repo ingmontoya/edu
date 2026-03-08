@@ -1,0 +1,126 @@
+name: E2E Tests
+
+on:
+  pull_request:
+    branches:
+      - master
+      - main
+  workflow_dispatch:
+
+jobs:
+  e2e:
+    name: Playwright E2E
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_DB: aula360_test
+          POSTGRES_USER: aula360
+          POSTGRES_PASSWORD: secret
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
+    env:
+      DB_CONNECTION: pgsql
+      DB_HOST: 127.0.0.1
+      DB_PORT: 5432
+      DB_DATABASE: aula360_test
+      DB_USERNAME: aula360
+      DB_PASSWORD: secret
+      APP_ENV: testing
+      APP_KEY: base64:placeholder==
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # ── Backend setup ───────────────────────────────────────────────────────
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: pdo, pdo_pgsql, mbstring, xml, zip, bcmath
+          coverage: none
+
+      - name: Install PHP dependencies
+        run: composer install --no-interaction --prefer-dist --optimize-autoloader
+
+      - name: Configure .env
+        run: |
+          cp .env.example .env
+          php artisan key:generate
+          sed -i "s|DB_CONNECTION=.*|DB_CONNECTION=pgsql|" .env
+          sed -i "s|DB_HOST=.*|DB_HOST=127.0.0.1|" .env
+          sed -i "s|DB_PORT=.*|DB_PORT=5432|" .env
+          sed -i "s|DB_DATABASE=.*|DB_DATABASE=aula360_test|" .env
+          sed -i "s|DB_USERNAME=.*|DB_USERNAME=aula360|" .env
+          sed -i "s|DB_PASSWORD=.*|DB_PASSWORD=secret|" .env
+
+      - name: Run migrations and seed
+        run: php artisan migrate:fresh --seed --force
+
+      - name: Start Laravel backend
+        run: php artisan serve --host=0.0.0.0 --port=9090 &
+        # Runs in background; health check below waits until ready
+
+      - name: Wait for backend
+        run: |
+          for i in {1..20}; do
+            curl -sf http://localhost:9090/api/health && break || sleep 3
+          done
+
+      # ── Frontend setup ──────────────────────────────────────────────────────
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - name: Install frontend dependencies
+        run: cd frontend && pnpm install --frozen-lockfile
+
+      - name: Build frontend for production
+        run: cd frontend && npm run build
+        env:
+          NUXT_PUBLIC_API_URL: http://localhost:9090/api
+
+      - name: Start frontend server
+        run: cd frontend && node .output/server/index.mjs &
+        env:
+          PORT: 3002
+          HOST: 0.0.0.0
+
+      - name: Wait for frontend
+        run: |
+          for i in {1..20}; do
+            curl -sf http://localhost:3002 && break || sleep 3
+          done
+
+      # ── Playwright ──────────────────────────────────────────────────────────
+      - name: Install Playwright Chromium
+        run: cd frontend && node_modules/.bin/playwright install chromium --with-deps
+
+      - name: Run E2E tests
+        run: cd frontend && node_modules/.bin/playwright test e2e/
+        env:
+          CI: true
+
+      - name: Upload test results on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: frontend/test-results/
+          retention-days: 7
