@@ -36,8 +36,55 @@ export default defineNuxtConfig({
   },
 
   routeRules: {
+    '/api/_nuxt_icon/**': {},
     '/api/**': {
       proxy: { to: 'http://localhost:9090/api/**' }
+    }
+  },
+
+  nitro: {
+    prerender: {
+      // Explicitly pre-render all app routes so nginx can serve them directly.
+      // Without this, nuxt generate only crawls public pages (/, /login, etc.)
+      // and authenticated routes like /dashboard never get an HTML file.
+      // Without their own HTML, nginx falls back to the landing page index.html,
+      // and Vue Router must re-route from there — which breaks on iOS Safari.
+      routes: [
+        '/login',
+        '/forgot-password',
+        '/dashboard',
+        '/students',
+        '/students/new',
+        '/students/simat-export',
+        '/teachers',
+        '/teachers/assignments',
+        '/academic/years',
+        '/academic/grades',
+        '/academic/groups',
+        '/academic/subjects',
+        '/academic/periods',
+        '/grades/record',
+        '/grades/worksheet',
+        '/attendance',
+        '/reports/cards',
+        '/reports/certificates',
+        '/reports/consolidation',
+        '/reports/failing',
+        '/reports/risk',
+        '/siee/achievements',
+        '/siee/achievements/record',
+        '/siee/remedials',
+        '/siee/remedials/new',
+        '/convivencia',
+        '/convivencia/new',
+        '/tasks',
+        '/tasks/new',
+        '/guardian',
+        '/guardian/tasks',
+        '/settings',
+        '/settings/security',
+        '/institution/settings'
+      ]
     }
   },
 
