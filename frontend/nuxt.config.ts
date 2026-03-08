@@ -88,6 +88,16 @@ export default defineNuxtConfig({
     }
   },
 
+  vite: {
+    build: {
+      // Merge all CSS into a single render-blocking file so every pre-rendered
+      // page gets the full stylesheet in one <link> request. Without this,
+      // Vite splits CSS per-chunk; navigating to a pre-rendered page triggers
+      // a new CSS download → flash of unstyled content before styles apply.
+      cssCodeSplit: false
+    }
+  },
+
   compatibilityDate: '2024-07-11',
 
   eslint: {
