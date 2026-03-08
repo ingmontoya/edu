@@ -59,6 +59,39 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ---
 
+## Module Development Workflow (Spec-First)
+
+### Core Rule
+Before writing any code for a new module, the OpenAPI contract MUST be defined.
+**No subagent starts implementation without an approved spec.**
+
+### Phase 1 — Contract Design
+1. Create `/docs/specs/{module}.yaml` with all endpoints for the module
+2. Include: routes, HTTP methods, request body, responses, error codes
+3. Review the spec before proceeding to Phase 2
+
+### Phase 2 — Parallel Implementation (with subagents)
+Once the spec is approved:
+- **Backend subagent**: implements Laravel endpoints following `/docs/specs/{module}.yaml`
+  - Apply thin-controller → service pattern
+  - Apply `BelongsToTenant` on new models
+- **Frontend subagent**: builds composables and pages in Nuxt
+  - Read the spec — never assume response shapes
+  - Use generated types: `npx openapi-typescript docs/specs/{module}.yaml -o frontend/types/{module}.d.ts`
+  - Use spec mocks while backend is not ready
+
+### Phase 3 — Integration
+- Replace mocks with real endpoints
+- Verify real responses match the spec
+- Run Backend and Frontend verification checklists
+
+### Forbidden Anti-patterns
+- ❌ Never create TypeScript types manually if the spec exists
+- ❌ Never work in parallel without a previously approved spec
+- ❌ Never assume endpoint structure — always read `/docs/specs/`
+
+---
+
 ## Project Overview
 
 **Aula360** is an academic management platform for Colombian educational institutions. It manages students, teachers, grades, attendance, report cards, and the Colombian SIEE (Sistema Institucional de Evaluación de Estudiantes).

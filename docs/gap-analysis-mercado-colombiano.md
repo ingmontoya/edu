@@ -1,7 +1,7 @@
 # Gap Analysis: Mercado Colombiano de Software Educativo
 
 **Plataforma:** Aula360
-**Fecha:** Marzo 2026
+**Fecha:** Marzo 2026 (actualizado post-sprint IES)
 **Propósito:** Identificar brechas entre la oferta actual del mercado y los requisitos del sector educativo colombiano
 
 ---
@@ -10,36 +10,76 @@
 
 ### Competidores Principales en Colombia
 
-| Plataforma | Fortalezas | Debilidades |
-|-----------|-----------|-------------|
-| **Escuelafácil** | Presencia en LATAM, funcionalidad amplia | Interfaz antigua, alto costo |
-| **Sigeweb** | Integración SIMAT nativa | Solo para colegios grandes, difícil de usar |
-| **Master2000** | Muy completo, notas, asistencia | Costoso, instalación local, no SaaS |
-| **Axioma Escolar** | Adaptado a MEN, Decreto 1290 | Costoso, soporte lento |
-| **iColaborar** | Comunicación familia-escuela | No gestión académica completa |
-| **Sapiens** | ERP educativo completo | Precio enterprise, curva de aprendizaje alta |
+| Plataforma | Segmento | Fortalezas | Debilidades |
+|-----------|---------|-----------|-------------|
+| **Caseware / SGA SINU** | IES (30+ universidades, 300k+ estudiantes) | 24 años experiencia, ISO 27001, ERP especializado IES, nómina docente, integración Oracle | Solo IES, sin colegios K-12, precio enterprise, no SaaS, interfaz legacy |
+| **Escuelafácil** | K-12 | Presencia en LATAM, funcionalidad amplia | Interfaz antigua, alto costo |
+| **Sigeweb** | K-12 | Integración SIMAT nativa | Solo para colegios grandes, difícil de usar |
+| **Master2000** | K-12 | Muy completo, notas, asistencia | Costoso, instalación local, no SaaS |
+| **Axioma Escolar** | K-12 | Adaptado a MEN, Decreto 1290 | Costoso, soporte lento |
+| **iColaborar** | K-12 | Comunicación familia-escuela | No gestión académica completa |
+| **Sapiens** | K-12 + IES | ERP educativo completo | Precio enterprise, curva de aprendizaje alta |
 
 ### Posicionamiento de Aula360
 
-Aula360 apunta al segmento **colegios medianos privados y concesionados** (200-1500 estudiantes) que necesitan:
-- Cumplimiento normativo colombiano (MEN, SIMAT, Decreto 1290)
+Aula360 apunta a **dos segmentos complementarios**:
+
+**Segmento A — K-12:** Colegios medianos privados y concesionados (200–1500 estudiantes)
+- Cumplimiento normativo colombiano (MEN, SIMAT, Decreto 1290, Ley 1620)
 - Precio accesible (SaaS mensual, no licencia perpetua)
 - Implementación rápida (< 1 semana)
 - Interfaz moderna y usable por docentes no técnicos
+
+**Segmento B — IES:** Instituciones de Educación Superior pequeñas y medianas (tecnológicas, técnicas, universidades regionales)
+- Alternativa moderna y asequible a Caseware/Sapiens (precio enterprise)
+- PAPA ponderado por créditos, matrículas por semestre, kardex académico
+- Portal propio del estudiante con historial y promedio acumulado
+- Mismo stack SaaS — sin instalación, sin servidores propios
 
 ---
 
 ## 2. Tabla de Brechas (Gap Analysis)
 
+### 2.0 Comparativo Directo: Aula360 IES vs Caseware SGA SINU
+
+| Funcionalidad | Aula360 (IES) | Caseware SGA SINU | Notas |
+|--------------|:---:|:---:|-------|
+| **Gestión académica** | | | |
+| Matrículas por semestre | ✅ | ✅ | Aula360: individual + masiva en un request |
+| PAPA ponderado por créditos | ✅ | ✅ | `Σ(nota×créditos)/Σ(créditos)` |
+| Kardex académico por año | ✅ | ✅ | Con créditos aprobados y PAPA por período |
+| Cálculo automático nota final | ✅ | ✅ | Aula360: desde GradeRecords con pesos por corte |
+| Portal del estudiante | ✅ | ✅ | Aula360: rol `student` propio, no hack de guardian |
+| Homologaciones | ❌ | ✅ | Gap — P2 |
+| Horario de clases | ❌ | ✅ | Gap — P1 |
+| Oferta académica / syllabus | ❌ | ✅ | Gap — P2 |
+| **Finanzas** | | | |
+| Cartera estudiantil / pagos | ❌ | ✅ | Out of scope MVP |
+| Facturación electrónica | ❌ | ✅ | Out of scope MVP |
+| **RRHH / Nómina** | | | |
+| Nómina docente (UGPP) | ❌ | ✅ | Out of scope |
+| **Tecnología** | | | |
+| SaaS / cloud nativo | ✅ | ❌ | Caseware requiere instalación on-premise |
+| API REST moderna | ✅ | ❌ | Caseware: integración via Oracle legacy |
+| Precio accesible | ✅ | ❌ | Caseware: enterprise sin precio público |
+| Implementación < 1 semana | ✅ | ❌ | Caseware: meses de implementación |
+| Interfaz moderna | ✅ | ❌ | Caseware: interfaz legacy ERP |
+| ISO 27001 | ❌ | ✅ | Gap de certificación — Q3 2026 |
+| Soporte dual K-12 + IES | ✅ | ❌ | Aula360: misma plataforma, modo por institución |
+
+**Conclusión:** Aula360 cubre el 70% funcional académico de Caseware con una fracción del costo y en SaaS. El gap principal es finanzas/nómina (out of scope) y certificaciones.
+
+---
+
 ### 2.1 Requisitos Normativos
 
 | Requisito | Estado Actual | Prioridad | Notas |
 |-----------|--------------|-----------|-------|
-| Exportación SIMAT (formato MEN) | ❌ Ausente | **P0** | Obligatorio para todos los colegios |
-| Código DANE institución completo | ⚠️ Parcial | **P0** | Falta validación formato 12 dígitos |
+| Exportación SIMAT (formato MEN) | ✅ Implementado | — | GET /api/students/simat-export → CSV |
+| Código DANE institución completo | ⚠️ Parcial | P1 | Falta validación formato 12 dígitos |
 | Decreto 1290 - Escala de valoración | ✅ Implementado | — | Superior/Alto/Básico/Bajo |
 | Decreto 1290 - SIEE institucional | ✅ Implementado | — | Logros, indicadores, nivelaciones |
-| Convivencia Escolar (Ley 1620/2013) | ❌ Ausente | **P0** | Comité de convivencia, tipos 1/2/3 |
+| Convivencia Escolar (Ley 1620/2013) | ✅ Implementado | — | DisciplinaryRecord, tipos 1/2/3, historial |
 | Manual de convivencia digital | ❌ Ausente | P1 | — |
 | Decreto 366 - Inclusión | ❌ Ausente | P1 | Discapacidades, ajustes |
 | Informe ICFES por grado | ❌ Ausente | P2 | — |
@@ -49,8 +89,8 @@ Aula360 apunta al segmento **colegios medianos privados y concesionados** (200-1
 | Funcionalidad | Estado | Prioridad | Notas |
 |--------------|--------|-----------|-------|
 | Boletines PDF | ✅ Implementado | — | |
-| Constancia de matrícula PDF | ❌ Ausente | **P0** | Solicitada frecuentemente |
-| Constancia de notas PDF | ❌ Ausente | **P0** | Para bancos, becas, traslados |
+| Constancia de matrícula PDF | ✅ Implementado | — | CertificatePdfService |
+| Constancia de notas PDF | ✅ Implementado | — | CertificatePdfService |
 | Paz y salvo académico | ❌ Ausente | P1 | |
 | Certificado de graduación | ❌ Ausente | P1 | |
 | Planilla de calificaciones imprimible | ✅ Implementado | — | |
@@ -63,7 +103,8 @@ Aula360 apunta al segmento **colegios medianos privados y concesionados** (200-1
 | Funcionalidad | Estado | Prioridad | Notas |
 |--------------|--------|-----------|-------|
 | Portal acudientes | ✅ Implementado | — | Ver notas, asistencia |
-| Recuperación de contraseña | ❌ Ausente | **P0** | Bloquea adopción |
+| Portal estudiante IES | ✅ Implementado | — | Rol `student`, dashboard + kardex con PAPA |
+| Recuperación de contraseña | ✅ Implementado | — | Flujo forgot/reset con email |
 | Notificaciones push | ❌ Ausente | P1 | App móvil futura |
 | Mensajería interna | ❌ Ausente | P1 | |
 | Comunicados a grupos/grados | ✅ Parcial | P1 | Falta targeting por grupo |
@@ -73,8 +114,11 @@ Aula360 apunta al segmento **colegios medianos privados y concesionados** (200-1
 
 | Funcionalidad | Estado | Prioridad | Notas |
 |--------------|--------|-----------|-------|
-| Datos socioeconómicos estudiante | ❌ Ausente | **P0** | Requerido SIMAT (estrato, EPS) |
-| Etnia y discapacidad | ❌ Ausente | **P0** | Requerido SIMAT/DANE |
+| Datos socioeconómicos estudiante | ✅ Implementado | — | Estrato, EPS, municipio (migración SIMAT) |
+| Etnia y discapacidad | ✅ Implementado | — | Campos DANE en modelo Student |
+| Matrículas IES (individual + masiva) | ✅ Implementado | — | POST /enrollments/bulk, semestre completo |
+| Cálculo nota final automático | ✅ Implementado | — | POST /enrollments/calculate-finals |
+| PAPA ponderado por créditos | ✅ Implementado | — | Σ(nota×créditos)/Σ(créditos), backend + frontend |
 | Multi-sede | ❌ Ausente | P1 | Colegios con varias sedes |
 | Calendario académico configurable | ❌ Ausente | P1 | |
 | Inventario / biblioteca | ❌ Ausente | P3 | Out of scope MVP |
@@ -82,29 +126,25 @@ Aula360 apunta al segmento **colegios medianos privados y concesionados** (200-1
 
 ---
 
-## 3. Prioridades P0 (Must-Have para Go-to-Market)
+## 3. Prioridades P0 — Estado Actual
 
-Estos items bloquean la adopción real o son obligatorios por ley:
+### P0 K-12 — ✅ Todos completados (Q1 2026)
 
-### P0-A: Exportación SIMAT + Campos DANE
-- **Por qué P0:** Todos los colegios colombianos deben reportar a SIMAT. Sin esto, el software no puede reemplazar al actual.
-- **Alcance:** Campos adicionales en estudiante (estrato, EPS, etnia, discapacidad, municipio) + endpoint de exportación CSV en formato SIMAT
-- **Esfuerzo estimado:** 2-3 días
+| Item | Estado | Detalle |
+|------|:---:|---------|
+| P0-A: Exportación SIMAT + Campos DANE | ✅ | `GET /api/students/simat-export` → CSV MEN; 7 campos nuevos en Student |
+| P0-B: Convivencia Escolar (Ley 1620/2013) | ✅ | DisciplinaryRecord CRUD, tipos 1/2/3, historial por estudiante |
+| P0-C: Constancias y Certificados PDF | ✅ | CertificatePdfService, matrícula + notas con membrete |
+| P0-D: Recuperación de contraseña | ✅ | Flujo forgot/reset con email, páginas frontend |
 
-### P0-B: Módulo de Convivencia Escolar (Ley 1620/2013)
-- **Por qué P0:** Obligatorio por ley. Los colegios tienen comité de convivencia y deben registrar todos los casos.
-- **Alcance:** Registro de situaciones tipo 1/2/3, seguimiento de casos, historial por estudiante
-- **Esfuerzo estimado:** 3-4 días
+### P0 IES — ✅ Todos completados (Marzo 2026)
 
-### P0-C: Constancias y Certificados PDF
-- **Por qué P0:** Solicitud #1 de coordinadores. Se emiten decenas por semana (bancos, traslados, becas).
-- **Alcance:** Constancia de matrícula + Constancia de notas con membrete oficial
-- **Esfuerzo estimado:** 1-2 días
-
-### P0-D: Recuperación de Contraseña
-- **Por qué P0:** Sin esto, cualquier usuario que olvide su contraseña necesita llamar al admin. Bloquea adopción masiva.
-- **Alcance:** Flujo completo forgot/reset password con email
-- **Esfuerzo estimado:** 1 día
+| Item | Estado | Detalle |
+|------|:---:|---------|
+| P0-IES-1: PAPA ponderado por créditos | ✅ | `Σ(nota×créditos)/Σ(créditos)` en kardex frontend + StudentPortalController |
+| P0-IES-2: Cálculo automático nota final | ✅ | `POST /enrollments/calculate-finals` — pesos por corte → final_grade + status |
+| P0-IES-3: Portal del estudiante (rol propio) | ✅ | Rol `student`, dashboard + kardex, sidebar propio, redirect en login |
+| P0-IES-4: Matrícula masiva por semestre | ✅ | `POST /enrollments/bulk` — semestre completo en un request, skip duplicados |
 
 ---
 
@@ -232,40 +272,67 @@ Este score se puede calcular en el backend como un endpoint `/api/reports/risk-s
 
 ### Aula360 vs Competencia
 
+**K-12:**
+
 | Criterio | Aula360 | Sigeweb | Master2000 | Escuelafácil |
-|---------|---------|---------|-----------|-------------|
+|---------|:---:|:---:|:---:|:---:|
 | Precio/mes | $$ | $$$$ | $$$ | $$$ |
 | Implementación | < 1 semana | 2-4 semanas | 4-8 semanas | 2-3 semanas |
 | Interfaz moderna | ✅ | ⚠️ | ❌ | ⚠️ |
 | SaaS (cloud) | ✅ | ⚠️ | ❌ | ✅ |
-| SIMAT nativo | ⚠️ P0 | ✅ | ✅ | ⚠️ |
+| SIMAT nativo | ✅ | ✅ | ✅ | ⚠️ |
 | Convivencia 1620 | ✅ | ✅ | ✅ | ⚠️ |
-| Soporte colombiano | ✅ | ✅ | ✅ | ⚠️ |
+| Constancias PDF | ✅ | ✅ | ✅ | ⚠️ |
+| Recuperación contraseña | ✅ | ✅ | ✅ | ✅ |
 | API abierta | ✅ | ❌ | ❌ | ❌ |
-| **Riesgo estudiantil IA** | **⚠️ P1** | ❌ | ❌ | ❌ |
-| **Alertas automáticas** | **⚠️ P1** | ❌ | ❌ | ❌ |
-| **Tareas con evidencias + vista acudiente** | **⚠️ P1** | ⚠️ | ✅ | ⚠️ |
+| Riesgo estudiantil IA | ⚠️ P1 | ❌ | ❌ | ❌ |
+| Tareas + vista acudiente | ⚠️ P1 | ⚠️ | ✅ | ⚠️ |
+
+**IES (Educación Superior):**
+
+| Criterio | Aula360 | Caseware SGA SINU | Sapiens |
+|---------|:---:|:---:|:---:|
+| Precio | $$ SaaS | $$$$ enterprise | $$$$ enterprise |
+| Implementación | < 1 semana | Meses | Meses |
+| SaaS / cloud nativo | ✅ | ❌ on-premise | ⚠️ |
+| Interfaz moderna | ✅ | ❌ legacy | ⚠️ |
+| PAPA ponderado créditos | ✅ | ✅ | ✅ |
+| Matrícula masiva por semestre | ✅ | ✅ | ✅ |
+| Kardex + nota final automática | ✅ | ✅ | ✅ |
+| Portal del estudiante propio | ✅ | ✅ | ✅ |
+| Homologaciones | ❌ P2 | ✅ | ✅ |
+| Finanzas / cartera | ❌ OOS | ✅ | ✅ |
+| Nómina docente (UGPP) | ❌ OOS | ✅ | ✅ |
+| API REST moderna | ✅ | ❌ | ⚠️ |
+| Soporte dual K-12 + IES | ✅ | ❌ | ❌ |
+| ISO 27001 | ❌ P3 | ✅ | ✅ |
 
 ### Propuesta de Valor Única
 
 Aula360 es el **único software académico colombiano** que combina:
-1. Cumplimiento normativo completo (SIMAT, 1290, 1620)
+1. Cumplimiento normativo completo K-12 (SIMAT, 1290, 1620) y IES (PAPA, créditos, semestres)
 2. Interfaz moderna (Nuxt 3 + Nuxt UI — no jQuery legacy)
-3. Precio SaaS accesible para colegios medianos
-4. Implementación en menos de una semana
+3. Precio SaaS accesible para colegios medianos e IES regionales
+4. Implementación en menos de una semana (vs meses para Caseware/Sapiens)
 5. API REST abierta para integraciones
-6. **Analítica de riesgo estudiantil al estilo Panorama Education** — único en el mercado colombiano
+6. **Una sola plataforma para K-12 e IES** — el modo cambia por institución
+7. **Analítica de riesgo estudiantil al estilo Panorama Education** — único en el mercado colombiano
 
 ---
 
 ## 6. Roadmap Sugerido
 
-### Q1 2026 (P0 — Go-to-Market Ready)
+### Q1 2026 (P0 — Go-to-Market Ready) ✅ COMPLETO
 - [x] SIEE completo (logros, nivelaciones, promoción)
-- [ ] Exportación SIMAT + campos DANE (P0-A)
-- [ ] Convivencia Escolar Ley 1620 (P0-B)
-- [ ] Constancias y certificados PDF (P0-C)
-- [ ] Recuperación de contraseña (P0-D)
+- [x] Exportación SIMAT + campos DANE (P0-A)
+- [x] Convivencia Escolar Ley 1620 (P0-B)
+- [x] Constancias y certificados PDF (P0-C)
+- [x] Recuperación de contraseña (P0-D)
+- [x] Módulo IES: créditos en materias, education_level por institución
+- [x] IES: PAPA ponderado por créditos (P0-IES-1)
+- [x] IES: Cálculo automático nota final desde GradeRecords (P0-IES-2)
+- [x] IES: Portal del estudiante con rol propio (P0-IES-3)
+- [x] IES: Matrícula masiva por semestre (P0-IES-4)
 
 ### Q2 2026 (P1 — Diferenciación)
 - [ ] Horarios de clase
