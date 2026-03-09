@@ -91,11 +91,11 @@ const studentOptions = computed(() =>
                 <div class="flex items-center gap-2">
                   <span class="font-medium">{{ st.task?.title }}</span>
                   <UBadge
-                    :color="tasksComposable.getStatusColor(st.status)"
+                    :color="tasksComposable.getStatusColor(st.status ?? '')"
                     variant="soft"
                     size="xs"
                   >
-                    {{ tasksComposable.getStatusLabel(st.status) }}
+                    {{ tasksComposable.getStatusLabel(st.status ?? '') }}
                   </UBadge>
                 </div>
                 <div class="text-sm text-muted flex gap-3">

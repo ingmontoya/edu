@@ -36,19 +36,19 @@ const avatarColors = [
 ]
 
 const getAvatarColor = (name: string | undefined): string => {
-  if (!name) return avatarColors[0]
+  if (!name) return avatarColors[0]!
   let hash = 0
   for (let i = 0; i < name.length; i++) {
     hash = name.charCodeAt(i) + ((hash << 5) - hash)
   }
-  return avatarColors[Math.abs(hash) % avatarColors.length]
+  return avatarColors[Math.abs(hash) % avatarColors.length]!
 }
 
 const getInitials = (name: string | undefined): string => {
   if (!name) return '?'
   const parts = name.trim().split(' ')
   if (parts.length >= 2) {
-    return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase()
+    return (parts[0]![0]! + parts[parts.length - 1]![0]!).toUpperCase()
   }
   return name.substring(0, 2).toUpperCase()
 }

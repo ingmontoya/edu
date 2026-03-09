@@ -260,7 +260,7 @@ const colorMap: Record<string, { dot: string, connector: string, number: string 
                 <!-- Center dot on desktop -->
                 <div
                   class="hidden lg:flex absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-5 h-5 rounded-full border-4 border-white z-10 shadow"
-                  :class="colorMap[step.color].dot"
+                  :class="colorMap[step.color]?.dot"
                 />
 
                 <!-- Empty col for alternating layout -->

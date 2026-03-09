@@ -11,7 +11,7 @@ const tasks = useTasks()
 
 const loading = ref(true)
 const items = ref<Task[]>([])
-const groupFilter = ref<number | null>(null)
+const groupFilter = ref<number | undefined>(undefined)
 const deleteTarget = ref<Task | null>(null)
 const deleting = ref(false)
 

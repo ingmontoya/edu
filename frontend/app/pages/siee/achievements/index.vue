@@ -141,13 +141,17 @@ const handleSave = async () => {
   saving.value = true
   try {
     if (editingItem.value) {
-      await updateAchievement(editingItem.value.id, formData.value)
+      await updateAchievement(editingItem.value.id, formData.value as unknown as Partial<Achievement>)
       toast.add({ title: 'Exito', description: 'Logro actualizado', color: 'success' })
     } else {
       await createAchievement({
         subject_id: selectedSubject.value!,
         period_id: selectedPeriod.value!,
-        ...formData.value
+        code: formData.value.code,
+        description: formData.value.description,
+        type: formData.value.type,
+        order: formData.value.order,
+        indicators: formData.value.indicators
       })
       toast.add({ title: 'Exito', description: 'Logro creado', color: 'success' })
     }
@@ -210,7 +214,7 @@ const openImportModal = () => {
 const handleFileSelect = (event: Event) => {
   const target = event.target as HTMLInputElement
   if (target.files && target.files.length > 0) {
-    importFile.value = target.files[0]
+    importFile.value = target.files[0] ?? null
   }
 }
 

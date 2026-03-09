@@ -215,7 +215,7 @@ watch([selectedGroup, selectedPeriod], () => {
                     class="border-b hover:bg-gray-50 dark:hover:bg-gray-800"
                   >
                     <td class="p-2 text-muted sticky left-0 bg-white dark:bg-gray-900 text-xs">
-                      {{ index + 1 }}
+                      {{ Number(index) + 1 }}
                     </td>
                     <td class="p-2 font-medium sticky left-8 bg-white dark:bg-gray-900 text-xs truncate max-w-[180px]">
                       {{ student.student_name }}

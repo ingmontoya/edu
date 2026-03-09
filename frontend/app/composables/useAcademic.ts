@@ -8,6 +8,7 @@ import type {
   Subject,
   Student,
   Teacher,
+  TeacherAssignment,
   Guardian,
   PaginatedResponse
 } from '~/types/school'
@@ -179,7 +180,7 @@ export const useAcademic = () => {
   const createTeacher = (data: any) => api.post<Teacher>('/teachers', data)
   const updateTeacher = (id: number, data: any) => api.put<Teacher>(`/teachers/${id}`, data)
   const deleteTeacher = (id: number) => api.delete(`/teachers/${id}`)
-  const getTeacherAssignments = (id: number) => api.get(`/teachers/${id}/assignments`)
+  const getTeacherAssignments = (id: number) => api.get<TeacherAssignment[]>(`/teachers/${id}/assignments`)
   const assignTeacher = (teacherId: number, data: { subject_id: number, group_id: number, academic_year_id: number }) =>
     api.post(`/teachers/${teacherId}/assign`, data)
   const unassignTeacher = (teacherId: number, assignmentId: number) =>

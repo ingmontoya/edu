@@ -42,6 +42,8 @@ export default defineNuxtConfig({
     }
   },
 
+  compatibilityDate: '2024-07-11',
+
   nitro: {
     prerender: {
       // Explicitly pre-render all app routes so nginx can serve them directly.
@@ -97,8 +99,6 @@ export default defineNuxtConfig({
       cssCodeSplit: false
     }
   },
-
-  compatibilityDate: '2024-07-11',
 
   eslint: {
     config: {

@@ -184,10 +184,10 @@ const handleReview = async (st: StudentTask) => {
 
             <template #status-cell="{ row }">
               <UBadge
-                :color="tasksComposable.getStatusColor((row.original as StudentTask).status)"
+                :color="tasksComposable.getStatusColor((row.original as StudentTask).status ?? '')"
                 variant="soft"
               >
-                {{ tasksComposable.getStatusLabel((row.original as StudentTask).status) }}
+                {{ tasksComposable.getStatusLabel((row.original as StudentTask).status ?? '') }}
               </UBadge>
             </template>
 

@@ -148,7 +148,8 @@ export const useSiee = () => {
 
   const autoAssignFailingStudents = async (remedialId: number) => {
     return api.post<{ assigned_count: number, total_failing: number }>(
-      `/remedials/${remedialId}/auto-assign`
+      `/remedials/${remedialId}/auto-assign`,
+      { }
     )
   }
 

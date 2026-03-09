@@ -88,7 +88,7 @@ onMounted(async () => {
         phone: student.value.user?.phone || '',
         birth_date: student.value.user?.birth_date || '',
         address: student.value.user?.address || '',
-        group_id: student.value.group_id,
+        group_id: student.value.group_id ?? undefined,
         enrollment_code: student.value.enrollment_code || '',
         enrollment_date: student.value.enrollment_date || '',
         status: student.value.status

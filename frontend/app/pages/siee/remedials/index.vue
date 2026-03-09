@@ -56,7 +56,7 @@ const filteredRemedials = computed(() => {
     const searchLower = search.value.toLowerCase()
     result = result.filter(r =>
       r.title.toLowerCase().includes(searchLower)
-      || r.description.toLowerCase().includes(searchLower)
+      || (r.description ?? '').toLowerCase().includes(searchLower)
     )
   }
 
@@ -101,9 +101,9 @@ const handleDelete = async () => {
 const getStatusStats = (remedial: RemedialActivity) => {
   if (!remedial.student_remedials?.length) return null
   const total = remedial.student_remedials.length
-  const completed = remedial.student_remedials.filter(sr => sr.status === 'completed').length
-  const passed = remedial.student_remedials.filter(sr => sr.status === 'passed').length
-  const failed = remedial.student_remedials.filter(sr => sr.status === 'failed').length
+  const completed = remedial.student_remedials.filter(sr => (sr.status as string) === 'completed').length
+  const passed = remedial.student_remedials.filter(sr => (sr.status as string) === 'passed').length
+  const failed = remedial.student_remedials.filter(sr => (sr.status as string) === 'failed').length
   const pending = remedial.student_remedials.filter(sr => sr.status === 'pending').length
 
   return { total, completed, passed, failed, pending }
@@ -205,8 +205,8 @@ onMounted(async () => {
               <div class="flex items-start justify-between">
                 <div class="flex-1">
                   <div class="flex items-center gap-2 mb-1">
-                    <UBadge :color="getRemedialTypeColor(remedial.type)" size="xs">
-                      {{ getRemedialTypeLabel(remedial.type) }}
+                    <UBadge :color="getRemedialTypeColor(remedial.type ?? '')" size="xs">
+                      {{ getRemedialTypeLabel(remedial.type ?? '') }}
                     </UBadge>
                   </div>
                   <h4 class="font-semibold">

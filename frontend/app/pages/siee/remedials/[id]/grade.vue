@@ -5,7 +5,7 @@ definePageMeta({ middleware: 'auth' })
 
 const route = useRoute()
 const router = useRouter()
-const { getRemedial, gradeStudentRemedial, getRemedialStatusLabel, getRemedialStatusColor } = useSiee()
+const { getRemedial, gradeStudentRemedial, getRemedialStatusLabel, getRemedialStatusColor, getRemedialTypeColor } = useSiee()
 const { getStudents } = useAcademic()
 const toast = useToast()
 
@@ -64,7 +64,7 @@ const fetchData = async () => {
       grades.value[sr.student_id] = {
         grade: sr.grade,
         observations: sr.observations || '',
-        status: sr.status
+        status: sr.status ?? 'pending'
       }
     })
   } catch (error) {
@@ -81,7 +81,7 @@ const handleGradeChange = (studentId: number) => {
 
   // Auto-determine status based on grade
   if (data.grade !== null) {
-    const passingGrade = remedial.value.max_grade * 0.6 // 60% to pass
+    const passingGrade = (remedial.value.max_grade ?? 5) * 0.6 // 60% to pass
     if (data.grade >= passingGrade) {
       data.status = 'passed'
     } else {
@@ -97,9 +97,8 @@ const saveGrade = async (studentRemedialId: number, studentId: number) => {
   saving.value = true
   try {
     await gradeStudentRemedial(studentRemedialId, {
-      grade: data.grade,
-      observations: data.observations,
-      status: data.status
+      grade: data.grade ?? 0,
+      teacher_feedback: data.observations
     })
     toast.add({ title: 'Guardado', description: 'Calificacion guardada', color: 'success' })
   } catch (error) {
@@ -118,9 +117,8 @@ const saveAllGrades = async () => {
       const data = grades.value[sr.student_id]
       if (data) {
         await gradeStudentRemedial(sr.id, {
-          grade: data.grade,
-          observations: data.observations,
-          status: data.status
+          grade: data.grade ?? 0,
+          teacher_feedback: data.observations
         })
       }
     }
@@ -175,8 +173,8 @@ onMounted(fetchData)
             <div class="flex items-start gap-6">
               <div class="flex-1">
                 <div class="flex items-center gap-2 mb-2">
-                  <UBadge :color="getRemedialTypeColor(remedial.type)" size="sm">
-                    {{ getRemedialStatusLabel(remedial.type) }}
+                  <UBadge :color="getRemedialTypeColor(remedial.type ?? '')" size="sm">
+                    {{ getRemedialStatusLabel(remedial.type ?? '') }}
                   </UBadge>
                 </div>
                 <h3 class="text-lg font-semibold">
@@ -283,7 +281,7 @@ onMounted(fetchData)
                     </td>
                     <td class="py-3 px-4">
                       <UInput
-                        v-model.number="grades[sr.student_id].grade"
+                        v-model.number="grades[sr.student_id]!.grade"
                         type="number"
                         :min="0"
                         :max="remedial.max_grade"
@@ -294,7 +292,7 @@ onMounted(fetchData)
                     </td>
                     <td class="py-3 px-4">
                       <USelectMenu
-                        v-model="grades[sr.student_id].status"
+                        v-model="grades[sr.student_id]!.status"
                         :items="statusOptions"
                         value-key="value"
                         size="sm"
@@ -302,7 +300,7 @@ onMounted(fetchData)
                     </td>
                     <td class="py-3 px-4">
                       <UInput
-                        v-model="grades[sr.student_id].observations"
+                        v-model="grades[sr.student_id]!.observations"
                         placeholder="Observaciones..."
                         size="sm"
                       />

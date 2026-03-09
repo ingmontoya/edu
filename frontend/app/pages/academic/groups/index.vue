@@ -204,7 +204,7 @@ watch(searchQuery, debouncedSearch)
           >
             <template #grade_level-cell="{ row }">
               <UBadge variant="subtle">
-                {{ levelLabels[row.original.grade?.level] || row.original.grade?.level }}
+                {{ levelLabels[row.original.grade?.level ?? 'primaria'] || row.original.grade?.level }}
               </UBadge>
             </template>
 

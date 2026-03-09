@@ -58,9 +58,15 @@ const handleSubmit = async () => {
   loading.value = true
   try {
     const remedial = await createRemedial({
-      ...form.value,
-      period_id: activePeriodId.value,
-      teacher_id: auth.user?.teacher?.id || auth.user?.id
+      subject_id: form.value.subject_id!,
+      title: form.value.title,
+      description: form.value.description,
+      type: form.value.type,
+      assigned_date: form.value.assigned_date!,
+      due_date: form.value.due_date,
+      max_grade: form.value.max_grade,
+      period_id: activePeriodId.value!,
+      teacher_id: auth.user?.id ?? 0
     })
     createdRemedialId.value = remedial.id
     toast.add({ title: 'Exito', description: 'Actividad creada correctamente', color: 'success' })

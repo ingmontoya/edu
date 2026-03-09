@@ -465,7 +465,7 @@ onMounted(async () => {
                           variant="outline"
                           size="sm"
                         >
-                          {{ rec.subject }}
+                          {{ typeof rec === 'string' ? rec : rec.subject }}
                         </UBadge>
                       </div>
                     </div>

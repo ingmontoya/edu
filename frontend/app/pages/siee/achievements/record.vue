@@ -107,8 +107,8 @@ const fetchStudents = async () => {
         records.value[a.id] = {}
       }
       students.value.forEach((s) => {
-        if (!records.value[a.id][s.id]) {
-          records.value[a.id][s.id] = { status: 'pending', observations: '' }
+        if (!records.value[a.id]![s.id]) {
+          records.value[a.id]![s.id] = { status: 'pending', observations: '' }
         }
       })
     })
@@ -122,7 +122,7 @@ const fetchStudents = async () => {
 const setAllStatus = (status: string) => {
   if (!selectedAchievement.value) return
   students.value.forEach((s) => {
-    records.value[selectedAchievement.value!][s.id].status = status
+    records.value[selectedAchievement.value!]![s.id]!.status = status
   })
 }
 
@@ -134,7 +134,7 @@ const handleSave = async () => {
 
   saving.value = true
   try {
-    const achievementRecords = records.value[selectedAchievement.value]
+    const achievementRecords = records.value[selectedAchievement.value] ?? {}
     const recordsToSave = Object.entries(achievementRecords).map(([studentId, data]) => ({
       student_id: parseInt(studentId),
       status: data.status,
@@ -379,7 +379,7 @@ onMounted(async () => {
                   </td>
                   <td class="py-3 px-4">
                     <USelectMenu
-                      v-model="records[selectedAchievement!][student.id].status"
+                      v-model="records[selectedAchievement!]![student.id]!.status"
                       :items="statusOptions"
                       value-key="value"
                       size="sm"
@@ -387,7 +387,7 @@ onMounted(async () => {
                   </td>
                   <td class="py-3 px-4">
                     <UInput
-                      v-model="records[selectedAchievement!][student.id].observations"
+                      v-model="records[selectedAchievement!]![student.id]!.observations"
                       placeholder="Observaciones..."
                       size="sm"
                     />

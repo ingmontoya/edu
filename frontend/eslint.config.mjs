@@ -33,6 +33,7 @@ const LEGACY_IGNORE = [
   'app/stores/auth.ts',
   'app/stores/institution.ts',
   'app/types/school.ts',
+  'app/types/generated/**',
   'nuxt.config.ts'
 ]
 
