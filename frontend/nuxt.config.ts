@@ -52,6 +52,14 @@ export default defineNuxtConfig({
       // Without their own HTML, nginx falls back to the landing page index.html,
       // and Vue Router must re-route from there — which breaks on iOS Safari.
       routes: [
+        // Landing pages (public)
+        '/como-funciona',
+        '/pricing',
+        '/sector-oficial',
+        '/universidades',
+        '/universidades/como-funciona',
+        '/universidades/pricing',
+        // App pages
         '/login',
         '/forgot-password',
         '/dashboard',
