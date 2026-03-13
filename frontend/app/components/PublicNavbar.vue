@@ -17,7 +17,6 @@ const navLinks = [
   { label: 'Inteligencia Artificial', href: '/#ia' },
   { label: 'Módulos', href: '/#modulos' },
   { label: 'Cómo funciona', href: '/como-funciona' },
-  { label: 'Universidades', href: '/universidades' },
   { label: 'Precios', href: '/pricing' },
   { label: 'Contacto', href: '/#contacto' }
 ]
