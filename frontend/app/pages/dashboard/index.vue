@@ -1,14 +1,17 @@
 <script setup lang="ts">
 definePageMeta({
-  middleware: 'auth'
+  middleware: ['auth']
 })
 
 const academicStore = useAcademicStore()
 const authStore = useAuthStore()
+const institutionStore = useInstitutionStore()
 const { getAiWeeklySummary } = useReports()
+const api = useApi()
 const toast = useToast()
 
 const loading = ref(true)
+const higherEdStudentCount = ref(0)
 const aiSummary = ref<string | null>(null)
 const aiSummaryLoading = ref(false)
 const aiSummaryGenerated = ref(false)
@@ -43,6 +46,12 @@ function stopSummaryLoader() {
 
 onMounted(async () => {
   await academicStore.fetchAll()
+  if (institutionStore.isHigherEd) {
+    try {
+      const res = await api.get<{ meta: { total: number } }>('/students', { params: { per_page: 1 } })
+      higherEdStudentCount.value = res.meta?.total ?? 0
+    } catch { /* ignore */ }
+  }
   loading.value = false
 })
 
@@ -66,7 +75,9 @@ const generateAiSummary = async () => {
 }
 
 const stats = computed(() => ({
-  students: academicStore.groups.reduce((sum, g) => sum + (g.students?.length || 0), 0),
+  students: institutionStore.isHigherEd
+    ? higherEdStudentCount.value
+    : academicStore.groups.reduce((sum, g) => sum + (g.students?.length || 0), 0),
   groups: academicStore.groups.length,
   grades: academicStore.grades.length,
   activePeriod: academicStore.activePeriod?.name || 'Sin periodo activo'
@@ -133,7 +144,7 @@ const formatDate = (date: string) => {
                   {{ stats.groups }}
                 </p>
                 <p class="text-sm text-muted">
-                  Grupos
+                  {{ institutionStore.isHigherEd ? 'Semestres' : 'Grupos' }}
                 </p>
               </div>
             </div>
@@ -149,7 +160,7 @@ const formatDate = (date: string) => {
                   {{ stats.grades }}
                 </p>
                 <p class="text-sm text-muted">
-                  Grados
+                  {{ institutionStore.isHigherEd ? 'Programas' : 'Grados' }}
                 </p>
               </div>
             </div>
@@ -172,10 +183,11 @@ const formatDate = (date: string) => {
           </UPageCard>
         </div>
 
-        <!-- Quick Actions -->
-        <UPageCard title="Acciones Rápidas" variant="subtle">
+        <!-- Quick Actions — K-12 -->
+        <UPageCard v-if="!institutionStore.isHigherEd" title="Acciones Rápidas" variant="subtle">
           <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
             <UButton
+              v-if="authStore.isAdmin || authStore.isCoordinator"
               to="/students/new"
               icon="i-lucide-user-plus"
               label="Nuevo Estudiante"
@@ -205,6 +217,56 @@ const formatDate = (date: string) => {
               label="Generar Boletines"
               color="neutral"
               variant="outline"
+              block
+            />
+          </div>
+        </UPageCard>
+
+        <!-- Quick Actions — Higher Ed -->
+        <UPageCard v-else variant="subtle">
+          <template #header>
+            <div class="flex items-center justify-between">
+              <span class="text-sm font-semibold text-highlighted">Acciones Rápidas</span>
+              <UBadge color="primary" variant="subtle" size="xs">
+                Educación Superior
+              </UBadge>
+            </div>
+          </template>
+          <div class="grid grid-cols-2 gap-3">
+            <UButton
+              to="/enrollments"
+              icon="i-lucide-list-plus"
+              label="Matricular Semestre"
+              color="primary"
+              variant="solid"
+              size="sm"
+              block
+            />
+            <UButton
+              to="/grades/record"
+              icon="i-lucide-file-edit"
+              label="Registrar Notas"
+              color="primary"
+              variant="solid"
+              size="sm"
+              block
+            />
+            <UButton
+              to="/enrollments"
+              icon="i-lucide-calculator"
+              label="Calcular Notas Finales"
+              color="neutral"
+              variant="outline"
+              size="sm"
+              block
+            />
+            <UButton
+              to="/reports/kardex"
+              icon="i-lucide-book-open"
+              label="Kardex y Reportes"
+              color="neutral"
+              variant="outline"
+              size="sm"
               block
             />
           </div>

@@ -2,13 +2,40 @@
 import type { Enrollment, EnrollmentStatus, AcademicYear, Student, Subject } from '~/types/school'
 
 definePageMeta({
-  middleware: 'auth'
+  middleware: ['auth', 'staff']
 })
 
 const auth = useAuthStore()
 const { getEnrollments, createEnrollment, updateEnrollment, deleteEnrollment, bulkCreateEnrollment, calculateFinalGrades } = useEnrollments()
 const { getAcademicYears, getStudents, getSubjects } = useAcademic()
 const toast = useToast()
+
+const workflowSteps = [
+  {
+    number: 1,
+    icon: 'i-lucide-users',
+    label: 'Verificar estudiantes en el sistema',
+    active: true
+  },
+  {
+    number: 2,
+    icon: 'i-lucide-list-plus',
+    label: 'Matricular en materias por semestre',
+    active: true
+  },
+  {
+    number: 3,
+    icon: 'i-lucide-file-edit',
+    label: 'El docente registra notas por corte',
+    active: false
+  },
+  {
+    number: 4,
+    icon: 'i-lucide-calculator',
+    label: 'Calcular notas finales al cierre',
+    active: false
+  }
+]
 
 // Access control (client-only: auth store is not hydrated on the server)
 if (import.meta.client && !auth.isAdmin && !auth.isCoordinator) {
@@ -277,6 +304,104 @@ onMounted(async () => {
 
     <template #body>
       <div class="flex flex-col gap-6 p-6">
+        <!-- Workflow stepper banner -->
+        <UPageCard variant="subtle">
+          <template #header>
+            <p class="text-xs font-semibold text-muted uppercase tracking-wider">
+              Flujo de trabajo — Matrículas
+            </p>
+          </template>
+
+          <!-- Desktop: horizontal stepper -->
+          <div
+            role="list"
+            class="hidden md:flex items-center gap-2"
+          >
+            <template v-for="(step, index) in workflowSteps" :key="step.number">
+              <!-- Step -->
+              <div
+                role="listitem"
+                :aria-current="step.active ? 'step' : undefined"
+                class="flex flex-col items-center gap-1.5 w-36 shrink-0"
+              >
+                <div
+                  class="w-8 h-8 rounded-full flex items-center justify-center relative"
+                  :class="step.active
+                    ? 'bg-primary-100 dark:bg-primary-900/40'
+                    : 'bg-neutral-100 dark:bg-neutral-800'"
+                >
+                  <span
+                    class="text-sm font-bold"
+                    :class="step.active
+                      ? 'text-primary-700 dark:text-primary-300'
+                      : 'text-neutral-500 dark:text-neutral-400'"
+                  >{{ step.number }}</span>
+                  <UIcon
+                    :name="step.icon"
+                    class="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 opacity-60"
+                    :class="step.active
+                      ? 'text-primary-700 dark:text-primary-300'
+                      : 'text-neutral-500 dark:text-neutral-400'"
+                    aria-hidden="true"
+                  />
+                </div>
+                <p
+                  class="text-xs font-medium leading-snug text-center"
+                  :class="step.active ? 'text-highlighted' : 'text-muted'"
+                >
+                  {{ step.label }}
+                </p>
+              </div>
+
+              <!-- Connector -->
+              <div
+                v-if="index < workflowSteps.length - 1"
+                aria-hidden="true"
+                class="flex-1 min-w-4 h-px bg-neutral-200 dark:bg-neutral-700 self-start mt-4"
+              />
+            </template>
+          </div>
+
+          <!-- Mobile: vertical stepper -->
+          <div
+            role="list"
+            class="flex flex-col gap-2 md:hidden"
+          >
+            <template v-for="(step, index) in workflowSteps" :key="step.number">
+              <div
+                role="listitem"
+                :aria-current="step.active ? 'step' : undefined"
+                class="flex flex-row items-center gap-3"
+              >
+                <div
+                  class="w-8 h-8 rounded-full flex items-center justify-center shrink-0"
+                  :class="step.active
+                    ? 'bg-primary-100 dark:bg-primary-900/40'
+                    : 'bg-neutral-100 dark:bg-neutral-800'"
+                >
+                  <span
+                    class="text-sm font-bold"
+                    :class="step.active
+                      ? 'text-primary-700 dark:text-primary-300'
+                      : 'text-neutral-500 dark:text-neutral-400'"
+                  >{{ step.number }}</span>
+                </div>
+                <p
+                  class="text-xs font-medium leading-snug"
+                  :class="step.active ? 'text-highlighted' : 'text-muted'"
+                >
+                  {{ step.label }}
+                </p>
+              </div>
+              <div
+                v-if="index < workflowSteps.length - 1"
+                aria-hidden="true"
+                class="w-px h-4 bg-neutral-200 dark:bg-neutral-700 mx-4"
+              />
+            </template>
+          </div>
+        </UPageCard>
+
         <!-- Filters -->
         <UPageCard variant="subtle">
           <div class="flex flex-wrap gap-4 items-end">
@@ -459,9 +584,12 @@ onMounted(async () => {
           <div v-if="loading" class="py-12 text-center text-muted">
             Cargando matrículas...
           </div>
-          <div v-else-if="enrollments.length === 0" class="py-12 text-center text-muted">
-            No hay matrículas registradas con los filtros seleccionados.
-          </div>
+          <EmptyState
+            v-else-if="enrollments.length === 0"
+            icon="i-lucide-inbox"
+            title="Sin matrículas"
+            description="Usa los filtros o registra una nueva matrícula."
+          />
           <div v-else class="overflow-x-auto">
             <table class="w-full text-sm">
               <thead>

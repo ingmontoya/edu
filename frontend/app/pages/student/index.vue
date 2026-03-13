@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { Enrollment } from '~/types/school'
 
-definePageMeta({ middleware: 'auth' })
+definePageMeta({ middleware: ['auth', 'student'] })
 
 const auth = useAuthStore()
 const api = useApi()
@@ -12,6 +12,12 @@ if (import.meta.client && !auth.isStudent) {
 }
 
 const loading = ref(true)
+const showBanner = ref(false)
+
+const dismissBanner = () => {
+  showBanner.value = false
+  localStorage.setItem('student_portal_banner_dismissed', '1')
+}
 const studentData = ref<{
   student: { id: number, enrollment_code: string, user: { name: string } }
   active_year: { id: number, name: string } | null
@@ -43,6 +49,9 @@ const gradeColor = (grade: number | null) => {
 }
 
 onMounted(async () => {
+  if (!localStorage.getItem('student_portal_banner_dismissed')) {
+    showBanner.value = true
+  }
   try {
     const [meRes, enrollRes] = await Promise.all([
       api.get<typeof studentData.value>('/student/me'),
@@ -70,6 +79,18 @@ onMounted(async () => {
 
     <template #body>
       <div class="flex flex-col gap-6 p-6">
+        <!-- Onboarding banner — shown once, dismissed to localStorage -->
+        <UAlert
+          v-if="showBanner"
+          icon="i-lucide-info"
+          color="primary"
+          variant="subtle"
+          title="Tu portal es de solo consulta"
+          description="Tu matrícula y la asignación de materias es gestionada por la institución. Si no ves materias activas o tienes dudas sobre tu matrícula, comunícate con secretaría académica."
+          :close-button="{ 'icon': 'i-lucide-x', 'size': 'xs', 'aria-label': 'Cerrar aviso' }"
+          @close="dismissBanner"
+        />
+
         <div v-if="loading" class="py-16 text-center text-muted">
           <UIcon name="i-lucide-loader" class="w-8 h-8 mx-auto mb-3 animate-spin opacity-40" />
         </div>
@@ -133,9 +154,12 @@ onMounted(async () => {
               </div>
             </template>
 
-            <div v-if="currentEnrollments.length === 0" class="py-8 text-center text-muted text-sm">
-              No tienes materias activas este semestre.
-            </div>
+            <EmptyState
+              v-if="currentEnrollments.length === 0"
+              icon="i-lucide-book-open"
+              title="Sin materias activas"
+              note="Comunícate con secretaría académica para gestionar tu matrícula."
+            />
 
             <div v-else class="space-y-2">
               <div

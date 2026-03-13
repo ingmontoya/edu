@@ -1,6 +1,6 @@
 <script setup lang="ts">
 definePageMeta({
-  middleware: 'auth'
+  middleware: ['auth', 'guardian']
 })
 
 const auth = useAuthStore()
@@ -87,15 +87,11 @@ onMounted(() => {
 
         <!-- Empty State -->
         <UPageCard v-else variant="subtle">
-          <div class="text-center py-12">
-            <UIcon name="i-lucide-users" class="w-12 h-12 text-muted mx-auto mb-4" />
-            <h3 class="font-semibold mb-2">
-              Sin estudiantes asignados
-            </h3>
-            <p class="text-muted">
-              No tiene estudiantes vinculados a su cuenta
-            </p>
-          </div>
+          <EmptyState
+            icon="i-lucide-users"
+            title="Sin estudiantes asignados"
+            description="No tiene estudiantes vinculados a su cuenta."
+          />
         </UPageCard>
       </div>
     </template>
