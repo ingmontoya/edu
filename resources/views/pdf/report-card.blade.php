@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <title>Boletin - {{ $student->user->name }}</title>
     <style>
+        @page {
+            margin: 14mm 18mm;
+        }
+
         * {
             margin: 0;
             padding: 0;
