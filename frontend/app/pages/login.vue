@@ -28,7 +28,7 @@
             Gestión académica<br>inteligente para<br>tu institución
           </h1>
           <p class="text-lg text-slate-400 max-w-sm leading-relaxed">
-            Notas, asistencia, boletines y reportes en un solo lugar — diseñado para Colombia.
+            Gestión académica integral para instituciones educativas colombianas.
           </p>
         </div>
 
@@ -184,8 +184,8 @@ const auth = useAuthStore()
 const router = useRouter()
 
 const features = [
-  { icon: 'i-lucide-book-open', text: 'Registro de notas y boletines automáticos' },
-  { icon: 'i-lucide-users', text: 'Gestión de estudiantes, docentes y acudientes' },
+  { icon: 'i-lucide-book-open', text: 'Registro de notas y seguimiento académico' },
+  { icon: 'i-lucide-users', text: 'Gestión de estudiantes, docentes y comunidad educativa' },
   { icon: 'i-lucide-calendar-check', text: 'Control de asistencia en tiempo real' },
   { icon: 'i-lucide-sparkles', text: 'Análisis con Inteligencia Artificial' }
 ]
@@ -209,7 +209,7 @@ const getRedirectPath = () => {
 onMounted(() => {
   auth.initFromStorage()
   if (auth.isAuthenticated) {
-    router.push(getRedirectPath())
+    router.push(getRedirectPath()).catch(() => {})
   }
 })
 
@@ -221,7 +221,7 @@ async function handleLogin() {
     const result = await auth.login(form.email, form.password)
 
     if (result.success) {
-      router.push(getRedirectPath())
+      await router.push(getRedirectPath())
     } else {
       errorMessage.value = result.message || 'Credenciales inválidas'
     }

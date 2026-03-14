@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <title>Boletin - {{ $student->user->name }}</title>
     <style>
+        @page {
+            margin: 20px 25px;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -18,7 +22,7 @@
         }
 
         .page {
-            padding: 20px 25px;
+            padding: 0;
         }
 
         /* Header */
@@ -198,9 +202,9 @@
         /* Footer */
         .footer {
             position: fixed;
-            bottom: 15px;
-            left: 25px;
-            right: 25px;
+            bottom: 0;
+            left: 0;
+            right: 0;
             text-align: center;
             font-size: 7px;
             color: #888;
