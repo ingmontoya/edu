@@ -4,10 +4,6 @@
     <meta charset="UTF-8">
     <title>Boletin - {{ $student->user->name }}</title>
     <style>
-        @page {
-            margin: 20px 25px;
-        }
-
         * {
             margin: 0;
             padding: 0;
@@ -209,7 +205,7 @@
             font-size: 7px;
             color: #888;
             border-top: 1px solid #ddd;
-            padding-top: 5px;
+            padding-top: 3px;
         }
     </style>
 </head>

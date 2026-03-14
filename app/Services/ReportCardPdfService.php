@@ -25,6 +25,10 @@ class ReportCardPdfService
                 'isHtml5ParserEnabled' => true,
                 'isRemoteEnabled' => true,
                 'defaultFont' => 'sans-serif',
+                'margin_top' => 20,
+                'margin_right' => 25,
+                'margin_bottom' => 20,
+                'margin_left' => 25,
             ]);
     }
 
